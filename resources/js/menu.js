@@ -29,7 +29,7 @@ export function initMenu() {
     });
 
     // Al pasar a escritorio, el menú desplegable no debe quedar abierto.
-    window.matchMedia('(min-width: 1181px)').addEventListener('change', (e) => {
+    window.matchMedia('(min-width: 1101px)').addEventListener('change', (e) => {
         if (e.matches) set(false);
     });
 }

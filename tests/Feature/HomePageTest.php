@@ -28,7 +28,7 @@ class HomePageTest extends TestCase
     public function test_without_real_content_dynamic_sections_are_hidden(): void
     {
         $this->get(route('home'))
-            ->assertDontSee('Noticias y eventos')
+            ->assertDontSee('id="noticias-title"', false)
             ->assertDontSee('Momentos Génesis')
             ->assertDontSee('data-copy', false)
             ->assertDontSee('/demo/', false)

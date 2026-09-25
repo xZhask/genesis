@@ -19,7 +19,6 @@ class PublicLayoutTest extends TestCase
         return [
             'inicio' => ['home'],
             'nosotros' => ['about'],
-            'niveles' => ['levels'],
             'admisiones' => ['admissions'],
             'noticias' => ['news'],
             'calendario' => ['calendar'],

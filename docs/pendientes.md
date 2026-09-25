@@ -8,7 +8,7 @@ Datos que ya se ven en la web y que el colegio debe confirmar antes de salir a p
 
 | Dato | Valor provisional | Dónde se cambia |
 |---|---|---|
-| Textos del hero, niveles, pasos de admisión y microcopy | Borradores de UX | Vistas en `resources/views/home/` y `resources/views/admissions/` |
+| Textos del hero, niveles, pasos de admisión, títulos e introducciones de Nosotros y microcopy | Borradores de UX (las declaraciones formales son literales) | Vistas en `resources/views/home/`, `resources/views/admissions/` y `resources/views/pages/about.blade.php` |
 | Año lectivo de la pre-inscripción y de los costos | 2027 | `config/school.php` → `admissions.school_year` |
 | Costos | Los del folleto: preescolar y primaria $ 111.000 / $ 99.900; secundaria $ 299.700 / $ 244.200 | `config/school.php` → `admissions.costs` |
 | Requisitos y documentos de matrícula | Lista habitual en Colombia (registro civil, documentos del acudiente, certificados, paz y salvo, EPS, vacunas, fotos) | `config/school.php` → `admissions.requirements` |

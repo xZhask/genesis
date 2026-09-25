@@ -1,13 +1,12 @@
 @php
+    // Ruta => [texto, rutas que marcan la opción como actual]
     $menu = [
-        'home' => 'Inicio',
-        'about' => 'Nosotros',
-        'levels' => 'Niveles',
-        'admissions' => 'Admisiones',
-        'news' => 'Noticias',
-        'calendar' => 'Calendario',
-        'resources' => 'Acudientes',
-        'support' => 'Apóyanos',
+        'home' => ['Inicio', ['home']],
+        'about' => ['Nosotros', ['about']],
+        'admissions' => ['Admisiones', ['admissions', 'admissions.*']],
+        'news' => ['Noticias y eventos', ['news', 'news.*', 'calendar', 'calendar.*']],
+        'resources' => ['Acudientes', ['resources', 'resources.*']],
+        'support' => ['Apóyanos', ['support', 'support.*']],
     ];
 
     // Con sesión iniciada, "Portal" lleva a la zona de cada rol
@@ -29,9 +28,9 @@
 
         <nav aria-label="Principal" class="menu-nav">
             <ul class="menu" id="menu">
-                @foreach ($menu as $route => $label)
+                @foreach ($menu as $route => [$label, $patterns])
                     <li>
-                        <a href="{{ route($route) }}" @if (request()->routeIs($route, $route.'.*')) aria-current="page" @endif>{{ $label }}</a>
+                        <a href="{{ route($route) }}" @if (request()->routeIs(...$patterns)) aria-current="page" @endif>{{ $label }}</a>
                     </li>
                 @endforeach
                 <li class="menu-portal"><a href="{{ $portalUrl }}">Ingresar al portal</a></li>

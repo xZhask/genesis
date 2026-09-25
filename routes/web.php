@@ -15,11 +15,13 @@ Route::get('/admisiones/solicitud-enviada', [AdmissionController::class, 'thanks
 
 Route::view('/politica-de-datos', 'pages.privacy')->name('privacy');
 
+// Nosotros incluye los niveles educativos (secciones #preescolar, #primaria, #secundaria)
+Route::view('/nosotros', 'pages.about')->name('about');
+Route::permanentRedirect('/niveles', '/nosotros#niveles');
+
 // Páginas temporales: cada una se reemplaza al construir su sección.
 $comingSoon = [
-    'about' => ['/nosotros', 'Nosotros'],
-    'levels' => ['/niveles', 'Niveles educativos'],
-    'news' => ['/noticias', 'Noticias'],
+    'news' => ['/noticias', 'Noticias y eventos'],
     'calendar' => ['/calendario', 'Calendario escolar'],
     'gallery' => ['/galeria', 'Galería'],
     'resources' => ['/recursos', 'Recursos para acudientes'],

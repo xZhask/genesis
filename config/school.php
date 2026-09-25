@@ -59,6 +59,7 @@ return [
     'levels' => [
         [
             'key' => 'preschool',
+            'slug' => 'preescolar',
             'name' => 'Preescolar',
             'icon' => 'blocks',
             'tone' => 't-verde',
@@ -69,6 +70,7 @@ return [
         ],
         [
             'key' => 'primary',
+            'slug' => 'primaria',
             'name' => 'Básica primaria',
             'icon' => 'book',
             'tone' => 't-sol',
@@ -79,6 +81,7 @@ return [
         ],
         [
             'key' => 'secondary',
+            'slug' => 'secundaria',
             'name' => 'Básica secundaria',
             'icon' => 'cap',
             'tone' => 't-azul',

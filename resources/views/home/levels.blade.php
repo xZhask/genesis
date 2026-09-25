@@ -16,7 +16,7 @@
                             @endforeach
                         </ul>
                         <p>{{ $level['summary'] }}</p>
-                        <a href="{{ route('levels') }}#{{ $level['key'] }}">Conocer {{ mb_strtolower($level['name']) }}</a>
+                        <a href="{{ route('about') }}#{{ $level['slug'] }}">Conocer {{ mb_strtolower($level['name']) }}</a>
                     </div>
                 </article>
             @endforeach

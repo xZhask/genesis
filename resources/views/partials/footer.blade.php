@@ -32,7 +32,9 @@
                 <h2>Enlaces</h2>
                 <ul>
                     <li><a href="{{ route('about') }}">Nosotros</a></li>
+                    <li><a href="{{ route('about') }}#niveles">Niveles educativos</a></li>
                     <li><a href="{{ route('admissions') }}">Admisiones</a></li>
+                    <li><a href="{{ route('news') }}">Noticias y eventos</a></li>
                     <li><a href="{{ route('calendar') }}">Calendario escolar</a></li>
                     <li><a href="{{ route('resources') }}">Recursos para acudientes</a></li>
                     <li><a href="{{ route('support') }}">Apóyanos</a></li>
