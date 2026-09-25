@@ -78,6 +78,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->grou
         ->names('resources')
         ->except('show');
 
+    Route::get('/configuracion', [Admin\SettingsController::class, 'edit'])->name('settings.edit');
+    Route::put('/configuracion', [Admin\SettingsController::class, 'update'])->name('settings.update');
+
     // Apóyanos: voluntarios (datos personales), cuentas, donantes y testimonios
     Route::prefix('apoyanos')->group(function () {
         Route::redirect('/', '/admin/apoyanos/voluntarios')->name('support');

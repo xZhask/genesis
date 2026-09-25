@@ -2,9 +2,12 @@
 
 namespace App\Providers;
 
+use App\Models\User;
+use App\Support\Settings;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
@@ -25,6 +28,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Costos, requisitos, horarios… editados en /admin/configuracion
+        Settings::apply();
+        Gate::define('manage-settings', fn (User $user) => $user->isAdmin());
+
         // Direcciones del admin en español: /admin/noticias/nueva, /admin/noticias/{post}/editar
         Route::resourceVerbs(['create' => 'nueva', 'edit' => 'editar']);
 

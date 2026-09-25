@@ -1,4 +1,4 @@
-/* Recursos y Apóyanos en el admin */
+/* Recursos, Apóyanos, configuración y panel del admin */
 .field-group {
     display: grid;
     grid-template-columns: 2fr 1fr;
@@ -43,4 +43,75 @@
 
 .tabs + .lead-sm {
     margin: 0 0 16px;
+}
+
+/* Configuración: costos por grupo */
+.cost-fields {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 10px;
+}
+
+.cost-row {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr;
+    gap: 12px;
+    padding: 12px;
+    background: var(--bg-soft);
+    border-radius: var(--r-sm);
+}
+
+@media (max-width: 520px) {
+    .cost-row {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .cost-row > :first-child {
+        grid-column: 1 / -1;
+    }
+}
+
+/* Panel: "Completa tu sitio" */
+.checklist-progress {
+    width: 100%;
+    height: 10px;
+    margin-bottom: 10px;
+    accent-color: var(--verde);
+}
+
+.checklist {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.checklist li {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 10px;
+    padding: 9px 0;
+    border-top: 1px solid var(--line);
+}
+
+.checklist li:first-child {
+    border-top: 0;
+}
+
+.checklist li::before {
+    content: "";
+    flex: none;
+    width: 14px;
+    height: 14px;
+    border: 2px solid var(--muted);
+    border-radius: 50%;
+    align-self: center;
+}
+
+.checklist a {
+    flex: 1;
+    color: var(--azul-ink);
+    font-weight: 600;
 }

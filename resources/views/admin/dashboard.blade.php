@@ -6,16 +6,28 @@
         [AdmissionStatus::InterviewScheduled, 'Con entrevista'],
         [AdmissionStatus::Accepted, 'Aceptadas'],
     ];
+    $todo = collect($checklist)->reject(fn ($item) => $item['done']);
+    $done = count($checklist) - $todo->count();
 @endphp
 
 <x-layouts.admin title="Panel">
     <div class="admin-head">
         <h1>Hola, {{ auth()->user()->name }}</h1>
-        @if ($pending)
-            <p class="lead-sm">Tienes <strong>{{ $pending }} {{ $pending === 1 ? 'solicitud nueva' : 'solicitudes nuevas' }}</strong> por revisar.</p>
-        @else
-            <p class="lead-sm">No hay solicitudes nuevas por revisar.</p>
-        @endif
+        <p class="lead-sm">
+            @if ($pending || $newVolunteers)
+                Tienes
+                @if ($pending)
+                    <a href="{{ route('admin.admissions.index', ['estado' => AdmissionStatus::Received->value]) }}"><strong>{{ trans_choice(':count solicitud nueva|:count solicitudes nuevas', $pending) }}</strong></a>
+                @endif
+                @if ($pending && $newVolunteers) y @endif
+                @if ($newVolunteers)
+                    <a href="{{ route('admin.volunteers.index', ['estado' => 'new']) }}"><strong>{{ trans_choice(':count voluntario nuevo|:count voluntarios nuevos', $newVolunteers) }}</strong></a>
+                @endif
+                por atender.
+            @else
+                No hay solicitudes ni voluntarios nuevos por atender.
+            @endif
+        </p>
     </div>
 
     <section aria-labelledby="resumen-title">
@@ -63,6 +75,46 @@
                 </a>
             @empty
                 <p class="empty">Todavía no llegan solicitudes desde la web.</p>
+            @endforelse
+        </section>
+
+        <section class="panel" aria-labelledby="sitio-title">
+            <div class="panel-head">
+                <h2 id="sitio-title">Completa tu sitio</h2>
+                <span class="muted">{{ $done }} de {{ count($checklist) }}</span>
+            </div>
+            <progress class="checklist-progress" max="{{ count($checklist) }}" value="{{ $done }}" aria-label="{{ $done }} de {{ count($checklist) }} listos"></progress>
+            @if ($todo->isEmpty())
+                <p class="empty">¡Todo listo! El sitio tiene todo su contenido.</p>
+            @else
+                <ul class="checklist">
+                    @foreach ($todo as $item)
+                        <li>
+                            <a href="{{ $item['url'] }}">{{ $item['label'] }}</a>
+                            @if (! empty($item['hint']))
+                                <small class="warn-text">{{ $item['hint'] }}</small>
+                            @endif
+                        </li>
+                    @endforeach
+                </ul>
+            @endif
+        </section>
+
+        <section class="panel" aria-labelledby="eventos-title">
+            <div class="panel-head">
+                <h2 id="eventos-title">Próximos eventos</h2>
+                <a href="{{ route('admin.events.index') }}">Ver calendario</a>
+            </div>
+            @forelse ($events as $event)
+                <a class="list-row" href="{{ route('admin.events.edit', $event) }}">
+                    <span>
+                        <strong>{{ $event->title }}</strong>
+                        <small>{{ $event->metaLabel() }}</small>
+                    </span>
+                    <time datetime="{{ $event->starts_at->toDateString() }}">{{ $event->starts_at->translatedFormat('D j M') }}</time>
+                </a>
+            @empty
+                <p class="empty">No hay eventos próximos. <a href="{{ route('admin.events.create') }}">Agrega uno</a>.</p>
             @endforelse
         </section>
     </div>

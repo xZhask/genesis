@@ -22,16 +22,6 @@
                 <h2 id="donar-title">Haz una donación</h2>
                 @if ($accounts->isNotEmpty())
                     <p>Transfiere desde la app de tu banco a cualquiera de estas cuentas. Toca <strong>Copiar</strong> y pega el número.</p>
-                    <div class="donate-after">
-                        <h3>¿Ya donaste?</h3>
-                        <p>Cuéntanos para darte las gracias y confirmar que recibimos tu aporte.</p>
-                        <p class="contact-links">
-                            @if ($whatsapp['enabled'])
-                                <a href="https://wa.me/{{ $whatsapp['number'] }}?text={{ rawurlencode('Hola, hice una donación al colegio.') }}" target="_blank" rel="noopener"><x-icon name="whatsapp" /> WhatsApp</a>
-                            @endif
-                            <a href="{{ $mailDonation }}"><x-icon name="mail" /> {{ $contact['email'] }}</a>
-                        </p>
-                    </div>
                 @else
                     <p>Escríbenos y te contamos cómo puedes aportar al colegio.</p>
                 @endif
@@ -63,6 +53,20 @@
                     </p>
                 @endif
             </div>
+
+            {{-- Después de las cuentas en el celular; bajo la introducción en pantallas anchas --}}
+            @if ($accounts->isNotEmpty())
+                <div class="donate-after">
+                    <h3>¿Ya donaste?</h3>
+                    <p>Cuéntanos para darte las gracias y confirmar que recibimos tu aporte.</p>
+                    <p class="contact-links">
+                        @if ($whatsapp['enabled'])
+                            <a href="https://wa.me/{{ $whatsapp['number'] }}?text={{ rawurlencode('Hola, hice una donación al colegio.') }}" target="_blank" rel="noopener"><x-icon name="whatsapp" /> WhatsApp</a>
+                        @endif
+                        <a href="{{ $mailDonation }}"><x-icon name="mail" /> {{ $contact['email'] }}</a>
+                    </p>
+                </div>
+            @endif
         </div>
     </section>
 

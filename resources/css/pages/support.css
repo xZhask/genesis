@@ -21,7 +21,19 @@
     align-items: start;
 }
 
-.donate-intro p {
+.donate-grid {
+    grid-template-areas:
+        "intro give"
+        "after give";
+    row-gap: 0;
+}
+
+.donate-intro { grid-area: intro; }
+.donate .give { grid-area: give; }
+.donate-after { grid-area: after; }
+
+.donate-intro p,
+.donate-after p {
     color: var(--muted);
     margin-top: 10px;
     font-size: 1.05rem;
@@ -120,6 +132,24 @@
     gap: 20px;
 }
 
+/* Aquí los grupos de opciones van dentro de la tarjeta: sin el recuadro
+   que .form > fieldset usa en Admisiones */
+.volunteer-form .form > fieldset {
+    background: none;
+    border: 0;
+    border-radius: 0;
+    padding: 0;
+    gap: 0;
+}
+
+.volunteer-form .form > fieldset > legend {
+    float: none;
+    font: inherit;
+    font-weight: 600;
+    color: inherit;
+    margin-bottom: 8px;
+}
+
 .sent h3 {
     font-size: 1.5rem;
     color: var(--verde-ink);
@@ -166,10 +196,25 @@
         grid-template-columns: 1fr;
         gap: 28px;
     }
+
+    .donate-grid {
+        grid-template-areas: "intro" "give" "after";
+    }
+
+    .donate-after {
+        margin-top: 0;
+    }
 }
 
 @media (max-width: 520px) {
     .volunteer-form {
         padding: 20px 16px;
+    }
+
+    /* En el celular, las cuentas ya son tarjetas: el recuadro exterior sobra */
+    .donate .give {
+        padding: 0;
+        background: none;
+        border: 0;
     }
 }

@@ -10,12 +10,12 @@ Datos que ya se ven en la web y que el colegio debe confirmar antes de salir a p
 |---|---|---|
 | Textos del hero, niveles, pasos de admisión, títulos e introducciones de Nosotros, Recursos y Apóyanos, y microcopy | Borradores de UX (las declaraciones formales son literales) | Vistas en `resources/views/home/`, `resources/views/admissions/`, `resources/views/resources/`, `resources/views/support/` y `resources/views/pages/about.blade.php` |
 | Formas de ayudar como voluntario y disponibilidad | Mejorar espacios, apoyar eventos y salidas, compartir un oficio, leer con los niños, otra forma; entre semana mañana/tarde, fines de semana, actividades puntuales | `app/Enums/VolunteerArea.php` y `app/Enums/VolunteerAvailability.php` |
-| Correo que recibe los avisos de voluntariado | cecgenesis16@gmail.com | `config/school.php` → `support.notify_email` |
-| Año lectivo de la pre-inscripción y de los costos | 2027 | `config/school.php` → `admissions.school_year` |
-| Costos | Los del folleto: preescolar y primaria $ 111.000 / $ 99.900; secundaria $ 299.700 / $ 244.200 | `config/school.php` → `admissions.costs` |
-| Requisitos y documentos de matrícula | Lista habitual en Colombia (registro civil, documentos del acudiente, certificados, paz y salvo, EPS, vacunas, fotos) | `config/school.php` → `admissions.requirements` |
-| Tiempo de respuesta a una solicitud | "3 días hábiles" | `config/school.php` → `admissions.response_time` |
-| Correo que recibe los avisos de pre-inscripción | cecgenesis16@gmail.com | `config/school.php` → `admissions.notify_email` |
+| Correo que recibe los avisos de voluntariado | cecgenesis16@gmail.com | Admin → Configuración |
+| Año lectivo de la pre-inscripción y de los costos | 2027 | Admin → Configuración |
+| Costos | Los del folleto: preescolar y primaria $ 111.000 / $ 99.900; secundaria $ 299.700 / $ 244.200 | Admin → Configuración |
+| Requisitos y documentos de matrícula | Lista habitual en Colombia (registro civil, documentos del acudiente, certificados, paz y salvo, EPS, vacunas, fotos) | Admin → Configuración |
+| Tiempo de respuesta a una solicitud | "3 días hábiles" | Admin → Configuración |
+| Correo que recibe los avisos de pre-inscripción | cecgenesis16@gmail.com | Admin → Configuración |
 | Política de tratamiento de datos | Borrador basado en la Ley 1581 de 2012 y el Decreto 1377 de 2013, sin NIT ni representante legal. **Requiere revisión legal** | `resources/views/pages/privacy.blade.php` y `config/school.php` → `privacy_policy_version` |
 
 ## Antes de salir a producción (técnico)
@@ -58,7 +58,7 @@ Datos que ya se ven en la web y que el colegio debe confirmar antes de salir a p
   - [ ] **Fotos del voluntariado** (jornadas, arreglos), con autorización si aparecen menores. Se configuran en `config/school.php` → `support.volunteer_photos`.
   - [ ] **¿Se emite certificado de donación** (beneficio tributario)? La web no lo promete hasta confirmarlo.
   - [ ] **Formas reales de voluntariado** que el colegio acepta y **quién responde** a los voluntarios y en cuánto tiempo (la web solo dice "pronto te llamaremos").
-  - [ ] **¿El +57 321 797 5579 tiene WhatsApp?** Si sí, se activa el botón "¿Ya donaste? Cuéntanos por WhatsApp" (`config/school.php` → `whatsapp.enabled`).
+  - [ ] **¿El +57 321 797 5579 tiene WhatsApp?** Si sí, se activa el botón "¿Ya donaste? Cuéntanos por WhatsApp" (Admin → Configuración).
 - [ ] **Pagos en línea** (PSE): solo en fase 3 y si el colegio lo confirma.
 
 ## Académico (necesario antes de la fase 2)
@@ -73,6 +73,6 @@ Datos que ya se ven en la web y que el colegio debe confirmar antes de salir a p
 ## Infraestructura
 - [ ] **Dominio** (por ejemplo, colegiogenesis.edu.co) y hosting.
 - [ ] **Correo para envíos automáticos.** *Provisional: SMTP de cecgenesis16@gmail.com con contraseña de aplicación; ideal migrar a un correo con el dominio.*
-- [ ] **¿El +57 321 797 5579 tiene WhatsApp** para el botón flotante?
-- [ ] **Horarios de atención** reales (en el mockup son de ejemplo).
+- [ ] **¿El +57 321 797 5579 tiene WhatsApp** para el botón flotante? Se activa en Admin → Configuración.
+- [ ] **Horarios de atención** reales para el pie de página. Se escriben en Admin → Configuración (vacío = no se muestran).
 - [ ] **Quién administrará el contenido** y con qué frecuencia se publican noticias.
