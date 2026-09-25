@@ -29,6 +29,7 @@ Datos que ya se ven en la web y que el colegio debe confirmar antes de salir a p
 - [ ] La raíz pública del dominio debe apuntar a `public/`, nunca a la raíz del proyecto.
 - [ ] **PHP del hosting para las fotos** (noticias y galería): extensión GD con soporte WebP y extensión `exif` (corrige la rotación de las fotos del celular). Verificar con `php -i` o `phpinfo()`.
 - [ ] **Límites de PHP del hosting:** `memory_limit` ≥ 128M (redimensionar una foto de 12 MP con GD usa unos 60–80 MB), `upload_max_filesize` ≥ 10M y `post_max_size` ≥ 12M (la galería acepta fotos de hasta 10 MB y el panel las sube una por una). Si el hosting no permite subirlos, bajar el máximo en `StoreGalleryPhotosRequest::MAX_KB`.
+- [ ] **Boletines en PDF (dompdf):** extensiones PHP `dom` y `mbstring`, y la carpeta `storage/fonts` con permiso de escritura (ahí dompdf guarda la caché de las tipografías). Un grupo de ~35 estudiantes tarda unos 10 s: `max_execution_time` ≥ 60.
 - [ ] **Espacio en disco:** cada foto ocupa unos 150–300 KB (versiones de 1200 y 600 px en WebP; el original no se guarda). Revisar la cuota del plan de hosting según cuántas fotos se publiquen al año.
 
 ## Diseño y contenido
