@@ -57,6 +57,10 @@ class SettingsRequest extends FormRequest
             'office_hours' => ['array', 'max:6'],
             'office_hours.*' => ['string', 'max:120'],
             'whatsapp_enabled' => ['boolean'],
+            'report_approval' => ['nullable', 'string', 'max:160'],
+            'report_nit' => ['nullable', 'string', 'max:30'],
+            'report_campus' => ['nullable', 'string', 'max:60'],
+            'report_rector' => ['nullable', 'string', 'max:120'],
         ];
     }
 
@@ -81,6 +85,10 @@ class SettingsRequest extends FormRequest
             'support.notify_email' => mb_strtolower($this->validated('support_notify_email')),
             'office_hours' => $this->validated('office_hours', []),
             'whatsapp.enabled' => $this->validated('whatsapp_enabled'),
+            'report_card.approval' => trim((string) $this->validated('report_approval')),
+            'report_card.nit' => trim((string) $this->validated('report_nit')),
+            'report_card.campus' => trim((string) $this->validated('report_campus')),
+            'report_card.rector' => trim((string) $this->validated('report_rector')),
         ];
     }
 
@@ -99,6 +107,10 @@ class SettingsRequest extends FormRequest
             'support_notify_email' => 'correo de avisos de voluntariado',
             'office_hours' => 'horarios de atención',
             'office_hours.*' => 'horario',
+            'report_approval' => 'resolución de aprobación',
+            'report_nit' => 'NIT',
+            'report_campus' => 'sede',
+            'report_rector' => 'nombre de rectoría',
         ];
     }
 

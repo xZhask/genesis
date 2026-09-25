@@ -97,7 +97,7 @@ class StudentOverview
                 'teacher' => $teachers[$subject->id] ?? null,
                 'periods' => $periods,
                 'accumulated' => $accumulated,
-                'status' => $this->status($accumulated, $remaining, $scale),
+                'status' => $scale->yearStatus($accumulated, $remaining),
                 'objectives' => $texts,
             ];
         });
@@ -115,30 +115,6 @@ class StudentOverview
             ->whereIn('period_id', $this->closedPeriods()->pluck('id'))
             ->get()
             ->keyBy('period_id');
-    }
-
-    /**
-     * Situación de la materia en el año: ya alcanza la nota aprobatoria, o
-     * qué promedio necesita en los periodos que faltan.
-     *
-     * @return array{key: string, needed: ?float}
-     */
-    private function status(?float $accumulated, float $remainingWeight, GradingScale $scale): array
-    {
-        $accumulated ??= 0.0;
-
-        if ($accumulated >= $scale->passing_score) {
-            return ['key' => 'reached', 'needed' => null];
-        }
-        if ($remainingWeight <= 0) {
-            return ['key' => 'not_reached', 'needed' => null];
-        }
-
-        $needed = $scale->round(($scale->passing_score - $accumulated) / ($remainingWeight / 100));
-
-        return $needed > $scale->max_score
-            ? ['key' => 'support', 'needed' => null]
-            : ['key' => 'needs', 'needed' => max($needed, $scale->min_score)];
     }
 
     /**

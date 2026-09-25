@@ -90,6 +90,26 @@
                     </x-field>
                 </section>
 
+                <section class="panel" aria-labelledby="boletin-title">
+                    <h2 id="boletin-title">Boletín</h2>
+                    <p class="hint">Aparecen en el encabezado y las firmas del boletín en PDF. No se muestran en la web.</p>
+                    <x-field name="report_approval" label="Resolución de aprobación" optional>
+                        <input id="report_approval" name="report_approval" type="text" maxlength="160"
+                            value="{{ old('report_approval', $school['report_card']['approval']) }}">
+                    </x-field>
+                    <div class="field-group even">
+                        <x-field name="report_nit" label="NIT" optional>
+                            <input id="report_nit" name="report_nit" type="text" maxlength="30" value="{{ old('report_nit', $school['report_card']['nit']) }}">
+                        </x-field>
+                        <x-field name="report_campus" label="Sede" optional>
+                            <input id="report_campus" name="report_campus" type="text" maxlength="60" value="{{ old('report_campus', $school['report_card']['campus']) }}">
+                        </x-field>
+                    </div>
+                    <x-field name="report_rector" label="Nombre de quien firma como rector o rectora" optional hint="Si se deja vacío, la firma dice solo «Rectoría».">
+                        <input id="report_rector" name="report_rector" type="text" maxlength="120" value="{{ old('report_rector', $school['report_card']['rector']) }}" aria-describedby="report_rector-hint">
+                    </x-field>
+                </section>
+
                 <p class="muted-panel panel">
                     El nombre, la dirección, el teléfono y las declaraciones del colegio (misión, visión, valores) no se editan aquí:
                     son textos oficiales y se cambian con el equipo de desarrollo.

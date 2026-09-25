@@ -25,6 +25,10 @@ class Settings
         'office_hours',
         'whatsapp.enabled',
         'support.notify_email',
+        'report_card.approval',
+        'report_card.nit',
+        'report_card.campus',
+        'report_card.rector',
     ];
 
     private const CACHE_KEY = 'school-settings';

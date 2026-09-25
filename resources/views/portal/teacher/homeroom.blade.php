@@ -34,6 +34,10 @@
         @php($locked = $period->isClosed())
         @if ($locked)
             <p class="notice">El {{ mb_strtolower($period->name()) }} está cerrado: solo lectura.</p>
+            @unless ($section->grade->isPreschool())
+                <p><a class="btn btn-azul btn-sm" href="{{ route('report-cards.section', [$section, $period]) }}">
+                    <x-icon name="download" /> Boletines del grupo en PDF (para imprimir)</a></p>
+            @endunless
         @endif
 
         @if ($enrollments->isEmpty())
@@ -48,7 +52,12 @@
                     @foreach ($enrollments as $enrollment)
                         @php($report = $reports->get($enrollment->id))
                         <li>
-                            <p class="strong">{{ $enrollment->student->sortName() }}</p>
+                            <p class="strong">
+                                {{ $enrollment->student->sortName() }}
+                                @if ($locked && ! $section->grade->isPreschool())
+                                    <a class="small-link" href="{{ route('report-cards.student', [$enrollment->student, $period]) }}" target="_blank" rel="noopener">Boletín</a>
+                                @endif
+                            </p>
                             <div class="behavior-fields">
                                 <div class="field @error("behavior.{$enrollment->id}") has-error @enderror">
                                     <label class="label" for="b-{{ $enrollment->id }}">Comportamiento</label>

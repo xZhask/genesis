@@ -71,6 +71,8 @@ Datos que ya se ven en la web y que el colegio debe confirmar antes de salir a p
 - [x] **Ingreso al portal:** ✅ con número de documento y contraseña; el correo es opcional y sirve para recuperarla (25 de septiembre de 2026).
 - [x] **Plataforma actual (cecgenesis.com):** ✅ el portal nuevo opera desde el año lectivo 2027; después se evaluará importar los registros de la plataforma antigua (25 de septiembre de 2026).
 - [ ] **Preescolar:** dimensiones del desarrollo que evalúa el colegio y modelo de su boletín. *Provisional: las siete dimensiones del Decreto 2247 de 1997.*
+- [x] **Encabezado del boletín:** ✅ resolución No. 3332 del 6 de diciembre de 2024, NIT 1102821784-1, Sede Principal (confirmado el 25 de septiembre de 2026; editable en Admin → Configuración, no se publica en la web).
+- [ ] **Nombre de quien firma como rector o rectora.** *Provisional: la firma dice solo «Rectoría» (Admin → Configuración).*
 - [x] **Modelo del boletín actual:** ✅ recibido el 25 de septiembre de 2026 (`referencia/Maximos-IETA.mht`, excluido de git porque tiene datos reales de un estudiante). Falta el de **preescolar** (evaluación cualitativa).
 - [ ] **Pesos de saber, hacer y ser** en la nota del periodo. *Provisional: iguales (33,33 % / 33,33 % / 33,34 %); se editan en Admin → Académico → Año lectivo → Escala de valoración.*
 - [ ] **Frase del desempeño Bajo** en los logros (el boletín actual no trae ejemplo). *Provisional: «Estoy en proceso de…». Las de Superior, Alto y Básico se tomaron del boletín.*

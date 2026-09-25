@@ -4,7 +4,9 @@ namespace App\Policies;
 
 use App\Enums\EnrollmentStatus;
 use App\Enums\Role;
+use App\Models\Enrollment;
 use App\Models\SchoolYear;
+use App\Models\Student;
 use App\Models\User;
 
 /**
@@ -43,5 +45,22 @@ class StudentPolicy extends AdminOnlyPolicy
         }
 
         return false;
+    }
+
+    /**
+     * Boletín en PDF: el propio estudiante, sus acudientes, el director de
+     * grupo de la sección en la que estaba matriculado ese año y el admin.
+     * (Un docente de una sola materia no descarga el boletín completo.)
+     */
+    public function downloadReportCard(User $user, Student $student, Enrollment $enrollment): bool
+    {
+        if ($enrollment->student_id !== $student->id || ! $user->is_active) {
+            return false;
+        }
+
+        return $user->isAdmin()
+            || ($user->role === Role::Student && $student->user_id === $user->id)
+            || ($user->guardian && $user->guardian->students()->whereKey($student->id)->exists())
+            || ($user->role === Role::Teacher && $enrollment->section->homeroom_teacher_id === $user->id);
     }
 }

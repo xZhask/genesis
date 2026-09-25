@@ -168,6 +168,16 @@ return [
         ],
     ],
 
+    // Encabezado y firmas del boletín (confirmados el 25/09/2026; editables en Admin → Configuración).
+    // No se muestran en la web pública.
+    'report_card' => [
+        'approval' => 'Aprobado mediante resolución No. 3332 del 6 de diciembre de 2024',
+        'nit' => '1102821784-1',
+        'campus' => 'Principal',
+        // Vacío: la firma dice solo «Rectoría»
+        'rector' => '',
+    ],
+
     // Versión de la política aceptada en los formularios (se guarda con cada solicitud).
     'privacy_policy_version' => '2026-09-borrador',
 

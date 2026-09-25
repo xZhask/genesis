@@ -51,7 +51,18 @@
                 $behavior = $overview->behavior();
             @endphp
             <section class="panel" aria-labelledby="notas-title">
-                <h2 id="notas-title">Notas</h2>
+                <div class="panel-head">
+                    <h2 id="notas-title">Notas</h2>
+                    @if ($overview->closedPeriods()->isNotEmpty())
+                        <div class="report-links" aria-label="Boletines en PDF">
+                            @foreach ($overview->closedPeriods() as $closed)
+                                <a class="btn btn-line btn-sm" href="{{ route('report-cards.student', [$student, $closed]) }}" target="_blank" rel="noopener">
+                                    <x-icon name="download" /> {{ $closed->number === $year->periods->max('number') ? 'Informe final' : 'Boletín P'.$closed->number }}
+                                </a>
+                            @endforeach
+                        </div>
+                    @endif
+                </div>
                 @if ($grades->isEmpty())
                     <p class="hint">Las notas aparecen aquí cuando el colegio cierra cada periodo. Todavía no hay periodos cerrados.</p>
                 @else

@@ -151,7 +151,7 @@
                     <p class="hint">Primero crea el año lectivo actual y sus secciones en <a href="{{ route('admin.academic.sections.index') }}">Académico</a>.</p>
                 @endif
 
-                @php($history = $student->enrollments->reject(fn ($e) => $e->school_year_id === $year?->id))
+                @php $history = $student->enrollments->reject(fn ($e) => $e->school_year_id === $year?->id); @endphp
                 @if ($history->isNotEmpty())
                     <h3>Años anteriores</h3>
                     <ul class="period-history">
@@ -161,6 +161,24 @@
                     </ul>
                 @endif
             </section>
+
+            @php
+                $closedPeriods = $student->enrollments
+                    ->reject(fn ($e) => $e->section->grade->isPreschool())
+                    ->flatMap(fn ($e) => $e->schoolYear->periods->filter->isClosed());
+            @endphp
+            @if ($closedPeriods->isNotEmpty())
+                <section class="panel" aria-labelledby="boletines-title">
+                    <h2 id="boletines-title">Boletines</h2>
+                    <div class="report-links">
+                        @foreach ($closedPeriods as $closed)
+                            <a class="btn btn-line btn-sm" href="{{ route('report-cards.student', [$student, $closed]) }}" target="_blank" rel="noopener">
+                                <x-icon name="download" /> {{ $closed->schoolYear->year }} · P{{ $closed->number }}
+                            </a>
+                        @endforeach
+                    </div>
+                </section>
+            @endif
 
             @include('admin.people.partials.account', [
                 'user' => $student->user,

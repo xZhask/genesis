@@ -104,6 +104,31 @@ class GradingScale extends Model
         return trim($this->phrase($performance).' '.lcfirst(trim($objective)));
     }
 
+    /**
+     * Situación de una materia en el año según su acumulado: ya alcanza la
+     * nota aprobatoria, qué promedio necesita en los periodos que faltan,
+     * o si ya no alcanza (con o sin periodos por delante).
+     *
+     * @return array{key: 'reached'|'needs'|'support'|'not_reached', needed: ?float}
+     */
+    public function yearStatus(?float $accumulated, float $remainingWeight): array
+    {
+        $accumulated ??= 0.0;
+
+        if ($accumulated >= $this->passing_score) {
+            return ['key' => 'reached', 'needed' => null];
+        }
+        if ($remainingWeight <= 0) {
+            return ['key' => 'not_reached', 'needed' => null];
+        }
+
+        $needed = $this->round(($this->passing_score - $accumulated) / ($remainingWeight / 100));
+
+        return $needed > $this->max_score
+            ? ['key' => 'support', 'needed' => null]
+            : ['key' => 'needs', 'needed' => max($needed, $this->min_score)];
+    }
+
     /** Coma decimal, como en Colombia: 3,50. */
     public function format(?float $score): string
     {

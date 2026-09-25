@@ -405,3 +405,15 @@ fieldset:disabled .att-option input:checked + span {
     display: block;
     color: var(--muted);
 }
+
+/* Enlaces de descarga de boletines */
+.report-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.report-links .btn svg {
+    width: 16px;
+    height: 16px;
+}

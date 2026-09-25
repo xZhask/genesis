@@ -30,6 +30,9 @@
         <section class="panel progress-panel" aria-labelledby="sec-{{ $row['section']->id }}">
             <div class="panel-head">
                 <h2 id="sec-{{ $row['section']->id }}">{{ $row['section']->label() }}</h2>
+                @if ($period->isClosed())
+                    <a class="btn btn-line btn-sm" href="{{ route('report-cards.section', [$row['section'], $period]) }}"><x-icon name="download" /> Boletines</a>
+                @endif
                 <span class="muted">Comportamiento: {{ $row['behavior'] }} de {{ $row['students'] }}{{ $row['section']->homeroomTeacher ? ' · '.$row['section']->homeroomTeacher->name : '' }}</span>
             </div>
             @if ($row['classes']->isNotEmpty())
