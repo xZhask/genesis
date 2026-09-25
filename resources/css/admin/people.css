@@ -272,3 +272,78 @@
 .stack > .danger-zone {
     margin-top: 0;
 }
+
+/* Cambios de contacto que piden los acudientes */
+.section-title {
+    font-size: 1.1rem;
+    margin: 22px 0 10px;
+}
+
+.contact-group { padding: 0; }
+
+.contact-request { margin-bottom: 12px; }
+
+.contact-request-head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 4px 16px;
+}
+
+.contact-request-head small,
+small.block {
+    display: block;
+    color: var(--muted);
+}
+
+.contact-change {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 8px 16px;
+    margin: 12px 0;
+}
+
+.contact-change dt,
+.contact-data dt {
+    font-size: .8rem;
+    color: var(--muted);
+}
+
+.contact-change dd,
+.contact-data dd {
+    margin: 0;
+    overflow-wrap: anywhere;
+}
+
+.notice-warn {
+    background: var(--tint-sol);
+    margin-bottom: 10px;
+}
+
+.contact-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+.contact-reject {
+    display: flex;
+    flex: 1 1 280px;
+    gap: 8px;
+}
+
+.contact-reject input { flex: 1; min-width: 0; }
+
+/* «Mis datos» en el portal del acudiente */
+.contact-data > div {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--line);
+}
+
+.contact-data > div:last-child { border-bottom: 0; }
+
+.contact-status {
+    margin: 6px 0 0;
+    font-size: .9rem;
+}

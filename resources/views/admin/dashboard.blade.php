@@ -14,15 +14,16 @@
     <div class="admin-head">
         <h1>Hola, {{ auth()->user()->name }}</h1>
         <p class="lead-sm">
-            @if ($pending || $newVolunteers)
+            @php
+                $todoLinks = array_filter([
+                    $pending ? [route('admin.admissions.index', ['estado' => AdmissionStatus::Received->value]), trans_choice(':count solicitud nueva|:count solicitudes nuevas', $pending)] : null,
+                    $newVolunteers ? [route('admin.volunteers.index', ['estado' => 'new']), trans_choice(':count voluntario nuevo|:count voluntarios nuevos', $newVolunteers)] : null,
+                    $contactChanges ? [route('admin.people.contact-requests.index'), trans_choice(':count cambio de contacto|:count cambios de contacto', $contactChanges)] : null,
+                ]);
+            @endphp
+            @if ($todoLinks)
                 Tienes
-                @if ($pending)
-                    <a href="{{ route('admin.admissions.index', ['estado' => AdmissionStatus::Received->value]) }}"><strong>{{ trans_choice(':count solicitud nueva|:count solicitudes nuevas', $pending) }}</strong></a>
-                @endif
-                @if ($pending && $newVolunteers) y @endif
-                @if ($newVolunteers)
-                    <a href="{{ route('admin.volunteers.index', ['estado' => 'new']) }}"><strong>{{ trans_choice(':count voluntario nuevo|:count voluntarios nuevos', $newVolunteers) }}</strong></a>
-                @endif
+                @foreach (array_values($todoLinks) as $i => [$url, $text])@if ($i > 0){{ $i === count($todoLinks) - 1 ? ' y' : ',' }}@endif <a href="{{ $url }}"><strong>{{ $text }}</strong></a>@endforeach
                 por atender.
             @else
                 No hay solicitudes ni voluntarios nuevos por atender.

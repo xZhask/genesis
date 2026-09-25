@@ -476,3 +476,18 @@
     border-color: var(--error-ink);
     color: var(--error-ink);
 }
+
+/* Número de pendientes junto a un enlace del menú o de las pestañas */
+.nav-count {
+    display: inline-block;
+    min-width: 1.4em;
+    margin-left: 4px;
+    padding: 0 6px;
+    border-radius: 999px;
+    background: var(--sol);
+    color: #1b2733;
+    font-size: .75rem;
+    font-weight: 800;
+    line-height: 1.5;
+    text-align: center;
+}

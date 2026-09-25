@@ -87,6 +87,7 @@ Datos que ya se ven en la web y que el colegio debe confirmar antes de salir a p
 - [ ] **Asistencia por día o por clase.** *Provisional: por asignatura, como en el boletín actual (columna «Inas» por materia). En preescolar, donde una docente dicta todas las dimensiones, esto obliga a tomarla por dimensión: confirmar si allí se prefiere una sola asistencia diaria.*
 - [ ] **Docentes y asignaciones 2027:** lista de docentes (nombre, documento, correo), qué materia dicta cada uno en cada sección y quién es el director de cada grupo. Se cargan en Admin → Personas y Admin → Académico → Asignaciones docentes.
 - [ ] **¿Los docentes pueden ver los datos de contacto de los acudientes de sus grupos?** *Provisional: no; el portal docente solo muestra nombres de estudiantes y su asistencia.*
+- [ ] **Cambios de datos de contacto desde el portal.** *Provisional: solo el acudiente pide cambiar su teléfono o su correo (en «Mis datos»); los estudiantes no. El cambio queda pendiente hasta que el admin lo aprueba en Admin → Personas → Cambios de contacto; el acudiente ve el estado en el portal (sin aviso por correo hasta la fase 3). Un correo aprobado también cambia el de su cuenta del portal. Nombre y documento solo los cambia el colegio.*
 
 ## Infraestructura
 - [ ] **Dominio** (por ejemplo, colegiogenesis.edu.co) y hosting.

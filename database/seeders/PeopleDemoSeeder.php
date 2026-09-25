@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Enums\ContactField;
 use App\Enums\DocumentType;
 use App\Enums\GuardianRelationship;
+use App\Models\ContactUpdateRequest;
 use App\Models\Enrollment;
 use App\Models\Guardian;
 use App\Models\SchoolYear;
@@ -96,6 +98,8 @@ class PeopleDemoSeeder extends Seeder
             $guardianUser->update(['document_number' => '45123456']);
             $marta->user()->associate($guardianUser)->save();
         }
+        // Un cambio de teléfono pedido desde el portal, para ver la revisión en el admin
+        ContactUpdateRequest::submit($marta, ContactField::Phone, '321 555 0142');
 
         $andres = Student::create([
             'document_type' => DocumentType::IdentityCard,

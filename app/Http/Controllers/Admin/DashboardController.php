@@ -7,6 +7,7 @@ use App\Enums\ResourceType;
 use App\Enums\VolunteerStatus;
 use App\Http\Controllers\Controller;
 use App\Models\AdmissionRequest;
+use App\Models\ContactUpdateRequest;
 use App\Models\DonationAccount;
 use App\Models\Event;
 use App\Models\GalleryAlbum;
@@ -31,6 +32,7 @@ class DashboardController extends Controller
             'counts' => $counts,
             'pending' => ($counts[AdmissionStatus::Received->value] ?? 0),
             'newVolunteers' => VolunteerApplication::where('status', VolunteerStatus::New)->count(),
+            'contactChanges' => ContactUpdateRequest::pending()->count(),
             'upcomingInterviews' => AdmissionRequest::where('status', AdmissionStatus::InterviewScheduled)
                 ->where('interview_at', '>=', now()->startOfDay())
                 ->orderBy('interview_at')

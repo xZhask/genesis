@@ -14,6 +14,8 @@
         'admin.people.students.index' => ['Personas', 'admin.people.*'],
         'admin.settings.edit' => ['Configuración', 'admin.settings.*'],
     ];
+    // Pendientes que esperan al admin (se ven junto al nombre de la sección)
+    $pendingCounts = ['admin.people.students.index' => App\Models\ContactUpdateRequest::pending()->count()];
 @endphp
 
 <!DOCTYPE html>
@@ -37,7 +39,7 @@
 
             <nav class="admin-nav" aria-label="Panel">
                 @foreach ($nav as $route => [$label, $pattern])
-                    <a href="{{ route($route) }}" @if (request()->routeIs($pattern)) aria-current="page" @endif>{{ $label }}</a>
+                    <a href="{{ route($route) }}" @if (request()->routeIs($pattern)) aria-current="page" @endif>{{ $label }}@if ($pendingCounts[$route] ?? 0) <span class="nav-count">{{ $pendingCounts[$route] }}<span class="sr-only"> por revisar</span></span>@endif</a>
                 @endforeach
                 <a href="{{ route('home') }}" target="_blank" rel="noopener">Ver sitio ↗</a>
             </nav>

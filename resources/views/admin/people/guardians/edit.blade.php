@@ -7,6 +7,14 @@
 
     @include('admin.people.partials.tabs')
 
+    @php
+        $pendingContact = $guardian->contactRequests()->pending()->count();
+    @endphp
+    @if ($pendingContact)
+        <p class="notice">Pidió {{ $pendingContact === 1 ? 'un cambio' : 'cambios' }} de teléfono o correo desde el portal:
+            <a href="{{ route('admin.people.contact-requests.index') }}">revísalo en Cambios de contacto</a>.</p>
+    @endif
+
     <div class="admin-grid detail">
         <section class="panel" aria-labelledby="datos-title">
             <h2 id="datos-title">Datos del acudiente</h2>

@@ -76,6 +76,8 @@ Route::prefix('portal/docente')->name('portal.teacher.')->middleware(['auth', 'r
 Route::prefix('portal/acudiente')->name('portal.guardian.')->middleware(['auth', 'role:guardian,teacher', 'password.changed'])->group(function () {
     Route::get('/', [Portal\GuardianPortalController::class, 'home'])->name('home');
     Route::get('/estudiantes/{student}', [Portal\GuardianPortalController::class, 'student'])->name('student');
+    Route::get('/mis-datos', [Portal\ContactController::class, 'show'])->name('contact');
+    Route::post('/mis-datos', [Portal\ContactController::class, 'store'])->name('contact.store')->middleware('throttle:10,60');
 });
 
 Route::prefix('portal/estudiante')->name('portal.student.')->middleware(['auth', 'role:student', 'password.changed'])->group(function () {
@@ -184,6 +186,10 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin', 'passw
         Route::post('/cuentas/{user}/contrasena', [Admin\People\AccountController::class, 'resetPassword'])->name('accounts.reset');
         Route::post('/cuentas/{user}/estado', [Admin\People\AccountController::class, 'toggle'])->name('accounts.toggle');
         Route::post('/cuentas/pendientes', [Admin\People\AccountController::class, 'bulk'])->name('accounts.bulk');
+
+        Route::get('/solicitudes-de-contacto', [Admin\People\ContactRequestController::class, 'index'])->name('contact-requests.index');
+        Route::post('/solicitudes-de-contacto/{contactRequest}/aprobar', [Admin\People\ContactRequestController::class, 'approve'])->name('contact-requests.approve');
+        Route::post('/solicitudes-de-contacto/{contactRequest}/rechazar', [Admin\People\ContactRequestController::class, 'reject'])->name('contact-requests.reject');
 
         Route::get('/importar', [Admin\People\ImportController::class, 'create'])->name('import.create');
         Route::get('/importar/plantilla.csv', [Admin\People\ImportController::class, 'template'])->name('import.template');

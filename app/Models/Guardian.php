@@ -7,6 +7,7 @@ use App\Models\Concerns\IsPerson;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /** Acudiente: madre, padre u otra persona responsable. Puede tener varios acudidos. */
 class Guardian extends Model
@@ -30,5 +31,11 @@ class Guardian extends Model
             ->withTimestamps()
             ->orderBy('last_names')
             ->orderBy('first_names');
+    }
+
+    /** Pedidos de cambio de teléfono o correo hechos desde el portal. */
+    public function contactRequests(): HasMany
+    {
+        return $this->hasMany(ContactUpdateRequest::class)->latest('id');
     }
 }
