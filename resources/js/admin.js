@@ -36,6 +36,22 @@ document.querySelectorAll('button[data-confirm]').forEach((btn) => {
 
 initUploader();
 
+// Recursos: muestra solo los campos que aplican al tipo elegido.
+// El servidor ignora los que no corresponden (ResourceRequest::resourceData).
+const typeRadios = [...document.querySelectorAll('[data-type-radio]')];
+
+if (typeRadios.length) {
+    const blocks = [...document.querySelectorAll('[data-for-types]')];
+    const sync = () => {
+        const type = typeRadios.find((r) => r.checked)?.value;
+        blocks.forEach((block) => {
+            block.hidden = !block.dataset.forTypes.split(' ').includes(type) && !block.querySelector('.has-error');
+        });
+    };
+    typeRadios.forEach((r) => r.addEventListener('change', sync));
+    sync();
+}
+
 // Eventos: las horas solo se piden si no es "todo el día"
 const allDay = document.querySelector('[data-all-day]');
 const times = document.querySelector('[data-times]');

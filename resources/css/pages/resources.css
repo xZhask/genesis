@@ -1,0 +1,338 @@
+/* Recursos para acudientes */
+.resources-page {
+    padding: 8px 0 72px;
+}
+
+.resources-page .back a {
+    color: var(--azul-ink);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.contact-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 22px;
+    margin-top: 14px;
+}
+
+.contact-links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    color: var(--azul-ink);
+}
+
+.contact-links svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* Accesos a las secciones: quedan fijos arriba al desplazarse */
+.resource-nav {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
+}
+
+.resource-nav .wrap {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-block: 10px;
+    scrollbar-width: none;
+}
+
+.resource-nav a {
+    flex: none;
+    padding: 9px 16px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    border-radius: 999px;
+    background: var(--bg-soft);
+    color: var(--text);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.resource-nav a:hover {
+    color: var(--azul-ink);
+}
+
+.resource-section {
+    padding-top: 40px;
+    scroll-margin-top: 70px;
+}
+
+.resource-section h2 {
+    font-size: clamp(1.6rem, 3.4vw, 2.1rem);
+    font-weight: var(--wd-x);
+    margin-bottom: 16px;
+}
+
+.section-lead {
+    color: var(--muted);
+    margin: -8px 0 16px;
+}
+
+.resources-page .size {
+    font-weight: 500;
+    opacity: .85;
+}
+
+.resources-page .btn svg,
+.pdf-link svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* Circulares */
+.circulars {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 14px;
+}
+
+.circular {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    padding: 18px 20px;
+    display: grid;
+    gap: 8px;
+    justify-items: start;
+    scroll-margin-top: 80px;
+}
+
+.circular-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--muted);
+    font-size: .9rem;
+    font-weight: 600;
+}
+
+.tag-new {
+    background: var(--sol);
+    color: var(--on-sol);
+    border-radius: 999px;
+    padding: 2px 10px;
+    font-size: .78rem;
+    font-weight: 800;
+}
+
+.circular h3 {
+    font-size: 1.2rem;
+}
+
+.circular p {
+    color: var(--muted);
+}
+
+.read-more {
+    width: 100%;
+}
+
+.read-more summary {
+    cursor: pointer;
+    font-weight: 700;
+    color: var(--azul-ink);
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+}
+
+.read-more .prose {
+    margin-top: 6px;
+}
+
+.resources-page .all {
+    display: inline-block;
+    margin-top: 16px;
+    font-weight: 700;
+    color: var(--azul-ink);
+}
+
+/* Listas de útiles: selector de grado */
+.grade-picker {
+    display: grid;
+    gap: 14px;
+    margin-bottom: 18px;
+}
+
+.grade-group {
+    --lvl: var(--azul);
+    --lvl-ink: var(--sec-ink);
+    display: grid;
+    gap: 8px;
+}
+
+.grade-group.lvl-preschool { --lvl: var(--pre); --lvl-ink: var(--pre-ink); }
+.grade-group.lvl-primary { --lvl: var(--pri); --lvl-ink: var(--pri-ink); }
+
+.grade-level {
+    font-weight: 700;
+    font-size: .88rem;
+    color: var(--lvl-ink);
+}
+
+.grade-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.grade-chip {
+    min-width: 52px;
+    min-height: 44px;
+    padding: 8px 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    border: 2px solid var(--lvl);
+    color: var(--lvl-ink);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.grade-chip:hover {
+    background: color-mix(in srgb, var(--lvl) 12%, transparent);
+}
+
+.grade-chip[aria-current="true"] {
+    background: var(--lvl);
+    color: #fff;
+}
+
+.grade-chip.is-empty {
+    border-style: dashed;
+    border-color: var(--line);
+    color: var(--muted);
+    opacity: .75;
+}
+
+.supply-panel {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    padding: 20px 22px;
+    display: grid;
+    gap: 10px;
+    justify-items: start;
+    scroll-margin-top: 80px;
+}
+
+.supply-panel + .supply-panel {
+    margin-top: 14px;
+}
+
+/* Con JavaScript solo se ve la lista del grado elegido */
+.supplies.is-enhanced .supply-panel + .supply-panel {
+    margin-top: 0;
+}
+
+.supply-panel h3 {
+    font-size: 1.35rem;
+}
+
+.supply-panel h3 span {
+    font-size: 1rem;
+    color: var(--muted);
+    font-weight: 600;
+}
+
+.supply-panel .prose {
+    width: 100%;
+}
+
+/* Uniformes y horarios */
+.resource-cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.resource-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.resource-card .media {
+    aspect-ratio: 4 / 3;
+    height: auto;
+}
+
+.resource-card .body {
+    padding: 18px 22px 22px;
+    display: grid;
+    gap: 10px;
+    align-content: start;
+}
+
+.resource-card h3 {
+    font-size: 1.3rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.resource-card h3 svg {
+    width: 22px;
+    height: 22px;
+    color: var(--azul-ink);
+}
+
+.resource-card .summary {
+    color: var(--muted);
+}
+
+.pdf-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 700;
+    color: var(--azul-ink);
+}
+
+/* Tablas escritas con Markdown (horarios) */
+.prose table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
+    font-size: .97rem;
+}
+
+.prose th,
+.prose td {
+    text-align: left;
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--line);
+}
+
+.prose th {
+    font-weight: 700;
+    background: var(--bg-soft);
+}
+
+.prose ul,
+.prose ol {
+    padding-left: 20px;
+}
+
+@media (max-width: 760px) {
+    .resource-cards {
+        grid-template-columns: 1fr;
+    }
+}

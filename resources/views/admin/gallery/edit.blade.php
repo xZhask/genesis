@@ -1,10 +1,10 @@
-@use('App\Enums\AlbumStatus')
+@use('App\Enums\PublicationStatus')
 @use('App\Http\Requests\Admin\StoreGalleryPhotosRequest')
 @php
     $photos = $album->photos;
     $cover = $album->cover();
     $undescribed = $photos->whereNull('alt')->count();
-    $visible = $album->status === AlbumStatus::Published && $photos->isNotEmpty();
+    $visible = $album->status === PublicationStatus::Published && $photos->isNotEmpty();
 @endphp
 
 <x-layouts.admin :title="$album->title">
@@ -21,7 +21,7 @@
         </div>
     @endif
 
-    @if ($album->status === AlbumStatus::Published && $photos->isEmpty())
+    @if ($album->status === PublicationStatus::Published && $photos->isEmpty())
         <p class="notice">El álbum está marcado como publicado, pero no se verá en la web hasta que tenga fotos.</p>
     @endif
 

@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Enums\AlbumStatus;
+use App\Enums\PublicationStatus;
 use App\Models\GalleryAlbum;
 use App\Models\GalleryPhoto;
 use App\Support\ImageResizer;
@@ -18,21 +18,21 @@ class GallerySeeder extends Seeder
     public function run(): void
     {
         $albums = [
-            ['Día de la familia Génesis', 'Juegos, música y un almuerzo compartido entre familias, estudiantes y docentes.', 12, AlbumStatus::Published, [
+            ['Día de la familia Génesis', 'Juegos, música y un almuerzo compartido entre familias, estudiantes y docentes.', 12, PublicationStatus::Published, [
                 ['patio.jpg', 'Familias y estudiantes reunidos en el patio del colegio', 'Juegos en el patio'],
                 ['feria.jpg', 'Estudiantes mostrando sus trabajos a los acudientes', null],
                 ['devocional.jpg', 'Momento de oración con las familias', 'Oración de apertura'],
                 ['aula.jpg', null, null],
             ]],
-            ['Feria de ciencias', 'Los estudiantes de primaria y secundaria presentaron sus proyectos.', 26, AlbumStatus::Published, [
+            ['Feria de ciencias', 'Los estudiantes de primaria y secundaria presentaron sus proyectos.', 26, PublicationStatus::Published, [
                 ['feria.jpg', 'Estudiantes de secundaria explicando su proyecto', null],
                 ['aula.jpg', 'Grupo de primaria preparando su experimento en el aula', null],
             ]],
-            ['Izada de bandera de septiembre', null, 40, AlbumStatus::Published, [
+            ['Izada de bandera de septiembre', null, 40, PublicationStatus::Published, [
                 ['devocional.jpg', 'Estudiantes formados durante la izada de bandera', null],
                 ['patio.jpg', 'Patio central durante el acto cívico', null],
             ]],
-            ['Preparativos de la clausura', 'Álbum en preparación (no se ve en la web).', 2, AlbumStatus::Draft, [
+            ['Preparativos de la clausura', 'Álbum en preparación (no se ve en la web).', 2, PublicationStatus::Draft, [
                 ['aula.jpg', null, null],
             ]],
         ];

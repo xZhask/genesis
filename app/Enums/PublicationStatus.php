@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum AlbumStatus: string
+enum PublicationStatus: string
 {
     case Draft = 'draft';
     case Published = 'published';

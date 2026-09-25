@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Admin;
 
-use App\Enums\AlbumStatus;
+use App\Enums\PublicationStatus;
 use App\Models\GalleryAlbum;
 use App\Models\GalleryPhoto;
 use App\Models\User;
@@ -45,7 +45,7 @@ class GalleryManagementTest extends TestCase
             ->assertSessionHas('status_message', 'Se creó el álbum «Día de la familia». Ahora sube las fotos.');
 
         $album = GalleryAlbum::sole();
-        $this->assertSame(AlbumStatus::Published, $album->status);
+        $this->assertSame(PublicationStatus::Published, $album->status);
         $this->assertFalse($album->isVisible(), 'Sin fotos no se ve en la web');
     }
 

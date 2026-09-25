@@ -6,6 +6,7 @@ use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\ResourceController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomeController::class)->name('home');
@@ -31,15 +32,12 @@ Route::get('/noticias/{post}', [NewsController::class, 'show'])->name('news.show
 Route::get('/galeria', [GalleryController::class, 'index'])->name('gallery');
 Route::get('/galeria/{album}', [GalleryController::class, 'show'])->name('gallery.show');
 
-// Páginas temporales: cada una se reemplaza al construir su sección.
-$comingSoon = [
-    'resources' => ['/recursos', 'Recursos para acudientes'],
-    'support' => ['/apoyanos', 'Apóyanos'],
-];
+// Recursos para acudientes (públicos: solo información general)
+Route::get('/recursos', [ResourceController::class, 'index'])->name('resources');
+Route::get('/recursos/circulares', [ResourceController::class, 'circulars'])->name('resources.circulars');
 
-foreach ($comingSoon as $name => [$uri, $title]) {
-    Route::view($uri, 'pages.coming-soon', ['title' => $title])->name($name);
-}
+// Página temporal: se reemplaza al construir su sección.
+Route::view('/apoyanos', 'pages.coming-soon', ['title' => 'Apóyanos'])->name('support');
 
 // Inicio de sesión y recuperación de contraseña: Fortify (config/fortify.php)
 
@@ -70,4 +68,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->grou
         ->except('show');
     Route::post('/galeria/{album}/fotos', [Admin\GalleryPhotoController::class, 'store'])->name('albums.photos.store');
     Route::put('/galeria/{album}/fotos', [Admin\GalleryPhotoController::class, 'update'])->name('albums.photos.update');
+
+    Route::resource('recursos', Admin\ResourceController::class)
+        ->parameters(['recursos' => 'resource'])
+        ->names('resources')
+        ->except('show');
 });

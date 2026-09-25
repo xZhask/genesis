@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Admin;
 
-use App\Enums\AlbumStatus;
+use App\Enums\PublicationStatus;
 use App\Models\GalleryAlbum;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -24,7 +24,7 @@ class GalleryAlbumRequest extends FormRequest
             'title' => ['required', 'string', 'max:120'],
             'description' => ['nullable', 'string', 'max:500'],
             'taken_on' => ['required', 'date', 'before_or_equal:today'],
-            'status' => ['required', Rule::enum(AlbumStatus::class)],
+            'status' => ['required', Rule::enum(PublicationStatus::class)],
         ];
     }
 

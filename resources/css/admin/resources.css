@@ -1,0 +1,12 @@
+/* Recursos en el admin */
+.field-group {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 16px;
+}
+
+@media (max-width: 520px) {
+    .field-group {
+        grid-template-columns: 1fr;
+    }
+}

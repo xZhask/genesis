@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Enums\AlbumStatus;
+use App\Enums\PublicationStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\GalleryAlbumRequest;
 use App\Models\GalleryAlbum;
@@ -32,7 +32,7 @@ class GalleryAlbumController extends Controller
         $this->authorize('create', GalleryAlbum::class);
 
         return view('admin.gallery.create', [
-            'album' => new GalleryAlbum(['status' => AlbumStatus::Draft, 'taken_on' => today()]),
+            'album' => new GalleryAlbum(['status' => PublicationStatus::Draft, 'taken_on' => today()]),
         ]);
     }
 

@@ -8,6 +8,7 @@
         'admin.posts.index' => ['Noticias', 'admin.posts.*'],
         'admin.events.index' => ['Eventos', 'admin.events.*'],
         'admin.albums.index' => ['Galería', 'admin.albums.*'],
+        'admin.resources.index' => ['Recursos', 'admin.resources.*'],
     ];
 @endphp
 

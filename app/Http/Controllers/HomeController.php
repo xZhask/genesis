@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\AlbumStatus;
+use App\Enums\PublicationStatus;
 use App\Models\Event;
 use App\Models\GalleryPhoto;
 use App\Models\Post;
@@ -19,7 +19,7 @@ class HomeController extends Controller
         $photos = GalleryPhoto::query()
             ->select('gallery_photos.*')
             ->join('gallery_albums', 'gallery_albums.id', '=', 'gallery_photos.gallery_album_id')
-            ->where('gallery_albums.status', AlbumStatus::Published)
+            ->where('gallery_albums.status', PublicationStatus::Published)
             ->orderByDesc('gallery_albums.taken_on')
             ->orderByDesc('gallery_albums.id')
             ->orderBy('gallery_photos.position')

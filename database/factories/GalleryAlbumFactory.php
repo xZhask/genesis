@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Enums\AlbumStatus;
+use App\Enums\PublicationStatus;
 use App\Models\GalleryAlbum;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -17,12 +17,12 @@ class GalleryAlbumFactory extends Factory
             'title' => fake()->randomElement(['Día de la familia', 'Feria de ciencias', 'Izada de bandera', 'Salida pedagógica']).' '.fake()->unique()->numberBetween(1, 9999),
             'description' => null,
             'taken_on' => fake()->dateTimeBetween('-3 months', '-1 day'),
-            'status' => AlbumStatus::Published,
+            'status' => PublicationStatus::Published,
         ];
     }
 
     public function draft(): static
     {
-        return $this->state(fn () => ['status' => AlbumStatus::Draft]);
+        return $this->state(fn () => ['status' => PublicationStatus::Draft]);
     }
 }

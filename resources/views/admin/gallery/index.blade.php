@@ -1,4 +1,4 @@
-@use('App\Enums\AlbumStatus')
+@use('App\Enums\PublicationStatus')
 
 <x-layouts.admin title="Galería">
     <div class="admin-head row">
@@ -39,14 +39,14 @@
                                 @endif
                             </td>
                             <td data-label="Estado">
-                                @if ($album->status === AlbumStatus::Published && ! $album->photos_count)
+                                @if ($album->status === PublicationStatus::Published && ! $album->photos_count)
                                     <span class="badge badge-in_review">Sin fotos</span>
                                 @else
-                                    <span class="badge badge-{{ $album->status === AlbumStatus::Published ? 'accepted' : 'withdrawn' }}">{{ $album->status->label() }}</span>
+                                    <span class="badge badge-{{ $album->status === PublicationStatus::Published ? 'accepted' : 'withdrawn' }}">{{ $album->status->label() }}</span>
                                 @endif
                             </td>
                             <td class="row-actions">
-                                <a href="{{ route('gallery.show', $album) }}" target="_blank" rel="noopener">{{ $album->status === AlbumStatus::Published && $album->photos_count ? 'Ver' : 'Vista previa' }}</a>
+                                <a href="{{ route('gallery.show', $album) }}" target="_blank" rel="noopener">{{ $album->status === PublicationStatus::Published && $album->photos_count ? 'Ver' : 'Vista previa' }}</a>
                             </td>
                         </tr>
                     @endforeach

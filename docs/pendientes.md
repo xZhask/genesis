@@ -8,7 +8,7 @@ Datos que ya se ven en la web y que el colegio debe confirmar antes de salir a p
 
 | Dato | Valor provisional | Dónde se cambia |
 |---|---|---|
-| Textos del hero, niveles, pasos de admisión, títulos e introducciones de Nosotros y microcopy | Borradores de UX (las declaraciones formales son literales) | Vistas en `resources/views/home/`, `resources/views/admissions/` y `resources/views/pages/about.blade.php` |
+| Textos del hero, niveles, pasos de admisión, títulos e introducciones de Nosotros y microcopy | Borradores de UX (las declaraciones formales son literales) | Vistas en `resources/views/home/`, `resources/views/admissions/`, `resources/views/resources/` y `resources/views/pages/about.blade.php` |
 | Año lectivo de la pre-inscripción y de los costos | 2027 | `config/school.php` → `admissions.school_year` |
 | Costos | Los del folleto: preescolar y primaria $ 111.000 / $ 99.900; secundaria $ 299.700 / $ 244.200 | `config/school.php` → `admissions.costs` |
 | Requisitos y documentos de matrícula | Lista habitual en Colombia (registro civil, documentos del acudiente, certificados, paz y salvo, EPS, vacunas, fotos) | `config/school.php` → `admissions.requirements` |
@@ -37,6 +37,11 @@ Datos que ya se ven en la web y que el colegio debe confirmar antes de salir a p
 - [ ] **Año de fundación y cifras reales**, si se quieren destacar (estudiantes, años, docentes). *Provisional: no mostrar cifras.*
 - [ ] **Nombre oficial con o sin tilde** (el folleto dice "Génesis" y el logo "GENESIS"). *Provisional: "Génesis" en los textos.*
 - [ ] **Edades por grado de preescolar**, ahora que incluye Párvulos.
+- [ ] **Recursos para acudientes** (se cargan desde el admin en `/admin/recursos`; mientras no haya, la página invita a llamar o escribir):
+  - [ ] Horarios de entrada y salida por nivel (y si hay jornada de la tarde).
+  - [ ] Listas de útiles por grado del año lectivo, en PDF o texto.
+  - [ ] Uniformes (diario y educación física): descripción, fotos de las prendas y proveedores con su teléfono.
+  - [ ] Circulares vigentes que se puedan publicar (solo información general, sin datos de estudiantes).
 
 ## Admisiones y pagos
 - [ ] **Año lectivo** de los costos del folleto y si se publican en la web. *Provisional: 2027, visibles en Admisiones (ver tabla de provisionales).*

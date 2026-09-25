@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Enums\AlbumStatus;
+use App\Enums\PublicationStatus;
 use App\Models\Concerns\HasUniqueSlug;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -19,7 +19,7 @@ class GalleryAlbum extends Model
     protected function casts(): array
     {
         return [
-            'status' => AlbumStatus::class,
+            'status' => PublicationStatus::class,
             'taken_on' => 'date',
         ];
     }
@@ -51,12 +51,12 @@ class GalleryAlbum extends Model
     /** Publicados y con al menos una foto: un álbum vacío no se muestra. */
     public function scopePublished(Builder $query): void
     {
-        $query->where('status', AlbumStatus::Published)->whereHas('photos');
+        $query->where('status', PublicationStatus::Published)->whereHas('photos');
     }
 
     public function isVisible(): bool
     {
-        return $this->status === AlbumStatus::Published && $this->photos()->exists();
+        return $this->status === PublicationStatus::Published && $this->photos()->exists();
     }
 
     /** La portada elegida o, si no hay, la primera foto. */

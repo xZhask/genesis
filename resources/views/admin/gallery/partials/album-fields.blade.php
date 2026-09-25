@@ -1,6 +1,6 @@
-@use('App\Enums\AlbumStatus')
+@use('App\Enums\PublicationStatus')
 @php
-    $status = old('status', $album->status?->value ?? AlbumStatus::Draft->value);
+    $status = old('status', $album->status?->value ?? PublicationStatus::Draft->value);
 @endphp
 
 <x-field name="title" label="Nombre del álbum" hint="La actividad, tal como la reconocen las familias. Ejemplo: «Día de la familia».">
@@ -19,10 +19,10 @@
 <fieldset class="field choices">
     <legend class="label">Estado</legend>
     <div class="pills">
-        @foreach (AlbumStatus::cases() as $case)
+        @foreach (PublicationStatus::cases() as $case)
             <label class="pill">
                 <input type="radio" name="status" value="{{ $case->value }}" @checked($status === $case->value)>
-                <span>{{ $case === AlbumStatus::Draft ? 'Borrador' : 'Publicar' }}</span>
+                <span>{{ $case === PublicationStatus::Draft ? 'Borrador' : 'Publicar' }}</span>
             </label>
         @endforeach
     </div>
