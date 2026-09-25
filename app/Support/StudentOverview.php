@@ -3,8 +3,13 @@
 namespace App\Support;
 
 use App\Enums\AttendanceStatus;
+use App\Enums\EvaluationComponent;
 use App\Models\Attendance;
 use App\Models\Enrollment;
+use App\Models\GradingScale;
+use App\Models\PeriodObjective;
+use App\Models\PeriodReport;
+use App\Models\PeriodResult;
 use App\Models\SchoolYear;
 use App\Models\Student;
 use Illuminate\Support\Collection;
@@ -24,6 +29,116 @@ class StudentOverview
             ? $this->student->enrollments()->where('school_year_id', $this->year->id)
                 ->with(['section.grade', 'section.homeroomTeacher', 'section.assignments.teacher'])->first()
             : null);
+    }
+
+    public function scale(): ?GradingScale
+    {
+        return $this->year ? once(fn () => GradingScale::forYear($this->year)) : null;
+    }
+
+    /** Las familias ven solo las notas de periodos cerrados (decisión del 25/09/2026). */
+    public function closedPeriods(): Collection
+    {
+        return $this->year ? $this->year->periods->filter->isClosed()->values() : collect();
+    }
+
+    public function hasNumericGrades(): bool
+    {
+        return (bool) $this->enrollment() && ! $this->enrollment()->section->grade->isPreschool();
+    }
+
+    /**
+     * Notas por materia de los periodos cerrados, acumulado y lo que falta
+     * para aprobar, con los logros del último periodo cerrado.
+     *
+     * @return Collection<int, array{subject: string, teacher: ?string, periods: array<int, ?PeriodResult>, accumulated: ?float, status: array{key: string, needed: ?float}, objectives: list<string>, absences: int}>
+     */
+    public function grades(): Collection
+    {
+        $enrollment = $this->enrollment();
+        if (! $enrollment || ! $this->hasNumericGrades() || $this->closedPeriods()->isEmpty()) {
+            return collect();
+        }
+
+        $scale = $this->scale();
+        $closed = $this->closedPeriods();
+        $latest = $closed->last();
+        $results = PeriodResult::where('enrollment_id', $enrollment->id)
+            ->whereIn('period_id', $closed->pluck('id'))
+            ->get()
+            ->groupBy('subject_id');
+        $objectives = PeriodObjective::where('section_id', $enrollment->section_id)
+            ->where('period_id', $latest->id)
+            ->get()
+            ->groupBy('subject_id');
+        $teachers = $enrollment->section->assignments->mapWithKeys(fn ($a) => [$a->subject_id => $a->teacher->name]);
+        $remaining = $this->year->periods->reject->isClosed()->sum(fn ($p) => (float) $p->weight);
+
+        return $enrollment->section->grade->subjects()->get()->map(function ($subject) use ($results, $objectives, $teachers, $closed, $latest, $scale, $remaining) {
+            $mine = ($results[$subject->id] ?? collect())->keyBy('period_id');
+            $periods = $this->year->periods->mapWithKeys(fn ($p) => [$p->number => $p->isClosed() ? $mine->get($p->id) : null])->all();
+
+            $scored = $closed->filter(fn ($p) => $mine->get($p->id)?->score !== null);
+            $accumulated = $scored->isEmpty() ? null
+                : $scale->round($scored->sum(fn ($p) => $mine->get($p->id)->score * (float) $p->weight / 100));
+
+            // Logros del último periodo cerrado, con la frase según el desempeño de cada componente
+            $latestResult = $mine->get($latest->id);
+            $texts = [];
+            foreach (($objectives[$subject->id] ?? collect())->sortBy(fn ($o) => array_search($o->component, EvaluationComponent::cases(), true)) as $objective) {
+                $performance = $scale->performanceFor($latestResult?->{$objective->component->value});
+                if ($performance) {
+                    $texts[] = $scale->objectiveText($performance, $objective->text);
+                }
+            }
+
+            return [
+                'subject' => $subject->name,
+                'teacher' => $teachers[$subject->id] ?? null,
+                'periods' => $periods,
+                'accumulated' => $accumulated,
+                'status' => $this->status($accumulated, $remaining, $scale),
+                'objectives' => $texts,
+            ];
+        });
+    }
+
+    /** Comportamiento y observaciones del director de grupo en los periodos cerrados. */
+    public function behavior(): Collection
+    {
+        $enrollment = $this->enrollment();
+        if (! $enrollment || $this->closedPeriods()->isEmpty()) {
+            return collect();
+        }
+
+        return PeriodReport::where('enrollment_id', $enrollment->id)
+            ->whereIn('period_id', $this->closedPeriods()->pluck('id'))
+            ->get()
+            ->keyBy('period_id');
+    }
+
+    /**
+     * Situación de la materia en el año: ya alcanza la nota aprobatoria, o
+     * qué promedio necesita en los periodos que faltan.
+     *
+     * @return array{key: string, needed: ?float}
+     */
+    private function status(?float $accumulated, float $remainingWeight, GradingScale $scale): array
+    {
+        $accumulated ??= 0.0;
+
+        if ($accumulated >= $scale->passing_score) {
+            return ['key' => 'reached', 'needed' => null];
+        }
+        if ($remainingWeight <= 0) {
+            return ['key' => 'not_reached', 'needed' => null];
+        }
+
+        $needed = $scale->round(($scale->passing_score - $accumulated) / ($remainingWeight / 100));
+
+        return $needed > $scale->max_score
+            ? ['key' => 'support', 'needed' => null]
+            : ['key' => 'needs', 'needed' => max($needed, $scale->min_score)];
     }
 
     /**

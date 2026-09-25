@@ -94,6 +94,7 @@
                         <div class="period-state-head">
                             <strong>{{ $period->name() }}</strong>
                             <span class="badge badge-{{ $period->isClosed() ? 'withdrawn' : 'accepted' }}">{{ $period->status->label() }}</span>
+                            <a class="btn-link small-link" href="{{ route('admin.academic.periods.progress', $period) }}">Avance de notas</a>
                             @if ($period->isClosed())
                                 <form method="POST" action="{{ route('admin.academic.periods.reopen', $period) }}"
                                     data-confirm="¿Reabrir el {{ mb_strtolower($period->name()) }}? Los docentes podrán volver a modificar notas y asistencia.">

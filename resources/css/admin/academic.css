@@ -260,3 +260,35 @@
     border-top: 1px solid var(--line);
     padding-top: 10px;
 }
+
+/* Avance de notas antes de cerrar un periodo */
+.small-link {
+    font-size: .88rem;
+}
+
+.progress-stats {
+    grid-template-columns: repeat(2, minmax(0, 320px));
+    margin-bottom: 16px;
+    list-style: none;
+    padding: 0;
+}
+
+.progress-panel {
+    margin-bottom: 16px;
+}
+
+.comp-chip {
+    display: inline-block;
+    margin: 1px 2px 1px 0;
+    padding: 1px 8px;
+    border-radius: 999px;
+    font-size: .78rem;
+    font-weight: 700;
+    background: var(--error-bg);
+    color: var(--error-ink);
+}
+
+.comp-chip.is-done {
+    background: var(--tint-verde);
+    color: var(--verde-ink);
+}

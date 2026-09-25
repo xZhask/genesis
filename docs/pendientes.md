@@ -16,6 +16,7 @@ Datos que ya se ven en la web y que el colegio debe confirmar antes de salir a p
 | Requisitos y documentos de matrícula | Lista habitual en Colombia (registro civil, documentos del acudiente, certificados, paz y salvo, EPS, vacunas, fotos) | Admin → Configuración |
 | Tiempo de respuesta a una solicitud | "3 días hábiles" | Admin → Configuración |
 | Correo que recibe los avisos de pre-inscripción | cecgenesis16@gmail.com | Admin → Configuración |
+| Portal de familias: notas y «lo que falta para aprobar» | Solo periodos cerrados; acumulado = suma de periodos según su peso; mensaje «Necesita en promedio X en los periodos que faltan» o «Requiere acompañamiento: habla con el docente» si ya no alcanza. Validar la redacción con el colegio | `resources/views/portal/student/show.blade.php` y `app/Support/StudentOverview.php` |
 | Política de tratamiento de datos | Borrador basado en la Ley 1581 de 2012 y el Decreto 1377 de 2013, sin NIT ni representante legal. **Requiere revisión legal** | `resources/views/pages/privacy.blade.php` y `config/school.php` → `privacy_policy_version` |
 
 ## Antes de salir a producción (técnico)

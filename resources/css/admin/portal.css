@@ -344,3 +344,64 @@ fieldset:disabled .att-option input:checked + span {
         width: 2.4em;
     }
 }
+
+/* Notas para las familias: color suave según el desempeño */
+.grade-cell.perf-low,
+.perf-chip.perf-low { background: var(--error-bg); color: var(--error-ink); }
+.grade-cell.perf-basic,
+.perf-chip.perf-basic { background: var(--tint-sol); color: var(--pri-ink); }
+.grade-cell.perf-high,
+.perf-chip.perf-high { background: var(--tint-azul); color: var(--azul-ink); }
+.grade-cell.perf-superior,
+.perf-chip.perf-superior { background: var(--tint-verde); color: var(--verde-ink); }
+
+.grade-cell {
+    font-weight: 700;
+}
+
+.perf-chip {
+    display: inline-block;
+    padding: 1px 8px;
+    border-radius: 999px;
+    font-size: .8rem;
+    font-weight: 700;
+}
+
+.grades-table th small.status-reached { color: var(--verde-ink); }
+.grades-table th small.status-needs { color: var(--pri-ink); }
+.grades-table th small.status-support,
+.grades-table th small.status-not_reached { color: var(--error-ink); }
+
+.subhead {
+    font-size: 1.05rem;
+    margin: 18px 0 8px;
+}
+
+.objectives-list details {
+    border-top: 1px solid var(--line);
+    padding: 8px 0;
+}
+
+.objectives-list details:first-child {
+    border-top: 0;
+}
+
+.objectives-list summary {
+    cursor: pointer;
+    font-weight: 700;
+    min-height: 32px;
+    display: flex;
+    align-items: center;
+}
+
+.objectives-list ul {
+    margin: 6px 0 4px;
+    padding-left: 20px;
+    display: grid;
+    gap: 6px;
+}
+
+.behavior-data dd small {
+    display: block;
+    color: var(--muted);
+}
