@@ -1,5 +1,6 @@
 import { initTheme } from './theme';
 import { initForms } from './forms';
+import { initUploader } from './uploader';
 
 initTheme();
 initForms();
@@ -26,6 +27,14 @@ document.querySelectorAll('form[data-confirm]').forEach((form) => {
         if (!window.confirm(form.dataset.confirm)) e.preventDefault();
     });
 });
+
+document.querySelectorAll('button[data-confirm]').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+        if (!window.confirm(btn.dataset.confirm)) e.preventDefault();
+    });
+});
+
+initUploader();
 
 // Eventos: las horas solo se piden si no es "todo el día"
 const allDay = document.querySelector('[data-all-day]');

@@ -13,7 +13,8 @@ use RuntimeException;
  * que pesa menos para quien navega con datos móviles.
  *
  * Devuelve la ruta base (p. ej. "posts/9f2c…"); cada tamaño queda en
- * "{base}-{ancho}.webp" dentro del disco público.
+ * "{base}-{ancho}.webp" dentro del disco público. Al re-codificar se
+ * descartan los metadatos EXIF, incluida la ubicación GPS del celular.
  */
 class ImageResizer
 {
@@ -21,15 +22,28 @@ class ImageResizer
 
     public static function store(UploadedFile $file, string $directory): string
     {
+        return self::save($file, $directory)['path'];
+    }
+
+    /**
+     * Igual que store(), pero también devuelve el ancho y alto de la versión
+     * grande (sirven para reservar el espacio de la foto antes de que cargue).
+     *
+     * @return array{path: string, width: int, height: int}
+     */
+    public static function save(UploadedFile $file, string $directory): array
+    {
         $source = self::load($file);
         $base = trim($directory, '/').'/'.Str::uuid();
+        $width = min(imagesx($source), self::SIZES['lg']);
+        $height = (int) round(imagesy($source) * $width / imagesx($source));
 
-        foreach (self::SIZES as $width) {
-            $resized = self::scale($source, $width);
+        foreach (self::SIZES as $size) {
+            $resized = self::scale($source, $size);
 
             ob_start();
             imagewebp($resized, null, 80);
-            Storage::disk('public')->put("{$base}-{$width}.webp", ob_get_clean());
+            Storage::disk('public')->put("{$base}-{$size}.webp", ob_get_clean());
 
             if ($resized !== $source) {
                 imagedestroy($resized);
@@ -38,7 +52,7 @@ class ImageResizer
 
         imagedestroy($source);
 
-        return $base;
+        return ['path' => $base, 'width' => $width, 'height' => $height];
     }
 
     public static function url(?string $base, string $size = 'lg'): ?string

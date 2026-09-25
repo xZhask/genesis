@@ -7,4 +7,5 @@
 
 @import './admin/layout.css';
 @import './admin/components.css';
+@import './admin/gallery.css';
 @import './admin/auth.css';

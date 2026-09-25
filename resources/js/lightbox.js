@@ -12,24 +12,29 @@ export function initLightbox() {
 
     function render(index) {
         current = (index + items.length) % items.length;
-        const { src, tone, caption: text } = items[current].dataset;
+        const { src, tone, alt, caption: text } = items[current].dataset;
 
         frame.replaceChildren();
         if (src) {
             const img = document.createElement('img');
             img.className = 'media';
             img.src = src;
-            img.alt = text;
+            img.alt = alt;
             frame.append(img);
         } else {
             const ph = document.createElement('div');
             ph.className = `media ph ${tone}`;
             ph.innerHTML = '<div class="in"><span></span></div>';
-            ph.querySelector('span').textContent = text;
+            ph.querySelector('span').textContent = alt;
             frame.append(ph);
         }
 
-        caption.textContent = `${text} (${current + 1} de ${items.length})`;
+        const count = `${current + 1} de ${items.length}`;
+        caption.textContent = text ? `${text} (${count})` : `Foto ${count}`;
+
+        // Precarga la siguiente para que el cambio sea inmediato
+        const next = items[(current + 1) % items.length].dataset.src;
+        if (next) new Image().src = next;
     }
 
     items.forEach((btn, i) => {

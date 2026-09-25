@@ -24,6 +24,9 @@ Datos que ya se ven en la web y que el colegio debe confirmar antes de salir a p
 - [ ] `php artisan migrate --force`, `php artisan storage:link`, `php artisan config:cache route:cache view:cache`.
 - [ ] Cron cada minuto: `php /ruta/al/proyecto/artisan schedule:run` (procesa la cola de correos).
 - [ ] La raíz pública del dominio debe apuntar a `public/`, nunca a la raíz del proyecto.
+- [ ] **PHP del hosting para las fotos** (noticias y galería): extensión GD con soporte WebP y extensión `exif` (corrige la rotación de las fotos del celular). Verificar con `php -i` o `phpinfo()`.
+- [ ] **Límites de PHP del hosting:** `memory_limit` ≥ 128M (redimensionar una foto de 12 MP con GD usa unos 60–80 MB), `upload_max_filesize` ≥ 10M y `post_max_size` ≥ 12M (la galería acepta fotos de hasta 10 MB y el panel las sube una por una). Si el hosting no permite subirlos, bajar el máximo en `StoreGalleryPhotosRequest::MAX_KB`.
+- [ ] **Espacio en disco:** cada foto ocupa unos 150–300 KB (versiones de 1200 y 600 px en WebP; el original no se guarda). Revisar la cuota del plan de hosting según cuántas fotos se publiquen al año.
 
 ## Diseño y contenido
 - [ ] **Tipografía de títulos:** Baloo 2, Baloo 2 ligera, Nunito o Poppins (hay un selector en el mockup para comparar). *Provisional: Nunito.*

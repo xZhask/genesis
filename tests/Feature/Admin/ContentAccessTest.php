@@ -4,18 +4,20 @@ namespace Tests\Feature\Admin;
 
 use App\Enums\Role;
 use App\Models\Event;
+use App\Models\GalleryAlbum;
+use App\Models\GalleryPhoto;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
-/** Solo el admin gestiona noticias y eventos (regla de seguridad 2). */
+/** Solo el admin gestiona noticias, eventos y galería (regla de seguridad 2). */
 class ContentAccessTest extends TestCase
 {
     use RefreshDatabase;
 
-    private function requests(Post $post, Event $event): array
+    private function requests(Post $post, Event $event, GalleryAlbum $album): array
     {
         return [
             ['GET', route('admin.posts.index')],
@@ -30,6 +32,14 @@ class ContentAccessTest extends TestCase
             ['GET', route('admin.events.edit', $event)],
             ['PUT', route('admin.events.update', $event)],
             ['DELETE', route('admin.events.destroy', $event)],
+            ['GET', route('admin.albums.index')],
+            ['GET', route('admin.albums.create')],
+            ['POST', route('admin.albums.store')],
+            ['GET', route('admin.albums.edit', $album)],
+            ['PUT', route('admin.albums.update', $album)],
+            ['DELETE', route('admin.albums.destroy', $album)],
+            ['POST', route('admin.albums.photos.store', $album)],
+            ['PUT', route('admin.albums.photos.update', $album)],
         ];
     }
 
@@ -47,20 +57,24 @@ class ContentAccessTest extends TestCase
     {
         $post = Post::factory()->create();
         $event = Event::factory()->create();
+        $photo = GalleryPhoto::factory()->create();
+        $album = $photo->album;
         $user = User::factory()->role($role)->create();
 
-        foreach ($this->requests($post, $event) as [$method, $url]) {
-            $this->actingAs($user)->call($method, $url, ['title' => 'Intento'])->assertForbidden();
+        foreach ($this->requests($post, $event, $album) as [$method, $url]) {
+            $this->actingAs($user)->call($method, $url, ['title' => 'Intento', 'do' => "delete:{$photo->id}"])->assertForbidden();
         }
 
         $this->assertModelExists($post);
         $this->assertModelExists($event);
+        $this->assertModelExists($album);
+        $this->assertModelExists($photo);
         $this->assertSame(1, Post::count());
     }
 
     public function test_guests_are_sent_to_login(): void
     {
-        foreach ($this->requests(Post::factory()->create(), Event::factory()->create()) as [$method, $url]) {
+        foreach ($this->requests(Post::factory()->create(), Event::factory()->create(), GalleryAlbum::factory()->create()) as [$method, $url]) {
             $this->call($method, $url)->assertRedirect(route('login'));
         }
     }

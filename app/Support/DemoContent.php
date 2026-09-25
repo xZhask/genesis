@@ -3,15 +3,15 @@
 namespace App\Support;
 
 use Illuminate\Support\Collection;
-use Illuminate\Support\Fluent;
 
 /**
- * Contenido de ejemplo para revisar el diseño en local mientras no existen
- * los módulos de galería y Apóyanos (noticias y eventos ya salen de la base
- * de datos). Nunca se activa en producción.
+ * Contenido de ejemplo para revisar el diseño en local mientras no existe el
+ * módulo Apóyanos (noticias, eventos y galería ya salen de la base de datos;
+ * las fotos de ejemplo solo aparecen si la galería está vacía). Nunca se
+ * activa en producción.
  *
- * Los objetos usan los mismos nombres de atributos que tendrán los modelos,
- * para que las vistas no cambien cuando se reemplace por datos reales.
+ * Los datos usan el mismo formato que los reales, para que las vistas no
+ * cambien cuando se reemplacen.
  */
 class DemoContent
 {
@@ -25,6 +25,7 @@ class DemoContent
         return ['demo/aula.jpg', 'demo/patio.jpg', 'demo/feria.jpg', 'demo/devocional.jpg'];
     }
 
+    /** Mismo formato que GalleryPhoto::forLightbox(), sin imagen. */
     public static function photos(): Collection
     {
         return collect([
@@ -36,11 +37,15 @@ class DemoContent
             ['Huerta escolar', 't-verde'],
             ['Graduación de Transición', 't-sol'],
             ['Clase de inglés', 't-azul'],
-        ])->map(fn ($p) => new Fluent([
+        ])->map(fn ($p) => [
+            'thumb' => null,
+            'full' => null,
+            'alt' => $p[0],
             'caption' => $p[0],
-            'image_url' => null,
+            'width' => null,
+            'height' => null,
             'tone' => $p[1],
-        ]));
+        ]);
     }
 
     public static function support(): array

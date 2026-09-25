@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\PostStatus;
+use App\Models\Concerns\HasUniqueSlug;
 use App\Support\ImageResizer;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,7 +14,7 @@ use Illuminate\Support\Str;
 
 class Post extends Model
 {
-    use HasFactory;
+    use HasFactory, HasUniqueSlug;
 
     protected $fillable = ['title', 'excerpt', 'body', 'cover_alt', 'status', 'published_at'];
 
@@ -27,24 +28,12 @@ class Post extends Model
 
     protected static function booted(): void
     {
-        // Dirección legible y única, fijada al crear
-        static::creating(function (self $post) {
-            $base = Str::slug($post->title) ?: 'noticia';
-            $slug = $base;
-            $i = 2;
-            while (static::where('slug', $slug)->exists()) {
-                $slug = "{$base}-{$i}";
-                $i++;
-            }
-            $post->slug = $slug;
-        });
-
         static::deleted(fn (self $post) => ImageResizer::delete($post->cover_path));
     }
 
-    public function getRouteKeyName(): string
+    protected static function slugFallback(): string
     {
-        return 'slug';
+        return 'noticia';
     }
 
     public function author(): BelongsTo

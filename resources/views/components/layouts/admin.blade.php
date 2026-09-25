@@ -7,6 +7,7 @@
         'admin.admissions.index' => ['Solicitudes', 'admin.admissions.*'],
         'admin.posts.index' => ['Noticias', 'admin.posts.*'],
         'admin.events.index' => ['Eventos', 'admin.events.*'],
+        'admin.albums.index' => ['Galería', 'admin.albums.*'],
     ];
 @endphp
 
