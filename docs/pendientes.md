@@ -17,6 +17,7 @@ Datos que ya se ven en la web y que el colegio debe confirmar antes de salir a p
 | Tiempo de respuesta a una solicitud | "3 días hábiles" | Admin → Configuración |
 | Correo que recibe los avisos de pre-inscripción | cecgenesis16@gmail.com | Admin → Configuración |
 | Portal de familias: notas y «lo que falta para aprobar» | Solo periodos cerrados; acumulado = suma de periodos según su peso; mensaje «Necesita en promedio X en los periodos que faltan» o «Requiere acompañamiento: habla con el docente» si ya no alcanza. Validar la redacción con el colegio | `resources/views/portal/student/show.blade.php` y `app/Support/StudentOverview.php` |
+| Alertas del portal (docente, director de grupo y admin; las familias no las ven) | Inasistencia: 3 o más faltas sin excusa en una materia dentro del periodo. Bajo rendimiento: nota del periodo en curso por debajo de la aprobatoria con al menos 2 actividades calificadas, o un acumulado con el que ya no se alcanza el año. Cumpleaños: próximos 7 días | Faltas: Admin → Configuración → Alertas del portal. Lo demás: `config/school.php` → `alerts` |
 | Política de tratamiento de datos | Borrador basado en la Ley 1581 de 2012 y el Decreto 1377 de 2013, sin NIT ni representante legal. **Requiere revisión legal** | `resources/views/pages/privacy.blade.php` y `config/school.php` → `privacy_policy_version` |
 
 ## Antes de salir a producción (técnico)

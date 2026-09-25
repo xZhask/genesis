@@ -417,3 +417,109 @@ fieldset:disabled .att-option input:checked + span {
     width: 16px;
     height: 16px;
 }
+
+/* Alertas del docente, del director de grupo y del admin */
+.alerts { margin: 8px 0 20px; }
+
+.section-title small {
+    font-size: .85rem;
+    font-weight: 600;
+    color: var(--muted);
+}
+
+.alert-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 14px;
+    align-items: start;
+}
+
+.alert-panel { border-top: 4px solid var(--line); }
+.alert-low { border-top-color: var(--error-ink); }
+.alert-absent { border-top-color: var(--sol); }
+.alert-birthday { border-top-color: var(--verde); }
+
+.alert-panel h3 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.05rem;
+    margin-bottom: 8px;
+}
+
+.alert-count {
+    min-width: 1.8em;
+    padding: 0 7px;
+    border-radius: 999px;
+    background: var(--bg-soft);
+    font-size: .85rem;
+    text-align: center;
+}
+
+.alert-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 0;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--line);
+}
+
+.alert-row small {
+    display: block;
+    color: var(--muted);
+    font-size: .82rem;
+}
+
+.alert-value {
+    text-align: right;
+    flex-shrink: 0;
+    max-width: 45%;
+}
+
+.alert-low .alert-value b { color: var(--error-ink); }
+
+.alert-value .is-today { color: var(--verde-ink); }
+
+.alert-panel .hint { margin: 10px 0 0; }
+
+.alert-summary .num { text-align: right; font-variant-numeric: tabular-nums; }
+.alert-summary tr.is-current td { background: var(--tint-azul); font-weight: 700; }
+
+.alert-panel .hint,
+.alert-panel .muted {
+    font-size: .85rem;
+    color: var(--muted);
+}
+
+.alert-panel .muted { margin: 0; }
+
+.alert-strip { margin: 0 0 14px; }
+
+.alert-strip a {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: var(--r-sm);
+    background: var(--tint-sol);
+    color: var(--text);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.alert-strip a:hover { text-decoration: underline; }
+
+.alert-subjects {
+    list-style: none;
+    margin: 4px 0 0;
+    padding: 0;
+    font-size: .85rem;
+    color: var(--muted);
+}
+
+.alert-subjects b { color: var(--text); margin-left: 4px; }
+.alert-low .alert-subjects b { color: var(--error-ink); }
+.alert-subjects em { font-style: normal; font-weight: 600; color: var(--error-ink); margin-left: 4px; }
+
+@media (max-width: 640px) {
+    .table.keep-grid.alert-summary .hide-sm { display: none; }
+}

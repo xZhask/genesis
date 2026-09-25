@@ -87,4 +87,6 @@
             </form>
         @endif
     </section>
+
+    @include('portal.partials.alerts', ['alerts' => $alerts, 'showSection' => false])
 </x-layouts.portal>

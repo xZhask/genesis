@@ -61,6 +61,7 @@ class SettingsRequest extends FormRequest
             'report_nit' => ['nullable', 'string', 'max:30'],
             'report_campus' => ['nullable', 'string', 'max:60'],
             'report_rector' => ['nullable', 'string', 'max:120'],
+            'alert_absences' => ['required', 'integer', 'between:1,30'],
         ];
     }
 
@@ -89,6 +90,7 @@ class SettingsRequest extends FormRequest
             'report_card.nit' => trim((string) $this->validated('report_nit')),
             'report_card.campus' => trim((string) $this->validated('report_campus')),
             'report_card.rector' => trim((string) $this->validated('report_rector')),
+            'alerts.absences' => (int) $this->validated('alert_absences'),
         ];
     }
 
@@ -111,6 +113,7 @@ class SettingsRequest extends FormRequest
             'report_nit' => 'NIT',
             'report_campus' => 'sede',
             'report_rector' => 'nombre de rectoría',
+            'alert_absences' => 'faltas para la alerta',
         ];
     }
 

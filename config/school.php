@@ -178,6 +178,16 @@ return [
         'rector' => '',
     ],
 
+    // Fase 3: alertas del portal docente y del admin (provisionales, ver docs/pendientes.md)
+    'alerts' => [
+        // Faltas sin excusa en una materia dentro del periodo (editable en Admin → Configuración)
+        'absences' => 3,
+        // Bajo rendimiento solo con al menos estas actividades calificadas en el periodo
+        'min_graded_items' => 2,
+        // Cumpleaños: días hacia adelante, contando hoy
+        'birthday_days' => 7,
+    ],
+
     // Versión de la política aceptada en los formularios (se guarda con cada solicitud).
     'privacy_policy_version' => '2026-09-borrador',
 

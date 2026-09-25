@@ -234,6 +234,8 @@ class TeachingDemoSeeder extends Seeder
 
         $rows = [];
         $assignments = TeacherAssignment::with('section.enrollments')->get();
+        // Uno de cada diez estudiantes falta bastante más, para que se vean las alertas de inasistencia
+        $absenceRate = [];
         foreach ($assignments as $assignment) {
             $enrollments = $assignment->section->enrollments->where('status', EnrollmentStatus::Active);
             foreach ($days as $day) {
@@ -243,6 +245,7 @@ class TeachingDemoSeeder extends Seeder
                 }
                 $period = $year->periodFor($day);
                 foreach ($enrollments as $enrollment) {
+                    $rate = $absenceRate[$enrollment->id] ??= ($enrollment->id % 10 === 3 ? 18 : 4);
                     $roll = mt_rand(1, 100);
                     $rows[] = [
                         'enrollment_id' => $enrollment->id,
@@ -250,9 +253,9 @@ class TeachingDemoSeeder extends Seeder
                         'period_id' => $period->id,
                         'date' => $day->toDateString(),
                         'status' => match (true) {
-                            $roll <= 4 => AttendanceStatus::Absent->value,
-                            $roll <= 7 => AttendanceStatus::Late->value,
-                            $roll <= 8 => AttendanceStatus::Excused->value,
+                            $roll <= $rate => AttendanceStatus::Absent->value,
+                            $roll <= $rate + 3 => AttendanceStatus::Late->value,
+                            $roll <= $rate + 4 => AttendanceStatus::Excused->value,
                             default => AttendanceStatus::Present->value,
                         },
                         'recorded_by' => $assignment->teacher_id,

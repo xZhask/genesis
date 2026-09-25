@@ -10,7 +10,7 @@
         <div class="error-summary" role="alert"><p>{{ $message }}</p></div>
     @enderror
 
-    <section class="contact-group" aria-labelledby="pendientes-title">
+    <section aria-labelledby="pendientes-title">
         <h2 id="pendientes-title" class="section-title">Por revisar ({{ $pending->count() }})</h2>
 
         @forelse ($pending as $item)
@@ -58,7 +58,7 @@
     </section>
 
     @if ($history->isNotEmpty())
-        <section class="contact-group" aria-labelledby="historial-title">
+        <section aria-labelledby="historial-title">
             <h2 id="historial-title" class="section-title">Revisadas</h2>
             <div class="table-wrap">
                 <table class="table">

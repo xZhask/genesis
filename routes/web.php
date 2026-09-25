@@ -132,6 +132,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin', 'passw
         Route::put('/anos/{year:year}/periodos', [Admin\Academic\PeriodController::class, 'update'])->name('periods.update');
         Route::get('/anos/{year:year}/escala', [Admin\Academic\GradingScaleController::class, 'edit'])->name('scale.edit');
         Route::put('/anos/{year:year}/escala', [Admin\Academic\GradingScaleController::class, 'update'])->name('scale.update');
+        Route::get('/alertas', [Admin\Academic\AlertController::class, 'index'])->name('alerts');
         Route::get('/periodos/{period}/avance', [Admin\Academic\GradingProgressController::class, 'show'])->name('periods.progress');
         Route::post('/periodos/{period}/cerrar', [Admin\Academic\PeriodController::class, 'close'])->name('periods.close');
         Route::post('/periodos/{period}/reabrir', [Admin\Academic\PeriodController::class, 'reopen'])->name('periods.reopen');

@@ -110,6 +110,15 @@
                     </x-field>
                 </section>
 
+                <section class="panel" aria-labelledby="alertas-title">
+                    <h2 id="alertas-title">Alertas del portal</h2>
+                    <p class="hint">Los docentes y la administración ven qué estudiantes necesitan acompañamiento. Las familias no ven estas alertas.</p>
+                    <x-field name="alert_absences" label="Faltas sin excusa para la alerta de inasistencia" hint="Por materia, dentro del periodo. Las llegadas tarde y las faltas con excusa no cuentan.">
+                        <input id="alert_absences" name="alert_absences" type="number" min="1" max="30" inputmode="numeric" required
+                            value="{{ old('alert_absences', $school['alerts']['absences']) }}" aria-describedby="alert_absences-hint">
+                    </x-field>
+                </section>
+
                 <p class="muted-panel panel">
                     El nombre, la dirección, el teléfono y las declaraciones del colegio (misión, visión, valores) no se editan aquí:
                     son textos oficiales y se cambian con el equipo de desarrollo.

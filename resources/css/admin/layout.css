@@ -3,6 +3,12 @@
     background: var(--bg-soft);
 }
 
+/* El relleno amplio de las secciones es de la web pública; aquí no aplica
+   (:where no suma especificidad, así .panel conserva el suyo) */
+:where(.admin-body) section {
+    padding: 0;
+}
+
 .admin-wrap {
     width: min(1240px, 100% - 32px);
     margin-inline: auto;

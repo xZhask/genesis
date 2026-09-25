@@ -29,6 +29,7 @@ class Settings
         'report_card.nit',
         'report_card.campus',
         'report_card.rector',
+        'alerts.absences',
     ];
 
     private const CACHE_KEY = 'school-settings';

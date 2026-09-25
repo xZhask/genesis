@@ -10,6 +10,7 @@ use App\Models\Period;
 use App\Models\PeriodReport;
 use App\Models\SchoolYear;
 use App\Models\Section;
+use App\Support\AcademicAlerts;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -44,6 +45,7 @@ class HomeroomController extends Controller
             'enrollments' => $enrollments,
             'reports' => PeriodReport::where('period_id', $period->id)->whereIn('enrollment_id', $enrollments->pluck('id'))->get()->keyBy('enrollment_id'),
             'scale' => GradingScale::forYear($year),
+            'alerts' => AcademicAlerts::forSections($year, collect([$section])),
         ]);
     }
 

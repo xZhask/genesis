@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Attendance;
 use App\Models\SchoolYear;
 use App\Models\TeacherAssignment;
+use App\Support\AcademicAlerts;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -46,6 +47,7 @@ class TeacherPortalController extends Controller
             'taken' => $taken,
             'homerooms' => $year ? $user->homeroomSections()->where('school_year_id', $year->id)->with('grade')->withCount(['enrollments' => fn ($q) => $q->where('status', EnrollmentStatus::Active)])->get() : collect(),
             'period' => $year?->periodFor(today()),
+            'alerts' => $year && $assignments->isNotEmpty() ? AcademicAlerts::forTeacher($user, $year) : null,
         ]);
     }
 

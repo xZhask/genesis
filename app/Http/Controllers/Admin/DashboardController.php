@@ -14,7 +14,9 @@ use App\Models\GalleryAlbum;
 use App\Models\GalleryPhoto;
 use App\Models\Post;
 use App\Models\Resource;
+use App\Models\SchoolYear;
 use App\Models\VolunteerApplication;
+use App\Support\AcademicAlerts;
 use Illuminate\View\View;
 
 class DashboardController extends Controller
@@ -33,6 +35,7 @@ class DashboardController extends Controller
             'pending' => ($counts[AdmissionStatus::Received->value] ?? 0),
             'newVolunteers' => VolunteerApplication::where('status', VolunteerStatus::New)->count(),
             'contactChanges' => ContactUpdateRequest::pending()->count(),
+            'alertStudents' => ($year = SchoolYear::current()) ? AcademicAlerts::forSections($year, $year->sections()->with('grade')->get())->studentCount() : 0,
             'upcomingInterviews' => AdmissionRequest::where('status', AdmissionStatus::InterviewScheduled)
                 ->where('interview_at', '>=', now()->startOfDay())
                 ->orderBy('interview_at')

@@ -39,6 +39,7 @@ class SettingsTest extends TestCase
             'support_notify_email' => 'voluntarios@genesis.test',
             'office_hours' => "Secretaría: lunes a viernes, 7:00 a. m. – 3:00 p. m.\n",
             'whatsapp_enabled' => '1',
+            'alert_absences' => '4',
             ...$overrides,
         ];
     }
@@ -54,6 +55,7 @@ class SettingsTest extends TestCase
         $this->assertSame(['Registro civil', 'Fotos 3x4'], config('school.admissions.requirements'));
         $this->assertSame(['preschool', 'primary'], config('school.admissions.costs.0.levels'), 'Los niveles del grupo se conservan');
         $this->assertSame('admisiones@genesis.test', config('school.admissions.notify_email'));
+        $this->assertSame(4, config('school.alerts.absences'));
         $this->assertSame($this->admin->id, Setting::find('admissions.costs')->updated_by);
 
         $this->get(route('admissions'))

@@ -9,6 +9,17 @@
         </p>
     </div>
 
+    @if ($alerts && ! $alerts->isEmpty())
+        @php
+            $summary = array_filter([
+                ($low = $alerts->lowPerformance()->pluck('enrollment.id')->unique()->count()) ? trans_choice(':count en bajo rendimiento|:count en bajo rendimiento', $low) : null,
+                ($absent = $alerts->absences()->pluck('enrollment.id')->unique()->count()) ? trans_choice(':count con inasistencia|:count con inasistencia', $absent) : null,
+                $alerts->birthdays()->count() ? trans_choice(':count cumpleaños esta semana|:count cumpleaños esta semana', $alerts->birthdays()->count()) : null,
+            ]);
+        @endphp
+        <p class="alert-strip"><a href="#alertas-title">Alertas: {{ implode(' · ', $summary) }} ↓</a></p>
+    @endif
+
     @if (! $year)
         <p class="empty panel">El colegio todavía no ha configurado el año lectivo. Cuando lo haga, aquí verás tus clases.</p>
     @elseif ($assignments->isEmpty())
@@ -18,7 +29,9 @@
             <h2 id="clases-title" class="sr-only">Mis clases de {{ $year->year }}</h2>
             <ul class="class-grid">
                 @foreach ($assignments as $assignment)
-                    @php($done = in_array($assignment->section_id.'|'.$assignment->subject_id, $taken, true))
+                    @php
+                        $done = in_array($assignment->section_id.'|'.$assignment->subject_id, $taken, true);
+                    @endphp
                     <li class="class-card">
                         <p class="class-section">{{ $assignment->section->label() }}</p>
                         <h3>{{ $assignment->subject->name }}</h3>
@@ -35,6 +48,10 @@
                 @endforeach
             </ul>
         </section>
+    @endif
+
+    @if ($alerts)
+        @include('portal.partials.alerts', ['alerts' => $alerts])
     @endif
 
     @if ($homerooms->isNotEmpty())

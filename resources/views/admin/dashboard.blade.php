@@ -28,6 +28,9 @@
             @else
                 No hay solicitudes ni voluntarios nuevos por atender.
             @endif
+            @if ($alertStudents)
+                <br><a href="{{ route('admin.academic.alerts') }}">{{ trans_choice(':count estudiante con alertas|:count estudiantes con alertas', $alertStudents) }}</a> de rendimiento o inasistencia.
+            @endif
         </p>
     </div>
 
