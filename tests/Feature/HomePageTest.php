@@ -18,7 +18,7 @@ class HomePageTest extends TestCase
         $this->get(route('home'))
             ->assertOk()
             ->assertSee('Aquí se aprende con alegría y se crece con propósito')
-            ->assertSee('href="'.route('admissions').'"', false)
+            ->assertSee('href="'.route('admissions').'#solicitud"', false)
             ->assertSee('Ingresar al portal')
             ->assertSeeInOrder(['Preescolar', 'Básica primaria', 'Básica secundaria'])
             ->assertSeeInOrder(['Párvulos', 'Prejardín', 'Jardín', 'Transición'])

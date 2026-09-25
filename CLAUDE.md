@@ -6,7 +6,7 @@ Niveles: **Preescolar (Párvulos, Prejardín, Jardín, Transición), Básica pri
 Documentos que debes leer según la tarea:
 - @docs/contenido-institucional.md — declaraciones formales del colegio (misión, visión, valores, contacto, costos) y contexto. Ver "Textos de la web" más abajo.
 - @docs/alcance-y-modelo.md — módulos, roles, modelo de datos y reglas del portal.
-- @docs/pendientes.md — decisiones que el colegio aún no toma. Si una tarea depende de una de ellas, **pregunta antes de suponer**.
+- @docs/pendientes.md — decisiones que el colegio aún no toma. Si una tarea depende de una de ellas, usa un valor provisional razonable, déjalo configurable y **regístralo en la tabla de provisionales** de ese archivo (sin inventar cifras, testimonios ni cuentas).
 - `referencia/mockup-inicio/index.html` — diseño aprobado de la página de inicio. Es la guía visual: respeta colores, tipografía, espaciados y estructura.
 - `referencia/folleto-*.png` — folleto oficial del colegio. Es contexto y referencia de tono, no una regla de diseño ni de redacción.
 

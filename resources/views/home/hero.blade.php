@@ -20,7 +20,7 @@
                 valores cristianos, inglés fortalecido y acompañamiento cercano a cada familia.
             </p>
             <div class="ctas">
-                <a class="btn btn-sol" href="{{ route('admissions') }}"><x-icon name="form" /> Solicitar matrícula</a>
+                <a class="btn btn-sol" href="{{ route('admissions') }}#solicitud"><x-icon name="form" /> Solicitar matrícula</a>
                 <a class="btn btn-line" href="{{ route('login') }}"><x-icon name="lock" /> Ingresar al portal</a>
             </div>
             <p class="motto">{{ config('school.motto') }}</p>

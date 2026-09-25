@@ -11,7 +11,7 @@
                     <li>Matrícula</li>
                 </ol>
             </div>
-            <a class="btn btn-sol" href="{{ route('admissions') }}"><x-icon name="form" /> Solicitar matrícula</a>
+            <a class="btn btn-sol" href="{{ route('admissions') }}#solicitud"><x-icon name="form" /> Solicitar matrícula</a>
         </div>
     </div>
 </section>

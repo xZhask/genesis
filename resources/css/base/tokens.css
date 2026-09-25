@@ -50,6 +50,10 @@
     --tint-verde: #E8F6E9;
     --tint-sol: #FEF3DC;
 
+    /* Errores de formulario */
+    --error-ink: #B42318;
+    --error-bg: #FDECEA;
+
     /* Foco: navy sobre claro; amarillo sobre oscuro (ver .on-dark) */
     --focus: #104976;
 
@@ -100,6 +104,9 @@
     --tint-azul: #1B3656;
     --tint-verde: #173A26;
     --tint-sol: #3A2E12;
+
+    --error-ink: #FF9B8F;
+    --error-bg: #3A1D22;
 
     --focus: #F6B91C;
 

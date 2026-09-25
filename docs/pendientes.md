@@ -1,6 +1,20 @@
 # Decisiones pendientes del colegio
 
-**Regla para Claude Code:** si una tarea depende de un punto de esta lista, no lo supongas. Usa el valor provisional indicado (si existe), déjalo configurable y avisa que está pendiente. Cuando el colegio decida, se marca aquí con ✅ y la fecha.
+**Regla para Claude Code:** si una tarea depende de un punto de esta lista, usa el valor provisional indicado o, si no hay, uno razonable; déjalo configurable y **anótalo en la tabla de abajo**. La web se construye como quedará terminada. Excepción: nunca se inventan datos que se presenten como hechos verificables (cifras, testimonios, cuentas bancarias, donantes); esos siguen ocultos o solo en el contenido de ejemplo (`DEMO_CONTENT`). Cuando el colegio decida, se marca aquí con ✅ y la fecha.
+
+## Publicado con valores provisionales
+
+Datos que ya se ven en la web y que el colegio debe confirmar antes de salir a producción.
+
+| Dato | Valor provisional | Dónde se cambia |
+|---|---|---|
+| Textos del hero, niveles, pasos de admisión y microcopy | Borradores de UX | Vistas en `resources/views/home/` y `resources/views/admissions/` |
+| Año lectivo de la pre-inscripción y de los costos | 2027 | `config/school.php` → `admissions.school_year` |
+| Costos | Los del folleto: preescolar y primaria $ 111.000 / $ 99.900; secundaria $ 299.700 / $ 244.200 | `config/school.php` → `admissions.costs` |
+| Requisitos y documentos de matrícula | Lista habitual en Colombia (registro civil, documentos del acudiente, certificados, paz y salvo, EPS, vacunas, fotos) | `config/school.php` → `admissions.requirements` |
+| Tiempo de respuesta a una solicitud | "3 días hábiles" | `config/school.php` → `admissions.response_time` |
+| Correo que recibe los avisos de pre-inscripción | cecgenesis16@gmail.com | `config/school.php` → `admissions.notify_email` |
+| Política de tratamiento de datos | Borrador basado en la Ley 1581 de 2012 y el Decreto 1377 de 2013, sin NIT ni representante legal. **Requiere revisión legal** | `resources/views/pages/privacy.blade.php` y `config/school.php` → `privacy_policy_version` |
 
 ## Diseño y contenido
 - [ ] **Tipografía de títulos:** Baloo 2, Baloo 2 ligera, Nunito o Poppins (hay un selector en el mockup para comparar). *Provisional: Nunito.*
@@ -13,8 +27,10 @@
 - [ ] **Edades por grado de preescolar**, ahora que incluye Párvulos.
 
 ## Admisiones y pagos
-- [ ] **Año lectivo** de los costos del folleto y si se publican en la web. *Provisional: mostrarlos en Admisiones, editables, con el año lectivo.*
-- [ ] **Requisitos y documentos** de matrícula.
+- [ ] **Año lectivo** de los costos del folleto y si se publican en la web. *Provisional: 2027, visibles en Admisiones (ver tabla de provisionales).*
+- [ ] **Requisitos y documentos** de matrícula. *Provisional: lista habitual en Colombia (ver tabla de provisionales).*
+- [ ] **Tiempo de respuesta** a una pre-inscripción y **quién recibe los avisos**. *Provisional: 3 días hábiles; cecgenesis16@gmail.com.*
+- [ ] **Revisión legal de la política de tratamiento de datos** (borrador publicado en `/politica-de-datos`).
 - [ ] **Datos bancarios reales** para donaciones (banco, tipo y número de cuenta, titular, NIT, Nequi o Daviplata).
 - [ ] **¿Se mantiene la sección de donaciones y voluntariado?** Estaba en la solicitud original, pero no aparece en el folleto.
 - [ ] **Pagos en línea** (PSE): solo en fase 3 y si el colegio lo confirma.

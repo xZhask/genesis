@@ -1,0 +1,48 @@
+/* Encabezado de las páginas internas */
+.page-head {
+    padding: 64px 0 56px;
+    background:
+        radial-gradient(900px 420px at 88% 0%, var(--bg-soft), transparent 70%),
+        radial-gradient(600px 380px at 0% 100%, var(--bg-mint), transparent 70%);
+}
+
+.page-head .eyebrow {
+    display: inline-block;
+    color: var(--verde-ink);
+    font-weight: 700;
+    font-size: .92rem;
+    letter-spacing: .02em;
+    margin-bottom: 10px;
+}
+
+.page-head h1 {
+    font-size: clamp(2.2rem, 5vw, 3.2rem);
+    font-weight: var(--wd-x);
+    letter-spacing: var(--hero-ls);
+}
+
+.page-head .lead {
+    font-size: 1.15rem;
+    max-width: 60ch;
+}
+
+.page-head .actions {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-top: 28px;
+}
+
+.wrap.narrow {
+    width: min(820px, 100% - 40px);
+}
+
+@media (max-width: 640px) {
+    .page-head {
+        padding: 44px 0 40px;
+    }
+
+    .page-head .actions {
+        flex-direction: column;
+    }
+}

@@ -1,0 +1,282 @@
+/* Admisiones */
+.adm-steps {
+    padding-top: 72px;
+}
+
+.process {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    counter-reset: none;
+}
+
+.process li {
+    position: relative;
+    display: grid;
+    gap: 14px;
+    align-content: start;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    padding: 22px;
+}
+
+.process .num {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    background: var(--tint-azul);
+    color: var(--azul-ink);
+    font: var(--wd-x) 1.35rem/1 var(--font-d);
+}
+
+.process li:last-child .num {
+    background: var(--sol);
+    color: var(--on-sol);
+}
+
+.process h3 {
+    font-size: 1.2rem;
+}
+
+.process p {
+    color: var(--muted);
+    font-size: .95rem;
+    margin-top: 6px;
+}
+
+/* Costos y documentos */
+.adm-info {
+    background: var(--bg-soft);
+}
+
+.adm-info-grid {
+    display: grid;
+    grid-template-columns: 1.1fr .9fr;
+    gap: 40px;
+}
+
+.adm-info .shead {
+    margin-bottom: 24px;
+}
+
+.adm-info h2 {
+    font-size: clamp(1.7rem, 3vw, 2.2rem);
+}
+
+.costs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.cost {
+    --c: var(--azul);
+    --c-ink: var(--azul-ink);
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-top: 6px solid var(--c);
+    border-radius: var(--r-md);
+    padding: 20px 22px;
+}
+
+.cost h3 {
+    font-size: 1.15rem;
+    color: var(--c-ink);
+}
+
+.cost dl {
+    margin: 14px 0 0;
+    display: grid;
+    gap: 12px;
+}
+
+.cost dt {
+    font-size: .88rem;
+    color: var(--muted);
+    font-weight: 600;
+}
+
+.cost dt small {
+    font-weight: 500;
+}
+
+.cost dd {
+    margin: 0;
+    font: var(--wd-x) 1.6rem/1.1 var(--font-d);
+    color: var(--navy);
+}
+
+.adm-info .note {
+    margin-top: 14px;
+    font-size: .88rem;
+    color: var(--muted);
+}
+
+.requirements {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    padding: 22px 24px;
+}
+
+.requirements > p {
+    color: var(--muted);
+    font-size: .95rem;
+}
+
+.requirements ul {
+    margin: 14px 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 10px;
+}
+
+.requirements li {
+    display: flex;
+    gap: 10px;
+    font-size: .95rem;
+}
+
+.requirements li::before {
+    content: "";
+    flex: none;
+    width: 8px;
+    height: 8px;
+    margin-top: 9px;
+    border-radius: 50%;
+    background: var(--verde);
+}
+
+/* Formulario */
+.adm-form {
+    background: var(--bg-mint);
+}
+
+/* Confirmación */
+.thanks {
+    padding: 64px 0 96px;
+    background:
+        radial-gradient(900px 420px at 88% 0%, var(--bg-soft), transparent 70%),
+        radial-gradient(600px 380px at 0% 100%, var(--bg-mint), transparent 70%);
+}
+
+.thanks-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    box-shadow: var(--shadow);
+    padding: 40px;
+    text-align: center;
+}
+
+.check-badge {
+    display: inline-grid;
+    place-items: center;
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    background: var(--verde);
+    color: #fff;
+    margin-bottom: 18px;
+}
+
+.check-badge svg {
+    width: 36px;
+    height: 36px;
+}
+
+.thanks h1 {
+    font-size: clamp(2rem, 4.5vw, 2.8rem);
+    font-weight: var(--wd-x);
+}
+
+.thanks .lead {
+    margin-inline: auto;
+}
+
+.thanks .code {
+    display: grid;
+    gap: 4px;
+    margin: 28px auto;
+    max-width: 420px;
+    background: var(--bg-soft);
+    border: 2px dashed var(--line);
+    border-radius: var(--r-md);
+    padding: 18px;
+}
+
+.thanks .code span {
+    font-weight: 600;
+    color: var(--muted);
+    font-size: .9rem;
+}
+
+.thanks .code strong {
+    font: var(--wd-x) 2rem/1.2 var(--font-d);
+    color: var(--navy);
+    letter-spacing: .04em;
+}
+
+.thanks .code small {
+    color: var(--muted);
+}
+
+.thanks h2 {
+    font-size: 1.4rem;
+}
+
+.thanks .next {
+    text-align: left;
+    max-width: 520px;
+    margin: 14px auto 0;
+    padding-left: 22px;
+    display: grid;
+    gap: 8px;
+}
+
+.thanks .actions {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-top: 30px;
+}
+
+@media (max-width: 980px) {
+    .process {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .adm-info-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    .process {
+        grid-template-columns: 1fr;
+    }
+
+    .process li {
+        grid-template-columns: auto 1fr;
+    }
+
+    .costs {
+        grid-template-columns: 1fr;
+    }
+
+    .thanks-card {
+        padding: 28px 20px;
+    }
+
+    .thanks .actions {
+        flex-direction: column;
+    }
+}

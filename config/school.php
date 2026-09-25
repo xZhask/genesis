@@ -63,6 +63,7 @@ return [
             'icon' => 'blocks',
             'tone' => 't-verde',
             'tag' => 'Primera infancia',
+            'grades' => ['Párvulos', 'Prejardín', 'Jardín', 'Transición'],
             'topics' => ['Párvulos', 'Prejardín', 'Jardín', 'Transición'],
             'summary' => 'Aprenden jugando, explorando y creando, en un ambiente seguro y afectuoso.',
         ],
@@ -72,6 +73,7 @@ return [
             'icon' => 'book',
             'tone' => 't-sol',
             'tag' => '1.° a 5.°',
+            'grades' => ['1.°', '2.°', '3.°', '4.°', '5.°'],
             'topics' => ['Lectura y escritura', 'Matemáticas', 'Inglés'],
             'summary' => 'Bases sólidas en lectura, pensamiento lógico e inglés, con proyectos que despiertan la curiosidad por la ciencia y el entorno.',
         ],
@@ -81,6 +83,7 @@ return [
             'icon' => 'cap',
             'tone' => 't-azul',
             'tag' => '6.° a 9.°',
+            'grades' => ['6.°', '7.°', '8.°', '9.°'],
             'topics' => ['Ciencias', 'Tecnología', 'Inglés'],
             'summary' => 'Formación académica exigente, proyecto de vida y liderazgo, para que cada joven avance con propósito y valores firmes.',
         ],
@@ -96,6 +99,42 @@ return [
         'volunteer_photos' => [], // rutas dentro de public/
         'donors' => [],          // nombres de donantes o aliados
     ],
+
+    /*
+    | Admisiones. Valores provisionales registrados en docs/pendientes.md.
+    | Más adelante los costos y requisitos serán editables desde el panel admin.
+    */
+    'admissions' => [
+        'school_year' => 2027,
+        'notify_email' => 'cecgenesis16@gmail.com',
+        'response_time' => '3 días hábiles',
+        'costs' => [
+            [
+                'label' => 'Preescolar y primaria',
+                'levels' => ['preschool', 'primary'],
+                'enrollment' => 111000,
+                'monthly' => 99900,
+            ],
+            [
+                'label' => 'Secundaria',
+                'levels' => ['secondary'],
+                'enrollment' => 299700,
+                'monthly' => 244200,
+            ],
+        ],
+        'requirements' => [
+            'Registro civil de nacimiento del estudiante (y tarjeta de identidad desde los 7 años).',
+            'Copia del documento de identidad del acudiente.',
+            'Certificados de estudio o boletines de los años cursados (desde 1.°).',
+            'Paz y salvo del colegio anterior, si aplica.',
+            'Certificado de afiliación a la EPS.',
+            'Carné de vacunación (preescolar).',
+            'Dos fotos tamaño documento.',
+        ],
+    ],
+
+    // Versión de la política aceptada en los formularios (se guarda con cada solicitud).
+    'privacy_policy_version' => '2026-09-borrador',
 
     // Contenido de ejemplo para revisar el diseño en local. Nunca en producción.
     'demo_content' => env('DEMO_CONTENT', false),

@@ -1,0 +1,60 @@
+/* Textos largos (política de datos y similares) */
+.legal {
+    padding-top: 48px;
+}
+
+.prose {
+    font-size: 1.02rem;
+}
+
+.prose h2 {
+    font-size: 1.5rem;
+    margin: 40px 0 12px;
+}
+
+.prose p + p,
+.prose p + ul,
+.prose ul + p {
+    margin-top: 12px;
+}
+
+.prose ul {
+    padding-left: 22px;
+    display: grid;
+    gap: 8px;
+}
+
+.prose a {
+    color: var(--azul-ink);
+    font-weight: 600;
+}
+
+.toc {
+    background: var(--bg-soft);
+    border-radius: var(--r-md);
+    padding: 18px 22px;
+}
+
+.toc ol {
+    margin: 0;
+    padding-left: 20px;
+    columns: 2;
+    column-gap: 32px;
+}
+
+.toc li {
+    padding-block: 3px;
+    break-inside: avoid;
+}
+
+.prose .version {
+    margin-top: 28px;
+    font-size: .88rem;
+    color: var(--muted);
+}
+
+@media (max-width: 640px) {
+    .toc ol {
+        columns: 1;
+    }
+}
