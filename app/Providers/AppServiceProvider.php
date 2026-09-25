@@ -33,6 +33,7 @@ class AppServiceProvider extends ServiceProvider
 
         // Formularios públicos: máximo 5 solicitudes por hora desde la misma IP
         RateLimiter::for('admissions', fn (Request $request) => Limit::perHour(5)->by($request->ip()));
+        RateLimiter::for('volunteers', fn (Request $request) => Limit::perHour(5)->by($request->ip()));
 
         // Formatos de fecha y hora en pantalla (convenciones del proyecto)
         // "18 de septiembre de 2026"

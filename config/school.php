@@ -96,14 +96,14 @@ return [
     ],
 
     /*
-    | Apóyanos. Pendiente: si el colegio mantiene la sección y sus datos
-    | bancarios reales. Lo que esté vacío no se muestra.
+    | Apóyanos. Las cuentas, los donantes y los testimonios se gestionan en
+    | /admin/apoyanos; lo que esté vacío no se muestra. Pendiente: si el
+    | colegio mantiene la sección y sus datos bancarios reales.
     */
     'support' => [
-        'accounts' => [],        // [['label' => 'Bancolombia, cuenta de ahorros', 'value' => '…'], …]
-        'testimonial' => null,   // ['quote' => '…', 'author' => 'Nombre, relación con el colegio']
-        'volunteer_photos' => [], // rutas dentro de public/
-        'donors' => [],          // nombres de donantes o aliados
+        // Correo que recibe los avisos de nuevos voluntarios (provisional)
+        'notify_email' => 'cecgenesis16@gmail.com',
+        'volunteer_photos' => [], // rutas dentro de public/ (fotos del voluntariado en el inicio)
     ],
 
     /*

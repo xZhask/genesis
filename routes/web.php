@@ -7,6 +7,7 @@ use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\ResourceController;
+use App\Http\Controllers\SupportController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomeController::class)->name('home');
@@ -36,8 +37,11 @@ Route::get('/galeria/{album}', [GalleryController::class, 'show'])->name('galler
 Route::get('/recursos', [ResourceController::class, 'index'])->name('resources');
 Route::get('/recursos/circulares', [ResourceController::class, 'circulars'])->name('resources.circulars');
 
-// Página temporal: se reemplaza al construir su sección.
-Route::view('/apoyanos', 'pages.coming-soon', ['title' => 'Apóyanos'])->name('support');
+// Apóyanos: donaciones, voluntariado y aliados
+Route::get('/apoyanos', [SupportController::class, 'show'])->name('support');
+Route::post('/apoyanos/voluntariado', [SupportController::class, 'storeVolunteer'])
+    ->middleware('throttle:volunteers')
+    ->name('support.volunteer');
 
 // Inicio de sesión y recuperación de contraseña: Fortify (config/fortify.php)
 
@@ -73,4 +77,26 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->grou
         ->parameters(['recursos' => 'resource'])
         ->names('resources')
         ->except('show');
+
+    // Apóyanos: voluntarios (datos personales), cuentas, donantes y testimonios
+    Route::prefix('apoyanos')->group(function () {
+        Route::redirect('/', '/admin/apoyanos/voluntarios')->name('support');
+
+        Route::get('/voluntarios', [Admin\VolunteerApplicationController::class, 'index'])->name('volunteers.index');
+        Route::get('/voluntarios/{volunteer}', [Admin\VolunteerApplicationController::class, 'show'])->name('volunteers.show');
+        Route::put('/voluntarios/{volunteer}', [Admin\VolunteerApplicationController::class, 'update'])->name('volunteers.update');
+
+        Route::resource('cuentas', Admin\DonationAccountController::class)
+            ->parameters(['cuentas' => 'account'])
+            ->names('accounts')
+            ->except('show');
+        Route::resource('donantes', Admin\DonorController::class)
+            ->parameters(['donantes' => 'donor'])
+            ->names('donors')
+            ->except('show');
+        Route::resource('testimonios', Admin\TestimonialController::class)
+            ->parameters(['testimonios' => 'testimonial'])
+            ->names('testimonials')
+            ->except('show');
+    });
 });

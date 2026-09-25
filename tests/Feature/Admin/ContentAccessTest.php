@@ -3,50 +3,69 @@
 namespace Tests\Feature\Admin;
 
 use App\Enums\Role;
+use App\Models\DonationAccount;
+use App\Models\Donor;
 use App\Models\Event;
-use App\Models\GalleryAlbum;
 use App\Models\GalleryPhoto;
 use App\Models\Post;
 use App\Models\Resource;
+use App\Models\Testimonial;
 use App\Models\User;
+use App\Models\VolunteerApplication;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
-/** Solo el admin gestiona noticias, eventos, galería y recursos (regla de seguridad 2). */
+/**
+ * Solo el admin gestiona el contenido de la web: noticias, eventos, galería,
+ * recursos y Apóyanos (regla de seguridad 2).
+ */
 class ContentAccessTest extends TestCase
 {
     use RefreshDatabase;
 
-    private function requests(Post $post, Event $event, GalleryAlbum $album, Resource $resource): array
+    /** Un registro de cada tipo, para probar las URL de edición y borrado. */
+    private function records(): array
     {
+        $photo = GalleryPhoto::factory()->create();
+
         return [
-            ['GET', route('admin.posts.index')],
-            ['GET', route('admin.posts.create')],
-            ['POST', route('admin.posts.store')],
-            ['GET', route('admin.posts.edit', $post)],
-            ['PUT', route('admin.posts.update', $post)],
-            ['DELETE', route('admin.posts.destroy', $post)],
-            ['GET', route('admin.events.index')],
-            ['GET', route('admin.events.create')],
-            ['POST', route('admin.events.store')],
-            ['GET', route('admin.events.edit', $event)],
-            ['PUT', route('admin.events.update', $event)],
-            ['DELETE', route('admin.events.destroy', $event)],
-            ['GET', route('admin.albums.index')],
-            ['GET', route('admin.albums.create')],
-            ['POST', route('admin.albums.store')],
-            ['GET', route('admin.albums.edit', $album)],
-            ['PUT', route('admin.albums.update', $album)],
-            ['DELETE', route('admin.albums.destroy', $album)],
-            ['POST', route('admin.albums.photos.store', $album)],
-            ['PUT', route('admin.albums.photos.update', $album)],
-            ['GET', route('admin.resources.index')],
-            ['GET', route('admin.resources.create')],
-            ['POST', route('admin.resources.store')],
-            ['GET', route('admin.resources.edit', $resource)],
-            ['PUT', route('admin.resources.update', $resource)],
-            ['DELETE', route('admin.resources.destroy', $resource)],
+            'post' => Post::factory()->create(),
+            'event' => Event::factory()->create(),
+            'photo' => $photo,
+            'album' => $photo->album,
+            'resource' => Resource::factory()->create(),
+            'account' => DonationAccount::factory()->create(),
+            'donor' => Donor::factory()->create(),
+            'testimonial' => Testimonial::factory()->create(),
+            'volunteer' => VolunteerApplication::factory()->create(),
+        ];
+    }
+
+    private function requests(array $r): array
+    {
+        $crud = fn (string $name, $model) => [
+            ['GET', route("admin.{$name}.index")],
+            ['GET', route("admin.{$name}.create")],
+            ['POST', route("admin.{$name}.store")],
+            ['GET', route("admin.{$name}.edit", $model)],
+            ['PUT', route("admin.{$name}.update", $model)],
+            ['DELETE', route("admin.{$name}.destroy", $model)],
+        ];
+
+        return [
+            ...$crud('posts', $r['post']),
+            ...$crud('events', $r['event']),
+            ...$crud('albums', $r['album']),
+            ['POST', route('admin.albums.photos.store', $r['album'])],
+            ['PUT', route('admin.albums.photos.update', $r['album'])],
+            ...$crud('resources', $r['resource']),
+            ...$crud('accounts', $r['account']),
+            ...$crud('donors', $r['donor']),
+            ...$crud('testimonials', $r['testimonial']),
+            ['GET', route('admin.volunteers.index')],
+            ['GET', route('admin.volunteers.show', $r['volunteer'])],
+            ['PUT', route('admin.volunteers.update', $r['volunteer'])],
         ];
     }
 
@@ -62,28 +81,25 @@ class ContentAccessTest extends TestCase
     #[DataProvider('nonAdminRoles')]
     public function test_non_admin_roles_get_403(Role $role): void
     {
-        $post = Post::factory()->create();
-        $event = Event::factory()->create();
-        $photo = GalleryPhoto::factory()->create();
-        $album = $photo->album;
-        $resource = Resource::factory()->create();
+        $records = $this->records();
         $user = User::factory()->role($role)->create();
 
-        foreach ($this->requests($post, $event, $album, $resource) as [$method, $url]) {
-            $this->actingAs($user)->call($method, $url, ['title' => 'Intento', 'do' => "delete:{$photo->id}"])->assertForbidden();
+        foreach ($this->requests($records) as [$method, $url]) {
+            $this->actingAs($user)
+                ->call($method, $url, ['title' => 'Intento', 'status' => 'archived', 'do' => "delete:{$records['photo']->id}"])
+                ->assertForbidden();
         }
 
-        $this->assertModelExists($post);
-        $this->assertModelExists($event);
-        $this->assertModelExists($album);
-        $this->assertModelExists($photo);
-        $this->assertModelExists($resource);
+        foreach ($records as $model) {
+            $this->assertModelExists($model);
+        }
         $this->assertSame(1, Post::count());
+        $this->assertNotSame('archived', $records['volunteer']->fresh()->status->value);
     }
 
     public function test_guests_are_sent_to_login(): void
     {
-        foreach ($this->requests(Post::factory()->create(), Event::factory()->create(), GalleryAlbum::factory()->create(), Resource::factory()->create()) as [$method, $url]) {
+        foreach ($this->requests($this->records()) as [$method, $url]) {
             $this->call($method, $url)->assertRedirect(route('login'));
         }
     }

@@ -38,6 +38,7 @@
             <p>Solo pedimos los datos necesarios para cada finalidad:</p>
             <ul>
                 <li><strong>Solicitud de pre-inscripción:</strong> nombres, apellidos y fecha de nacimiento del estudiante, grado al que aspira y colegio actual; nombre, parentesco, celular y correo del acudiente, y los comentarios que quieras compartir.</li>
+                <li><strong>Voluntariado:</strong> nombre, celular, correo, formas de ayuda y disponibilidad que indiques, y el mensaje que quieras compartir.</li>
                 <li><strong>Matrícula y vida escolar:</strong> datos de identificación, contacto y salud necesarios para la prestación del servicio educativo, que se entregan en el proceso de matrícula.</li>
                 <li><strong>Portal académico:</strong> notas, asistencia, observaciones y boletines del estudiante. Solo pueden verlos el propio estudiante, sus acudientes y el personal autorizado del colegio.</li>
                 <li><strong>Navegación:</strong> la página usa cookies técnicas indispensables para su funcionamiento (por ejemplo, para mantener la sesión en el portal). No usamos cookies de publicidad.</li>
@@ -46,6 +47,7 @@
             <h2 id="finalidades">3. Para qué usamos los datos</h2>
             <ul>
                 <li>Gestionar las solicitudes de pre-inscripción y comunicarnos con la familia para agendar entrevistas.</li>
+                <li>Contactar a quienes se ofrecen como voluntarios y coordinar su participación.</li>
                 <li>Realizar la matrícula y prestar el servicio educativo.</li>
                 <li>Registrar y comunicar el desempeño académico, la asistencia y los boletines.</li>
                 <li>Enviar información institucional: circulares, calendario escolar, eventos y avisos importantes.</li>

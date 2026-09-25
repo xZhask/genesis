@@ -9,6 +9,7 @@
         'admin.events.index' => ['Eventos', 'admin.events.*'],
         'admin.albums.index' => ['Galería', 'admin.albums.*'],
         'admin.resources.index' => ['Recursos', 'admin.resources.*'],
+        'admin.volunteers.index' => ['Apóyanos', ['admin.volunteers.*', 'admin.accounts.*', 'admin.donors.*', 'admin.testimonials.*']],
     ];
 @endphp
 

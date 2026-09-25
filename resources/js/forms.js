@@ -1,5 +1,8 @@
 // Formularios: lleva el foco al resumen de errores y evita el doble envío.
 export function initForms() {
+    // Confirmación tras enviar (Apóyanos): el lector de pantalla la anuncia
+    document.querySelector('[data-sent]')?.focus();
+
     const summary = document.querySelector('[data-error-summary]');
     if (summary) {
         summary.scrollIntoView({ block: 'start' });

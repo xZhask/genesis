@@ -8,7 +8,9 @@ Datos que ya se ven en la web y que el colegio debe confirmar antes de salir a p
 
 | Dato | Valor provisional | Dónde se cambia |
 |---|---|---|
-| Textos del hero, niveles, pasos de admisión, títulos e introducciones de Nosotros y microcopy | Borradores de UX (las declaraciones formales son literales) | Vistas en `resources/views/home/`, `resources/views/admissions/`, `resources/views/resources/` y `resources/views/pages/about.blade.php` |
+| Textos del hero, niveles, pasos de admisión, títulos e introducciones de Nosotros, Recursos y Apóyanos, y microcopy | Borradores de UX (las declaraciones formales son literales) | Vistas en `resources/views/home/`, `resources/views/admissions/`, `resources/views/resources/`, `resources/views/support/` y `resources/views/pages/about.blade.php` |
+| Formas de ayudar como voluntario y disponibilidad | Mejorar espacios, apoyar eventos y salidas, compartir un oficio, leer con los niños, otra forma; entre semana mañana/tarde, fines de semana, actividades puntuales | `app/Enums/VolunteerArea.php` y `app/Enums/VolunteerAvailability.php` |
+| Correo que recibe los avisos de voluntariado | cecgenesis16@gmail.com | `config/school.php` → `support.notify_email` |
 | Año lectivo de la pre-inscripción y de los costos | 2027 | `config/school.php` → `admissions.school_year` |
 | Costos | Los del folleto: preescolar y primaria $ 111.000 / $ 99.900; secundaria $ 299.700 / $ 244.200 | `config/school.php` → `admissions.costs` |
 | Requisitos y documentos de matrícula | Lista habitual en Colombia (registro civil, documentos del acudiente, certificados, paz y salvo, EPS, vacunas, fotos) | `config/school.php` → `admissions.requirements` |
@@ -48,8 +50,15 @@ Datos que ya se ven en la web y que el colegio debe confirmar antes de salir a p
 - [ ] **Requisitos y documentos** de matrícula. *Provisional: lista habitual en Colombia (ver tabla de provisionales).*
 - [ ] **Tiempo de respuesta** a una pre-inscripción y **quién recibe los avisos**. *Provisional: 3 días hábiles; cecgenesis16@gmail.com.*
 - [ ] **Revisión legal de la política de tratamiento de datos** (borrador publicado en `/politica-de-datos`).
-- [ ] **Datos bancarios reales** para donaciones (banco, tipo y número de cuenta, titular, NIT, Nequi o Daviplata).
-- [ ] **¿Se mantiene la sección de donaciones y voluntariado?** Estaba en la solicitud original, pero no aparece en el folleto.
+- [ ] **¿Se mantiene la sección de donaciones y voluntariado?** Estaba en la solicitud original, pero no aparece en el folleto. *Provisional: la página `/apoyanos` está construida; en local se ve con datos ficticios marcados "(ejemplo)" y en producción arranca vacía.*
+- [ ] **Apóyanos: datos que el colegio debe entregar** (se cargan en `/admin/apoyanos`; lo que falte no se muestra):
+  - [ ] **Cuentas para donar:** banco, tipo y número de cuenta, titular, NIT; Nequi o Daviplata si aplica. Verificar el número con el banco antes de publicar.
+  - [ ] **Donantes y aliados** que autoricen aparecer con su nombre (y su página web, si quieren).
+  - [ ] **Testimonios reales** de voluntarios o aliados, con autorización escrita para publicar su nombre y sus palabras.
+  - [ ] **Fotos del voluntariado** (jornadas, arreglos), con autorización si aparecen menores. Se configuran en `config/school.php` → `support.volunteer_photos`.
+  - [ ] **¿Se emite certificado de donación** (beneficio tributario)? La web no lo promete hasta confirmarlo.
+  - [ ] **Formas reales de voluntariado** que el colegio acepta y **quién responde** a los voluntarios y en cuánto tiempo (la web solo dice "pronto te llamaremos").
+  - [ ] **¿El +57 321 797 5579 tiene WhatsApp?** Si sí, se activa el botón "¿Ya donaste? Cuéntanos por WhatsApp" (`config/school.php` → `whatsapp.enabled`).
 - [ ] **Pagos en línea** (PSE): solo en fase 3 y si el colegio lo confirma.
 
 ## Académico (necesario antes de la fase 2)

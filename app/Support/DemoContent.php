@@ -5,10 +5,10 @@ namespace App\Support;
 use Illuminate\Support\Collection;
 
 /**
- * Contenido de ejemplo para revisar el diseño en local mientras no existe el
- * módulo Apóyanos (noticias, eventos y galería ya salen de la base de datos;
- * las fotos de ejemplo solo aparecen si la galería está vacía). Nunca se
- * activa en producción.
+ * Contenido de ejemplo para revisar el diseño en local cuando la base de
+ * datos está vacía (el inicio lo usa solo para completar lo que falte:
+ * fotos de la galería y el resumen de Apóyanos). Nunca se activa en
+ * producción.
  *
  * Los datos usan el mismo formato que los reales, para que las vistas no
  * cambien cuando se reemplacen.

@@ -1,4 +1,4 @@
-/* Recursos en el admin */
+/* Recursos y Apóyanos en el admin */
 .field-group {
     display: grid;
     grid-template-columns: 2fr 1fr;
@@ -9,4 +9,38 @@
     .field-group {
         grid-template-columns: 1fr;
     }
+}
+
+/* Apóyanos: filtro por estado bajo las pestañas */
+.filters-inline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 18px;
+    margin: 0 0 16px;
+    border-bottom: 1px solid var(--line);
+}
+
+.filters-inline a {
+    min-height: 40px;
+    display: inline-flex;
+    align-items: center;
+    color: var(--muted);
+    font-size: .92rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -1px;
+}
+
+.filters-inline a:hover {
+    color: var(--text);
+}
+
+.filters-inline a[aria-current="page"] {
+    color: var(--azul-ink);
+    border-bottom-color: var(--azul-ink);
+}
+
+.tabs + .lead-sm {
+    margin: 0 0 16px;
 }

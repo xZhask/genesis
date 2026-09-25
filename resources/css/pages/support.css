@@ -1,0 +1,175 @@
+/* Apóyanos (reutiliza .give, .acct y .copy del inicio) */
+.support-page {
+    padding: 56px 0;
+    scroll-margin-top: 20px;
+}
+
+.support-page h2 {
+    font-size: clamp(1.7rem, 3.6vw, 2.3rem);
+    font-weight: var(--wd-x);
+}
+
+.donate {
+    background: var(--bg-soft);
+}
+
+.donate-grid,
+.volunteer-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: 40px;
+    align-items: start;
+}
+
+.donate-intro p {
+    color: var(--muted);
+    margin-top: 10px;
+    font-size: 1.05rem;
+}
+
+.donate-after {
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+}
+
+.donate-after h3 {
+    font-size: 1.15rem;
+}
+
+.acct .holder {
+    margin-top: 2px;
+}
+
+.give h3 {
+    font-size: 1.3rem;
+}
+
+.volunteer-intro .lead {
+    margin-top: 10px;
+}
+
+.ways {
+    list-style: none;
+    margin: 26px 0 0;
+    padding: 0;
+    display: grid;
+    gap: 16px;
+}
+
+.ways li {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+}
+
+.ways .ico {
+    flex: none;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    background: var(--tint-verde);
+    color: var(--verde-ink);
+}
+
+.ways .ico svg {
+    width: 22px;
+    height: 22px;
+}
+
+.ways strong {
+    display: block;
+}
+
+.ways span {
+    color: var(--muted);
+}
+
+.testimonial {
+    margin: 28px 0 0;
+    padding: 18px 20px;
+    border-left: 4px solid var(--sol);
+    background: var(--bg-soft);
+    border-radius: 0 var(--r-sm) var(--r-sm) 0;
+}
+
+.testimonial p {
+    font-size: 1.05rem;
+    font-style: italic;
+}
+
+.testimonial cite {
+    display: block;
+    margin-top: 8px;
+    font-style: normal;
+    font-weight: 700;
+    color: var(--muted);
+    font-size: .92rem;
+}
+
+.volunteer-form {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    padding: 28px;
+}
+
+.volunteer-form .form {
+    gap: 20px;
+}
+
+.sent h3 {
+    font-size: 1.5rem;
+    color: var(--verde-ink);
+}
+
+.sent p {
+    margin-top: 8px;
+}
+
+.allies {
+    background: var(--bg-soft);
+}
+
+.ally-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 14px;
+}
+
+.ally-list li {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    padding: 16px 18px;
+    display: grid;
+    gap: 4px;
+}
+
+.ally-list a {
+    color: var(--azul-ink);
+}
+
+.ally-list span {
+    color: var(--muted);
+    font-size: .92rem;
+}
+
+@media (max-width: 900px) {
+    .donate-grid,
+    .volunteer-grid {
+        grid-template-columns: 1fr;
+        gap: 28px;
+    }
+}
+
+@media (max-width: 520px) {
+    .volunteer-form {
+        padding: 20px 16px;
+    }
+}
