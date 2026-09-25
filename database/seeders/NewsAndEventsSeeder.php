@@ -6,6 +6,8 @@ use App\Enums\PostStatus;
 use App\Models\Event;
 use App\Models\Post;
 use App\Models\User;
+use App\Support\ImageResizer;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
 
@@ -20,14 +22,18 @@ class NewsAndEventsSeeder extends Seeder
         $admin = User::where('email', 'admin@genesis.test')->first();
 
         $posts = [
-            ['Nuestra feria de ciencias llenó el colegio de ideas', 'Estudiantes de primaria y secundaria presentaron sus proyectos ante las familias y jurados invitados.', 7],
-            ['Transición celebró el Día del Amor y la Amistad', 'Una mañana de juegos, cartas y compartir en familia.', 13],
-            ['Así vivimos la semana del idioma', 'Lecturas en voz alta, cuentos ilustrados y una feria del libro hecha por los niños.', 20],
-            ['Salida pedagógica de primaria a la ribera del río Magdalena', 'Los estudiantes de 4.° y 5.° aprendieron sobre el cuidado del agua y la fauna de nuestra región.', 34],
-            ['Taller para familias: acompañar las tareas en casa', 'Compartimos estrategias sencillas para crear hábitos de estudio con los niños.', 45],
+            // Portadas: imágenes provisionales de public/demo (no van a producción)
+            ['Nuestra feria de ciencias llenó el colegio de ideas', 'Estudiantes de primaria y secundaria presentaron sus proyectos ante las familias y jurados invitados.', 7,
+                'dia-ciencias.webp', 'Estudiantes muestran sus proyectos de ciencias a otros compañeros en el patio del colegio'],
+            ['Transición celebró el Día del Amor y la Amistad', 'Una mañana de juegos, cartas y compartir en familia.', 13,
+                'dia-amistad-amor.webp', 'Niños y niñas comparten cartas y juegos en la celebración del Día del Amor y la Amistad'],
+            ['Así vivimos la semana del idioma', 'Lecturas en voz alta, cuentos ilustrados y una feria del libro hecha por los niños.', 20,
+                'dia-idioma.webp', 'Estudiantes leen libros junto a una tarima decorada para el Día del Idioma'],
+            ['Salida pedagógica de primaria a la ribera del río Magdalena', 'Los estudiantes de 4.° y 5.° aprendieron sobre el cuidado del agua y la fauna de nuestra región.', 34, null, null],
+            ['Taller para familias: acompañar las tareas en casa', 'Compartimos estrategias sencillas para crear hábitos de estudio con los niños.', 45, null, null],
         ];
 
-        foreach ($posts as [$title, $excerpt, $daysAgo]) {
+        foreach ($posts as [$title, $excerpt, $daysAgo, $cover, $alt]) {
             $post = new Post([
                 'title' => $title,
                 'excerpt' => $excerpt,
@@ -36,6 +42,10 @@ class NewsAndEventsSeeder extends Seeder
                 'published_at' => now()->subDays($daysAgo)->setTime(9, 0),
             ]);
             $post->author_id = $admin?->id;
+            if ($cover && is_file($file = public_path("demo/{$cover}"))) {
+                $post->cover_path = ImageResizer::store(new UploadedFile($file, $cover, 'image/webp', null, true), 'posts');
+                $post->cover_alt = $alt;
+            }
             $post->save();
         }
 
