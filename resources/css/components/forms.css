@@ -70,6 +70,7 @@
 .form input[type="datetime-local"],
 .form input[type="password"],
 .form input[type="search"],
+.form input[type="time"],
 .form select,
 .form textarea {
     width: 100%;

@@ -83,7 +83,7 @@ Una sola aplicación Laravel con cuatro zonas:
 
 1. **Fase 1 — Web pública + panel admin de contenido:** inicio, nosotros, niveles, admisiones (pre-inscripción con estados), noticias, calendario, galería, apóyanos (voluntariado, donantes, datos bancarios), recursos para acudientes y footer con contacto y mapa. El admin gestiona noticias, eventos, galería, recursos y solicitudes de pre-inscripción.
 2. **Fase 2 — Portal académico:** estructura académica, usuarios y roles, asistencia, notas por periodo, objetivos del periodo, cierre de periodos, boletín en PDF, consultas del estudiante y del acudiente.
-3. **Fase 3 — Extras:** alertas (cumpleaños, bajo rendimiento, inasistencias), gráficos, correos automáticos, "Agregar a mi calendario" (.ics) y, solo si el colegio lo confirma, pagos en línea (PSE).
+3. **Fase 3 — Extras:** alertas (cumpleaños, bajo rendimiento, inasistencias), gráficos, correos automáticos (incluidos recordatorios de eventos) y, solo si el colegio lo confirma, pagos en línea (PSE). *El botón "Agregar a mi calendario" (.ics y Google Calendar) se adelantó a la fase 1 por decisión del 25 de septiembre de 2026.*
 
 **Fuera de alcance (no implementar):** notificaciones push, app móvil, chat en vivo y pagos en línea antes de la fase 3.
 

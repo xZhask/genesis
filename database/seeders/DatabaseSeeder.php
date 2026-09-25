@@ -44,5 +44,7 @@ class DatabaseSeeder extends Seeder
         });
 
         AdmissionRequest::factory()->create()->changeStatus(AdmissionStatus::Withdrawn, $admin, note: 'La familia se trasladó de municipio.');
+
+        $this->call(NewsAndEventsSeeder::class);
     }
 }

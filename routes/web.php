@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\Admin;
 use App\Http\Controllers\AdmissionController;
+use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\NewsController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomeController::class)->name('home');
@@ -19,10 +21,14 @@ Route::view('/politica-de-datos', 'pages.privacy')->name('privacy');
 Route::view('/nosotros', 'pages.about')->name('about');
 Route::permanentRedirect('/niveles', '/nosotros#niveles');
 
+// Calendario y noticias (una sola opción de menú; el calendario es la entrada principal)
+Route::get('/calendario', [CalendarController::class, 'index'])->name('calendar');
+Route::get('/calendario/{event}/agregar.ics', [CalendarController::class, 'ics'])->name('calendar.ics');
+Route::get('/noticias', [NewsController::class, 'index'])->name('news');
+Route::get('/noticias/{post}', [NewsController::class, 'show'])->name('news.show');
+
 // Páginas temporales: cada una se reemplaza al construir su sección.
 $comingSoon = [
-    'news' => ['/noticias', 'Noticias y eventos'],
-    'calendar' => ['/calendario', 'Calendario escolar'],
     'gallery' => ['/galeria', 'Galería'],
     'resources' => ['/recursos', 'Recursos para acudientes'],
     'support' => ['/apoyanos', 'Apóyanos'],
@@ -44,4 +50,14 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->grou
     Route::get('/solicitudes', [Admin\AdmissionRequestController::class, 'index'])->name('admissions.index');
     Route::get('/solicitudes/{admission}', [Admin\AdmissionRequestController::class, 'show'])->name('admissions.show');
     Route::put('/solicitudes/{admission}/estado', [Admin\AdmissionRequestController::class, 'updateStatus'])->name('admissions.status');
+
+    Route::resource('noticias', Admin\PostController::class)
+        ->parameters(['noticias' => 'post'])
+        ->names('posts')
+        ->except('show');
+
+    Route::resource('eventos', Admin\EventController::class)
+        ->parameters(['eventos' => 'event'])
+        ->names('events')
+        ->except('show');
 });

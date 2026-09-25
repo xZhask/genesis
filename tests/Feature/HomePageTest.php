@@ -2,10 +2,13 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class HomePageTest extends TestCase
 {
+    use RefreshDatabase;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -58,10 +61,6 @@ class HomePageTest extends TestCase
         $this->get(route('home'))
             ->assertOk()
             ->assertSee('Contenido de ejemplo para revisar el diseño')
-            ->assertSee('Noticias y eventos')
-            ->assertSee('18 de septiembre de 2026')
-            ->assertSee('7:00 a. m. · Sede principal')
-            ->assertSee('Del 5 al 9 de octubre')
             ->assertSee('Momentos Génesis')
             ->assertSee('data-copy="000-000000-00"', false);
     }

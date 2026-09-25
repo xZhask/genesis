@@ -13,7 +13,7 @@
     <a class="skip-link" href="#contenido">Saltar al contenido</a>
 
     @if ($demo)
-        <div class="demo-note">Contenido de ejemplo para revisar el diseño: noticias, eventos, fotos y cuentas no son reales.</div>
+        <div class="demo-note">Contenido de ejemplo para revisar el diseño: las fotos, las cuentas y los datos de prueba no son reales.</div>
     @endif
 
     @include('partials.topbar')

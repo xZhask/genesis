@@ -1,0 +1,417 @@
+/* Calendario y noticias */
+
+/* "Agregar a mi calendario": apariencia compacta del mockup, área táctil de 44 px */
+.add-cal {
+    position: relative;
+    margin-top: 6px;
+}
+
+.add-cal summary {
+    position: relative;
+    display: inline-block;
+    list-style: none;
+    cursor: pointer;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 4px 12px;
+    font: 600 .8rem var(--font-b);
+    color: var(--verde-ink);
+}
+
+.add-cal summary::-webkit-details-marker {
+    display: none;
+}
+
+.add-cal summary::after {
+    content: "";
+    position: absolute;
+    inset: -9px -4px;
+}
+
+.add-cal summary:hover,
+.add-cal[open] summary {
+    border-color: var(--verde);
+}
+
+.add-cal-menu {
+    position: absolute;
+    z-index: 10;
+    top: calc(100% + 6px);
+    left: 0;
+    min-width: 230px;
+    display: grid;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--r-sm);
+    box-shadow: var(--shadow);
+    padding: 6px;
+}
+
+.add-cal-menu a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    min-height: 44px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: .92rem;
+}
+
+.add-cal-menu a:hover {
+    background: var(--bg-soft);
+    color: var(--azul-ink);
+}
+
+.add-cal-menu small {
+    color: var(--muted);
+    font-weight: 500;
+}
+
+/* Etiqueta de nivel en un evento */
+.lvl {
+    font-weight: 700;
+}
+
+.lvl-preschool { color: var(--pre-ink); }
+.lvl-primary { color: var(--pri-ink); }
+.lvl-secondary { color: var(--sec-ink); }
+
+.ev .desc {
+    color: var(--muted);
+    font-size: .92rem;
+    margin-top: 4px;
+}
+
+/* Barra de vista y filtros */
+.cal {
+    padding-top: 40px;
+}
+
+.cal-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+}
+
+.segmented {
+    display: inline-flex;
+    padding: 4px;
+    background: var(--bg-soft);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+}
+
+.segmented a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 40px;
+    padding: 6px 20px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 700;
+    color: var(--muted);
+}
+
+.segmented a[aria-current="page"] {
+    background: var(--card);
+    color: var(--navy);
+    box-shadow: 0 2px 8px -3px rgba(16, 73, 118, .3);
+}
+
+.chips {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 2px;
+}
+
+.chips a {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    min-height: 40px;
+    padding: 6px 16px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--card);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: .92rem;
+}
+
+.chips a[aria-current="page"] {
+    background: var(--action);
+    border-color: var(--action);
+    color: var(--on-action);
+}
+
+/* Vista de lista */
+.cal-month + .cal-month {
+    margin-top: 36px;
+}
+
+.cal-month h2 {
+    font-size: 1.5rem;
+    padding-bottom: 10px;
+    margin-bottom: 4px;
+    border-bottom: 2px solid var(--line);
+}
+
+.cal-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.cal-list .ev {
+    padding: 16px 0;
+}
+
+.cal-list .ev strong {
+    font-size: 1.05rem;
+}
+
+.cal-empty {
+    color: var(--muted);
+    background: var(--bg-soft);
+    border-radius: var(--r-md);
+    padding: 20px 22px;
+}
+
+/* Vista de mes */
+.month-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.month-head h2 {
+    font-size: 1.6rem;
+    text-align: center;
+}
+
+.month-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    margin-bottom: 30px;
+}
+
+.month-grid .wd {
+    text-align: center;
+    font-size: .8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 6px 0;
+}
+
+.month-grid .day {
+    min-height: 96px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    overflow: hidden;
+}
+
+.month-grid .day.out {
+    background: transparent;
+    opacity: .45;
+}
+
+.month-grid .day.today {
+    border: 2px solid var(--azul-ink);
+}
+
+.month-grid .n {
+    font-weight: 700;
+    font-size: .88rem;
+}
+
+.month-grid .pill {
+    display: block;
+    font-size: .72rem;
+    font-weight: 600;
+    line-height: 1.25;
+    padding: 2px 6px;
+    border-radius: 6px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    background: var(--tint-azul);
+    color: var(--azul-ink);
+}
+
+.month-grid .pill.lvl-preschool { background: var(--tint-verde); color: var(--pre-ink); }
+.month-grid .pill.lvl-primary { background: var(--tint-sol); color: var(--pri-ink); }
+.month-grid .pill.more { background: transparent; color: var(--muted); }
+
+/* Noticias */
+.news-page {
+    padding-top: 40px;
+}
+
+.news-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+}
+
+.more-news {
+    margin-top: 22px;
+    text-align: center;
+}
+
+.more-news a {
+    font-weight: 700;
+    color: var(--azul-ink);
+}
+
+.events .h3 {
+    font-size: 1.35rem;
+    margin-bottom: 16px;
+}
+
+.pager {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.pager-info {
+    color: var(--muted);
+}
+
+/* Detalle de noticia */
+.article {
+    padding: 40px 0 72px;
+}
+
+.article .back a {
+    color: var(--azul-ink);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.article time {
+    display: block;
+    margin-top: 18px;
+    color: var(--muted);
+    font-weight: 600;
+}
+
+.article h1 {
+    font-size: clamp(2rem, 4.5vw, 2.9rem);
+    font-weight: var(--wd-x);
+    margin-top: 6px;
+}
+
+.article .lead {
+    font-size: 1.18rem;
+    max-width: none;
+}
+
+.article-cover {
+    margin: 30px auto;
+    width: min(1100px, 100% - 40px);
+}
+
+.article-cover img {
+    width: 100%;
+    max-height: 620px;
+    object-fit: cover;
+    border-radius: var(--r-lg);
+}
+
+.article .prose {
+    margin-top: 24px;
+    font-size: 1.08rem;
+}
+
+.prose p + p,
+.prose p + ul,
+.prose p + ol,
+.prose ul + p,
+.prose ol + p {
+    margin-top: 14px;
+}
+
+.prose h2,
+.prose h3 {
+    margin: 28px 0 10px;
+}
+
+.share {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 36px;
+    padding-top: 22px;
+    border-top: 1px solid var(--line);
+}
+
+.share span {
+    font-weight: 700;
+    margin-right: 6px;
+}
+
+.share-wa {
+    background: #1A7F43;
+    color: #fff;
+}
+
+@media (max-width: 980px) {
+    .news-row {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    .cal-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .segmented {
+        align-self: flex-start;
+    }
+
+    .month-grid .day {
+        min-height: 48px;
+        padding: 4px;
+        align-items: center;
+    }
+
+    /* En el celular, cada evento se ve como un punto; el detalle está en la lista */
+    .month-grid .pill {
+        font-size: 0;
+        width: 8px;
+        height: 8px;
+        padding: 0;
+        border-radius: 50%;
+        background: var(--azul);
+    }
+
+    .month-grid .pill.lvl-preschool { background: var(--pre); }
+    .month-grid .pill.lvl-primary { background: var(--pri); }
+    .month-grid .pill.more { display: none; }
+
+    .news-row {
+        grid-template-columns: 1fr;
+    }
+}

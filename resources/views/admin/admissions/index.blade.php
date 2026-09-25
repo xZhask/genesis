@@ -74,6 +74,6 @@
             </table>
         </div>
 
-        {{ $admissions->links('admin.partials.pagination') }}
+        {{ $admissions->links('partials.pagination') }}
     @endif
 </x-layouts.admin>

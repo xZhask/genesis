@@ -2,10 +2,13 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class AboutPageTest extends TestCase
 {
+    use RefreshDatabase;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -57,13 +60,14 @@ class AboutPageTest extends TestCase
             ->assertSee('href="'.route('about').'#secundaria"', false);
     }
 
-    public function test_menu_has_six_items_and_calendar_marks_news(): void
+    public function test_menu_has_six_items_and_news_marks_calendar(): void
     {
-        $html = $this->get(route('calendar'))->getContent();
+        $html = $this->get(route('news'))->getContent();
 
         preg_match('#<ul class="menu" id="menu">(.*?)</ul>#s', $html, $menu);
         $this->assertSame(7, substr_count($menu[1], '<li'), '6 opciones + "Ingresar al portal" del menú móvil');
         $this->assertStringNotContainsString('>Niveles<', $menu[1]);
-        $this->assertMatchesRegularExpression('#href="'.preg_quote(route('news'), '#').'"\s+aria-current="page"#', $menu[1]);
+        $this->assertStringContainsString('>Calendario y noticias<', $menu[1]);
+        $this->assertMatchesRegularExpression('#href="'.preg_quote(route('calendar'), '#').'"\s+aria-current="page"#', $menu[1]);
     }
 }

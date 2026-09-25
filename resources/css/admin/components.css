@@ -410,3 +410,69 @@
         gap: 0;
     }
 }
+
+/* Formularios del admin */
+.admin-form .panel {
+    display: grid;
+    gap: 16px;
+}
+
+.admin-form .panel h2 {
+    margin-bottom: 0;
+}
+
+.narrow-form {
+    max-width: 760px;
+}
+
+.admin-form input[type="file"] {
+    font: inherit;
+    padding: 10px 0;
+}
+
+.cover-preview {
+    width: 100%;
+    max-height: 220px;
+    object-fit: cover;
+    border-radius: var(--r-sm);
+}
+
+.md-help {
+    font-size: .88rem;
+    color: var(--muted);
+}
+
+.md-help summary {
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--azul-ink);
+}
+
+.md-help ul {
+    margin: 8px 0 0;
+    padding-left: 18px;
+    display: grid;
+    gap: 4px;
+}
+
+.md-help code {
+    background: var(--bg-soft);
+    border-radius: 4px;
+    padding: 1px 5px;
+}
+
+.row-actions {
+    text-align: right;
+}
+
+.danger-zone {
+    margin-top: 28px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+}
+
+.btn-danger {
+    background: transparent;
+    border-color: var(--error-ink);
+    color: var(--error-ink);
+}

@@ -19,3 +19,20 @@ if (select && field) {
     });
     sync();
 }
+
+// Confirmación antes de eliminar
+document.querySelectorAll('form[data-confirm]').forEach((form) => {
+    form.addEventListener('submit', (e) => {
+        if (!window.confirm(form.dataset.confirm)) e.preventDefault();
+    });
+});
+
+// Eventos: las horas solo se piden si no es "todo el día"
+const allDay = document.querySelector('[data-all-day]');
+const times = document.querySelector('[data-times]');
+
+if (allDay && times) {
+    allDay.addEventListener('change', () => {
+        times.hidden = allDay.checked;
+    });
+}

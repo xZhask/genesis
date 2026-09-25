@@ -4,7 +4,7 @@
         'home' => ['Inicio', ['home']],
         'about' => ['Nosotros', ['about']],
         'admissions' => ['Admisiones', ['admissions', 'admissions.*']],
-        'news' => ['Noticias y eventos', ['news', 'news.*', 'calendar', 'calendar.*']],
+        'calendar' => ['Calendario y noticias', ['calendar', 'calendar.*', 'news', 'news.*']],
         'resources' => ['Acudientes', ['resources', 'resources.*']],
         'support' => ['Apóyanos', ['support', 'support.*']],
     ];

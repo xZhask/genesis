@@ -518,29 +518,6 @@ img.media {
     color: var(--muted);
 }
 
-/* Apariencia compacta del mockup, con área táctil de 44 px */
-.ev .add {
-    position: relative;
-    display: inline-block;
-    margin-top: 6px;
-    border: 1px solid var(--line);
-    border-radius: 999px;
-    padding: 4px 12px;
-    font: 600 .8rem var(--font-b);
-    color: var(--verde-ink);
-    text-decoration: none;
-}
-
-.ev .add::after {
-    content: "";
-    position: absolute;
-    inset: -9px -4px;
-}
-
-.ev .add:hover {
-    border-color: var(--verde);
-}
-
 .events .all {
     display: block;
     text-align: center;
