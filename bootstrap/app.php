@@ -12,7 +12,14 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        $middleware->alias([
+            'role' => \App\Http\Middleware\EnsureUserHasRole::class,
+        ]);
+
+        // Si alguien con sesión abre /ingresar, va a su zona según el rol
+        $middleware->redirectUsersTo(fn (Request $request) => $request->user()?->isAdmin()
+            ? route('admin.dashboard')
+            : route('portal'));
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(

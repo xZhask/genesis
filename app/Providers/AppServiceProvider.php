@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Validation\Rules\Password;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +24,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Contraseñas: mínimo 8 caracteres con letras y números
+        Password::defaults(fn () => Password::min(8)->letters()->numbers());
+
         // Formularios públicos: máximo 5 solicitudes por hora desde la misma IP
         RateLimiter::for('admissions', fn (Request $request) => Limit::perHour(5)->by($request->ip()));
 

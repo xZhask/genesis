@@ -67,6 +67,9 @@
 .form input[type="tel"],
 .form input[type="email"],
 .form input[type="date"],
+.form input[type="datetime-local"],
+.form input[type="password"],
+.form input[type="search"],
 .form select,
 .form textarea {
     width: 100%;

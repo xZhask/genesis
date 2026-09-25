@@ -1,0 +1,10 @@
+/* Panel admin e inicio de sesión: mismos tokens, sin decoración y denso en información */
+@import './base/tokens.css';
+@import './base/base.css';
+
+@import './components/buttons.css';
+@import './components/forms.css';
+
+@import './admin/layout.css';
+@import './admin/components.css';
+@import './admin/auth.css';

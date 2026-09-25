@@ -16,6 +16,15 @@ Datos que ya se ven en la web y que el colegio debe confirmar antes de salir a p
 | Correo que recibe los avisos de pre-inscripción | cecgenesis16@gmail.com | `config/school.php` → `admissions.notify_email` |
 | Política de tratamiento de datos | Borrador basado en la Ley 1581 de 2012 y el Decreto 1377 de 2013, sin NIT ni representante legal. **Requiere revisión legal** | `resources/views/pages/privacy.blade.php` y `config/school.php` → `privacy_policy_version` |
 
+## Antes de salir a producción (técnico)
+
+- [ ] `.env`: `APP_ENV=production`, `APP_DEBUG=false`, `DEMO_CONTENT=false`, SMTP real y `APP_URL` con el dominio.
+- [ ] No subir `public/demo/` (fotos provisionales del mockup).
+- [ ] **No ejecutar `db:seed`** (crea usuarios con contraseñas conocidas). Crear el admin con `php artisan app:create-admin correo "Nombre"`.
+- [ ] `php artisan migrate --force`, `php artisan storage:link`, `php artisan config:cache route:cache view:cache`.
+- [ ] Cron cada minuto: `php /ruta/al/proyecto/artisan schedule:run` (procesa la cola de correos).
+- [ ] La raíz pública del dominio debe apuntar a `public/`, nunca a la raíz del proyecto.
+
 ## Diseño y contenido
 - [ ] **Tipografía de títulos:** Baloo 2, Baloo 2 ligera, Nunito o Poppins (hay un selector en el mockup para comparar). *Provisional: Nunito.*
 - [ ] **Fotos reales** del colegio: fachada, aulas, patio, actividades y eventos. Se necesita autorización escrita de los acudientes para publicar fotos de menores.

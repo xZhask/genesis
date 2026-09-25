@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin;
 use App\Http\Controllers\AdmissionController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
@@ -23,10 +24,22 @@ $comingSoon = [
     'gallery' => ['/galeria', 'Galería'],
     'resources' => ['/recursos', 'Recursos para acudientes'],
     'support' => ['/apoyanos', 'Apóyanos'],
-    // Fortify registrará la ruta real de inicio de sesión en la fase del portal.
-    'login' => ['/ingresar', 'Portal académico'],
 ];
 
 foreach ($comingSoon as $name => [$uri, $title]) {
     Route::view($uri, 'pages.coming-soon', ['title' => $title])->name($name);
 }
+
+// Inicio de sesión y recuperación de contraseña: Fortify (config/fortify.php)
+
+// Portales de docente, estudiante y acudiente: fase 2. Por ahora, un aviso.
+Route::view('/portal', 'portal.coming-soon')->middleware('auth')->name('portal');
+
+// Panel admin
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/', Admin\DashboardController::class)->name('dashboard');
+
+    Route::get('/solicitudes', [Admin\AdmissionRequestController::class, 'index'])->name('admissions.index');
+    Route::get('/solicitudes/{admission}', [Admin\AdmissionRequestController::class, 'show'])->name('admissions.show');
+    Route::put('/solicitudes/{admission}/estado', [Admin\AdmissionRequestController::class, 'updateStatus'])->name('admissions.status');
+});

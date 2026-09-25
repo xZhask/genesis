@@ -125,40 +125,6 @@ header.nav {
     font-size: .93rem;
 }
 
-.icon-btn {
-    flex: none;
-    display: grid;
-    place-items: center;
-    width: 44px;
-    height: 44px;
-    padding: 0;
-    background: var(--bg-soft);
-    border: 1px solid var(--line);
-    border-radius: 50%;
-    color: var(--navy);
-    cursor: pointer;
-}
-
-.icon-btn:hover {
-    color: var(--azul-ink);
-    border-color: var(--azul-ink);
-}
-
-.icon-btn svg {
-    width: 20px;
-    height: 20px;
-}
-
-/* Botón de tema: muestra el modo al que se cambiará */
-.theme-btn .sun,
-:root[data-theme="dark"] .theme-btn .moon {
-    display: none;
-}
-
-:root[data-theme="dark"] .theme-btn .sun {
-    display: block;
-}
-
 .burger {
     display: none;
     background: none;

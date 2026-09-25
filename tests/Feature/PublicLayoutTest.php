@@ -27,7 +27,7 @@ class PublicLayoutTest extends TestCase
             'recursos' => ['resources'],
             'apóyanos' => ['support'],
             'política de datos' => ['privacy'],
-            'portal' => ['login'],
+            'ingresar' => ['login'],
         ];
     }
 

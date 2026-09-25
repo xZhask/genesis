@@ -9,6 +9,14 @@
         'resources' => 'Acudientes',
         'support' => 'Apóyanos',
     ];
+
+    // Con sesión iniciada, "Portal" lleva a la zona de cada rol
+    $user = auth()->user();
+    $portalUrl = match (true) {
+        $user === null => route('login'),
+        $user->isAdmin() => route('admin.dashboard'),
+        default => route('portal'),
+    };
 @endphp
 
 <header class="nav">
@@ -26,7 +34,7 @@
                         <a href="{{ route($route) }}" @if (request()->routeIs($route, $route.'.*')) aria-current="page" @endif>{{ $label }}</a>
                     </li>
                 @endforeach
-                <li class="menu-portal"><a href="{{ route('login') }}">Ingresar al portal</a></li>
+                <li class="menu-portal"><a href="{{ $portalUrl }}">Ingresar al portal</a></li>
             </ul>
         </nav>
 
@@ -35,7 +43,7 @@
             <x-icon name="sun" class="sun" />
         </button>
 
-        <a class="btn btn-azul btn-portal" href="{{ route('login') }}">
+        <a class="btn btn-azul btn-portal" href="{{ $portalUrl }}">
             <x-icon name="lock" /> Portal
         </a>
 

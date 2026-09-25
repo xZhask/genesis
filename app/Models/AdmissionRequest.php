@@ -4,8 +4,12 @@ namespace App\Models;
 
 use App\Enums\AdmissionStatus;
 use App\Enums\GuardianRelationship;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class AdmissionRequest extends Model
 {
@@ -41,7 +45,56 @@ class AdmissionRequest extends Model
             'student_birth_date' => 'date',
             'phone_has_whatsapp' => 'boolean',
             'privacy_accepted_at' => 'datetime',
+            'interview_at' => 'datetime',
         ];
+    }
+
+    public function statusChanges(): HasMany
+    {
+        return $this->hasMany(AdmissionRequestStatusChange::class)->latest('id');
+    }
+
+    /**
+     * Cambia el estado y deja constancia de quién lo hizo, cuándo y por qué.
+     */
+    public function changeStatus(AdmissionStatus $to, User $by, ?Carbon $interviewAt = null, ?string $note = null): void
+    {
+        DB::transaction(function () use ($to, $by, $interviewAt, $note) {
+            $this->statusChanges()->create([
+                'from_status' => $this->status,
+                'to_status' => $to,
+                'interview_at' => $interviewAt,
+                'note' => $note,
+                'changed_by' => $by->id,
+            ]);
+
+            $this->status = $to;
+            if ($to === AdmissionStatus::InterviewScheduled) {
+                $this->interview_at = $interviewAt;
+            }
+            $this->save();
+        });
+    }
+
+    public function scopeSearch(Builder $query, ?string $term): void
+    {
+        $term = trim((string) $term);
+        if ($term === '') {
+            return;
+        }
+
+        $digits = preg_replace('/\D/', '', $term);
+
+        $query->where(function (Builder $q) use ($term, $digits) {
+            $q->where('code', 'like', "%{$term}%")
+                ->orWhere('student_first_names', 'like', "%{$term}%")
+                ->orWhere('student_last_names', 'like', "%{$term}%")
+                ->orWhere('guardian_name', 'like', "%{$term}%");
+
+            if (strlen($digits) >= 4) {
+                $q->orWhere('guardian_phone', 'like', "%{$digits}%");
+            }
+        });
     }
 
     protected static function booted(): void
