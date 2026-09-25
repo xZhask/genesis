@@ -1,8 +1,9 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
-Route::view('/', 'home')->name('home');
+Route::get('/', HomeController::class)->name('home');
 
 // Páginas temporales: cada una se reemplaza al construir su sección.
 $comingSoon = [
@@ -11,6 +12,7 @@ $comingSoon = [
     'admissions' => ['/admisiones', 'Admisiones'],
     'news' => ['/noticias', 'Noticias'],
     'calendar' => ['/calendario', 'Calendario escolar'],
+    'gallery' => ['/galeria', 'Galería'],
     'resources' => ['/recursos', 'Recursos para acudientes'],
     'support' => ['/apoyanos', 'Apóyanos'],
     'privacy' => ['/politica-de-datos', 'Política de tratamiento de datos'],

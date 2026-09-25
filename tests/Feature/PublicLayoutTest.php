@@ -23,6 +23,7 @@ class PublicLayoutTest extends TestCase
             'admisiones' => ['admissions'],
             'noticias' => ['news'],
             'calendario' => ['calendar'],
+            'galería' => ['gallery'],
             'recursos' => ['resources'],
             'apóyanos' => ['support'],
             'política de datos' => ['privacy'],
