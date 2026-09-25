@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Enums\PeriodStatus;
+use App\Exceptions\PeriodClosedException;
+use App\Support\PeriodResults;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -59,6 +61,19 @@ class Period extends Model
         $this->changeStatus(PeriodStatus::Open, $user);
     }
 
+    /**
+     * Para escribir notas, logros o comportamiento: vuelve a leer el periodo
+     * con bloqueo (dentro de una transacción) y falla si está cerrado.
+     *
+     * @throws PeriodClosedException
+     */
+    public function ensureOpen(): void
+    {
+        if (static::lockForUpdate()->find($this->id)?->isClosed() ?? true) {
+            throw new PeriodClosedException($this);
+        }
+    }
+
     private function changeStatus(PeriodStatus $status, User $user): void
     {
         DB::transaction(function () use ($status, $user) {
@@ -69,6 +84,9 @@ class Period extends Model
             ])->save();
 
             $this->statusChanges()->create(['status' => $status, 'user_id' => $user->id]);
+
+            // Al cerrar se congelan las notas; al reabrir vuelven a calcularse en vivo
+            $status === PeriodStatus::Closed ? PeriodResults::freeze($this) : PeriodResults::clear($this);
         });
     }
 }

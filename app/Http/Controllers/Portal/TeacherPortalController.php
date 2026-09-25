@@ -10,11 +10,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Attendance;
 use App\Models\SchoolYear;
 use App\Models\TeacherAssignment;
-use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Collection;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
@@ -30,7 +28,7 @@ class TeacherPortalController extends Controller
     {
         $user = $request->user();
         $year = SchoolYear::current();
-        $assignments = $this->assignments($user, $year);
+        $assignments = $user->assignmentsIn($year);
 
         // Clases con la asistencia de hoy ya tomada
         $taken = Attendance::whereDate('date', today())
@@ -55,7 +53,7 @@ class TeacherPortalController extends Controller
     {
         $user = $request->user();
         $year = SchoolYear::current();
-        $assignments = $this->assignments($user, $year);
+        $assignments = $user->assignmentsIn($year);
 
         if ($assignments->isEmpty()) {
             return view('portal.teacher.attendance', ['assignments' => $assignments, 'year' => $year]);
@@ -128,21 +126,6 @@ class TeacherPortalController extends Controller
 
         return redirect($back)->with('status_message', "Asistencia guardada: {$assignment->label()}, {$date->longDate()}. {$count} estudiantes, "
             .trans_choice(':count ausente.|:count ausentes.', $absent));
-    }
-
-    /** Asignaciones del docente en el año actual, ordenadas por grado. */
-    private function assignments(User $user, ?SchoolYear $year): Collection
-    {
-        if (! $year) {
-            return collect();
-        }
-
-        return $user->assignments()
-            ->whereHas('section', fn ($q) => $q->where('school_year_id', $year->id))
-            ->with(['section.grade', 'section.schoolYear.periods', 'subject'])
-            ->get()
-            ->sortBy(fn ($a) => [$a->section->grade->position, $a->section->name, $a->subject->name])
-            ->values();
     }
 
     /** Fecha pedida (o hoy), dentro del año lectivo y nunca en el futuro. */

@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Collection;
 
 // El rol no es asignable en masa: solo el admin lo cambia de forma explícita.
 #[Fillable(['name', 'document_number', 'email', 'password'])]
@@ -55,6 +56,21 @@ class User extends Authenticatable
     public function assignments(): HasMany
     {
         return $this->hasMany(TeacherAssignment::class, 'teacher_id');
+    }
+
+    /** Clases del docente en el año, ordenadas por grado, sección y materia. */
+    public function assignmentsIn(?SchoolYear $year): Collection
+    {
+        if (! $year) {
+            return collect();
+        }
+
+        return $this->assignments()
+            ->whereHas('section', fn ($q) => $q->where('school_year_id', $year->id))
+            ->with(['section.grade', 'section.schoolYear.periods', 'subject'])
+            ->get()
+            ->sortBy(fn ($a) => [$a->section->grade->position, $a->section->name, $a->subject->name])
+            ->values();
     }
 
     public function homeroomSections(): HasMany

@@ -1,6 +1,7 @@
 import { initTheme } from './theme';
 import { initForms } from './forms';
 import { initUploader } from './uploader';
+import { initGradeSheet, initObjectivePreview } from './grades';
 
 initTheme();
 initForms();
@@ -110,3 +111,6 @@ if (attendanceForm && attendanceSummary) {
     attendanceForm.addEventListener('change', update);
     update();
 }
+
+initGradeSheet();
+initObjectivePreview();

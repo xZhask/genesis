@@ -23,9 +23,14 @@
                         <p class="class-section">{{ $assignment->section->label() }}</p>
                         <h3>{{ $assignment->subject->name }}</h3>
                         <p class="class-status {{ $done ? 'is-done' : '' }}">{{ $done ? '✓ Asistencia de hoy tomada' : 'Asistencia de hoy pendiente' }}</p>
-                        <a class="btn btn-sm {{ $done ? 'btn-line' : 'btn-azul' }}" href="{{ route('portal.teacher.attendance', ['clase' => $assignment->id]) }}">
-                            {{ $done ? 'Revisar asistencia' : 'Tomar asistencia' }}
-                        </a>
+                        <div class="class-actions">
+                            <a class="btn btn-sm {{ $done ? 'btn-line' : 'btn-azul' }}" href="{{ route('portal.teacher.attendance', ['clase' => $assignment->id]) }}">
+                                {{ $done ? 'Revisar asistencia' : 'Tomar asistencia' }}
+                            </a>
+                            @unless ($assignment->section->grade->isPreschool())
+                                <a class="btn btn-sm btn-line" href="{{ route('portal.teacher.grades', ['clase' => $assignment->id]) }}">Notas</a>
+                            @endunless
+                        </div>
                     </li>
                 @endforeach
             </ul>
@@ -38,6 +43,7 @@
             @foreach ($homerooms as $section)
                 <p>{{ $section->label() }} · {{ trans_choice(':count estudiante|:count estudiantes', $section->enrollments_count) }}</p>
             @endforeach
+            <a class="btn btn-line btn-sm" href="{{ route('portal.teacher.homeroom') }}">Comportamiento y observaciones</a>
         </section>
     @endif
 </x-layouts.portal>

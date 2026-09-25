@@ -147,6 +147,25 @@ return [
     'academic' => [
         'periods' => 4,
         'student_accounts_from' => '6.°',
+
+        // Escala con la que se crea cada año lectivo (luego se edita en Admin → Académico).
+        // Rangos deducidos del boletín actual; frase de Bajo y pesos: provisionales.
+        'grading' => [
+            'min_score' => 1.0,
+            'max_score' => 5.0,
+            'passing_score' => 3.0,
+            'decimals' => 2,
+            'basic_from' => 3.0,
+            'high_from' => 4.2,
+            'superior_from' => 4.8,
+            'phrases' => [
+                'low' => 'Estoy en proceso de',
+                'basic' => 'Soy capaz de',
+                'high' => 'Tengo muy buenas habilidades para',
+                'superior' => 'Demuestro habilidades superiores para',
+            ],
+            'weights' => ['knowing' => 33.33, 'doing' => 33.33, 'being' => 33.34],
+        ],
     ],
 
     // Versión de la política aceptada en los formularios (se guarda con cada solicitud).

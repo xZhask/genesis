@@ -71,6 +71,12 @@ Datos que ya se ven en la web y que el colegio debe confirmar antes de salir a p
 - [x] **Plataforma actual (cecgenesis.com):** ✅ el portal nuevo opera desde el año lectivo 2027; después se evaluará importar los registros de la plataforma antigua (25 de septiembre de 2026).
 - [ ] **Preescolar:** dimensiones del desarrollo que evalúa el colegio y modelo de su boletín. *Provisional: las siete dimensiones del Decreto 2247 de 1997.*
 - [x] **Modelo del boletín actual:** ✅ recibido el 25 de septiembre de 2026 (`referencia/Maximos-IETA.mht`, excluido de git porque tiene datos reales de un estudiante). Falta el de **preescolar** (evaluación cualitativa).
+- [ ] **Pesos de saber, hacer y ser** en la nota del periodo. *Provisional: iguales (33,33 % / 33,33 % / 33,34 %); se editan en Admin → Académico → Año lectivo → Escala de valoración.*
+- [ ] **Frase del desempeño Bajo** en los logros (el boletín actual no trae ejemplo). *Provisional: «Estoy en proceso de…». Las de Superior, Alto y Básico se tomaron del boletín.*
+- [ ] **Escala del comportamiento.** *Provisional: la misma de las notas (1 a 5), registrada por el director de grupo cada periodo.*
+- [ ] **Nivelaciones:** cómo se registran las recuperaciones de quien queda en Bajo y si cambian la nota del periodo o solo la final.
+- [ ] **Puestos (grupo, grado, institución)** del boletín actual. *Provisional: no se muestran a las familias (decisión del 25 de septiembre de 2026); si el colegio los quiere, irían solo en el boletín.*
+- [ ] **¿Las familias ven notas del periodo en curso?** ✅ Solo de periodos cerrados (25 de septiembre de 2026).
 - [ ] **Datos que se registran de cada estudiante.** *Provisional: solo lo mínimo para el portal (tipo y número de documento, nombres, apellidos y fecha de nacimiento), por minimización de datos (Ley 1581). Si el colegio necesita más (EPS, dirección, género), se agregan.*
 - [ ] **Datos de estudiantes y acudientes para cargar al portal 2027:** exportarlos de la plataforma actual o del SIMAT en Excel con la plantilla de Admin → Personas → Importar (una fila por estudiante y acudiente).
 - [ ] **Cómo se entregan las cuentas.** *Provisional: el admin imprime una hoja con fichas recortables (documento y contraseña temporal del tipo «tamo-4827»); al primer ingreso cada persona crea la suya. Quien no tiene correo pide una contraseña temporal nueva al colegio.*

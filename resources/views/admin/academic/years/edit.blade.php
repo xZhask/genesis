@@ -60,6 +60,12 @@
                 </form>
             </section>
 
+            <section class="panel" aria-labelledby="escala-title">
+                <h2 id="escala-title">Escala de valoración</h2>
+                <p class="hint">Nota mínima, máxima y aprobatoria, rangos de Bajo, Básico, Alto y Superior, frases de los logros y pesos de saber, hacer y ser.</p>
+                <a class="btn btn-line btn-sm" href="{{ route('admin.academic.scale.edit', $year) }}">Ver y editar la escala</a>
+            </section>
+
             <section class="panel" aria-labelledby="fechas-title">
                 <h2 id="fechas-title">Fechas del año</h2>
                 <form class="form compact" method="POST" action="{{ route('admin.academic.years.update', $year) }}" novalidate data-form>

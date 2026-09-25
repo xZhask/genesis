@@ -251,3 +251,12 @@
         grid-template-columns: 1fr 1fr;
     }
 }
+
+.field-group.three {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.scale-level {
+    border-top: 1px solid var(--line);
+    padding-top: 10px;
+}

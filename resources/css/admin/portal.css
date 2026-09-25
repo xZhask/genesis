@@ -194,6 +194,7 @@ fieldset:disabled .att-option input:checked + span {
 .att-save {
     position: sticky;
     bottom: 0;
+    z-index: 3;
     display: flex;
     flex-wrap: wrap;
     align-items: center;

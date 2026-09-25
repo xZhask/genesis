@@ -1,0 +1,302 @@
+/* Portal docente: planilla de notas, logros y comportamiento */
+
+.class-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 6px;
+}
+
+.class-card .class-actions .btn {
+    margin-top: 0;
+}
+
+/* Periodos 1-4 como pestañas compactas */
+.period-tabs {
+    display: flex;
+    gap: 6px;
+}
+
+.period-tabs a {
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    min-height: 44px;
+    border: 1px solid var(--line);
+    border-radius: var(--r-sm);
+    background: var(--card);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.period-tabs a svg {
+    width: 14px;
+    height: 14px;
+    color: var(--muted);
+}
+
+.period-tabs a[aria-current="page"] {
+    background: var(--action);
+    border-color: var(--action);
+    color: var(--on-action);
+}
+
+.period-tabs a[aria-current="page"] svg {
+    color: inherit;
+}
+
+/* Actividades por componente */
+.component-cols {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin: 12px 0;
+}
+
+.component-col h3 {
+    font-size: 1rem;
+    margin-bottom: 6px;
+}
+
+.component-col h3 small {
+    display: block;
+    font: 500 .78rem var(--font-b);
+    color: var(--muted);
+}
+
+.item-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.item-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 0;
+    border-top: 1px solid var(--line);
+    font-size: .92rem;
+}
+
+.item-list li:first-child {
+    border-top: 0;
+}
+
+.item-list button {
+    border: 0;
+    background: none;
+    color: var(--muted);
+    font-size: 1.1rem;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.item-list button:hover {
+    background: var(--error-bg);
+    color: var(--error-ink);
+}
+
+.add-item {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    border-top: 1px solid var(--line);
+    padding-top: 12px;
+}
+
+.add-item select,
+.add-item input,
+.behavior-fields input,
+.behavior-fields textarea,
+.objective-field textarea {
+    min-height: 42px;
+    padding: 6px 10px;
+    font: 500 max(16px, .95rem) var(--font-b);
+    color: var(--text);
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--r-sm);
+}
+
+.add-item input {
+    flex: 1 1 200px;
+}
+
+.add-item .error {
+    flex-basis: 100%;
+    color: var(--error-ink);
+    font-weight: 600;
+    margin: 0;
+}
+
+/* Planilla: desplazamiento horizontal con la columna del estudiante fija */
+.sheet-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--line);
+    border-radius: var(--r-sm);
+}
+
+.sheet {
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+    font-size: .9rem;
+}
+
+.sheet th,
+.sheet td {
+    padding: 6px 8px;
+    border-bottom: 1px solid var(--line);
+    text-align: center;
+    white-space: nowrap;
+}
+
+.sheet thead th {
+    background: var(--bg-soft);
+    font-size: .78rem;
+    font-weight: 700;
+    color: var(--muted);
+}
+
+.sheet .item-head {
+    max-width: 110px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.sheet .sticky-col {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    background: var(--card);
+    text-align: left;
+    font-weight: 600;
+    min-width: 170px;
+    box-shadow: 1px 0 0 var(--line);
+}
+
+.sheet thead .sticky-col {
+    background: var(--bg-soft);
+}
+
+.sheet .comp-knowing { border-top: 3px solid var(--azul); }
+.sheet .comp-doing { border-top: 3px solid var(--pri); }
+.sheet .comp-being { border-top: 3px solid var(--verde); }
+
+.sheet td input {
+    width: 3.6em;
+    min-height: 38px;
+    padding: 4px;
+    text-align: center;
+    font: 600 max(16px, .95rem) var(--font-b);
+    color: var(--text);
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+}
+
+.sheet td.has-error input {
+    border-color: var(--error-ink);
+    background: var(--error-bg);
+}
+
+.sheet td input:disabled {
+    background: transparent;
+    border-color: transparent;
+}
+
+.sheet .calc {
+    background: var(--bg-soft);
+    color: var(--muted);
+}
+
+.sheet td.calc.strong {
+    color: var(--text);
+    font-weight: 800;
+}
+
+.sheet td.perf-low { color: var(--error-ink); font-weight: 700; }
+.sheet td.perf-superior { color: var(--verde-ink); font-weight: 700; }
+
+/* Logros */
+.objective-field textarea {
+    width: 100%;
+    resize: vertical;
+}
+
+.objective-preview {
+    margin-top: 6px;
+    font-size: .88rem;
+}
+
+.objective-preview summary {
+    cursor: pointer;
+    color: var(--azul-ink);
+    font-weight: 600;
+}
+
+.objective-preview ul {
+    margin: 6px 0 0;
+    padding-left: 18px;
+    display: grid;
+    gap: 4px;
+    color: var(--muted);
+}
+
+/* Comportamiento */
+.behavior-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.behavior-list > li {
+    padding: 12px 0;
+    border-top: 1px solid var(--line);
+}
+
+.behavior-list > li:first-child {
+    border-top: 0;
+}
+
+.behavior-list .strong {
+    margin: 0 0 6px;
+    font-weight: 700;
+}
+
+.behavior-fields {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 12px;
+}
+
+.behavior-fields input {
+    width: 100%;
+    text-align: center;
+}
+
+.behavior-fields textarea {
+    width: 100%;
+    resize: vertical;
+}
+
+@media (max-width: 700px) {
+    .component-cols {
+        grid-template-columns: 1fr;
+    }
+
+    .behavior-fields {
+        grid-template-columns: 1fr;
+    }
+
+    .sheet .sticky-col {
+        min-width: 130px;
+        white-space: normal;
+    }
+}

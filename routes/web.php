@@ -59,6 +59,15 @@ Route::prefix('portal/docente')->name('portal.teacher.')->middleware(['auth', 'r
     Route::get('/', [Portal\TeacherPortalController::class, 'home'])->name('home');
     Route::get('/asistencia', [Portal\TeacherPortalController::class, 'attendance'])->name('attendance');
     Route::put('/asistencia', [Portal\TeacherPortalController::class, 'saveAttendance'])->name('attendance.save');
+
+    Route::get('/notas', [Portal\GradesController::class, 'index'])->name('grades');
+    Route::put('/notas', [Portal\GradesController::class, 'saveScores'])->name('grades.save');
+    Route::post('/notas/actividades', [Portal\GradesController::class, 'storeItem'])->name('grades.items.store');
+    Route::delete('/notas/actividades/{item}', [Portal\GradesController::class, 'destroyItem'])->name('grades.items.destroy');
+    Route::put('/notas/logros', [Portal\GradesController::class, 'saveObjectives'])->name('grades.objectives');
+
+    Route::get('/grupo', [Portal\HomeroomController::class, 'index'])->name('homeroom');
+    Route::put('/grupo', [Portal\HomeroomController::class, 'save'])->name('homeroom.save');
 });
 
 // Acudientes, y docentes que también son acudientes (el controlador exige el vínculo)
@@ -111,6 +120,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin', 'passw
         Route::put('/anos/{year:year}', [Admin\Academic\SchoolYearController::class, 'update'])->name('years.update');
         Route::post('/anos/{year:year}/actual', [Admin\Academic\SchoolYearController::class, 'makeCurrent'])->name('years.current');
         Route::put('/anos/{year:year}/periodos', [Admin\Academic\PeriodController::class, 'update'])->name('periods.update');
+        Route::get('/anos/{year:year}/escala', [Admin\Academic\GradingScaleController::class, 'edit'])->name('scale.edit');
+        Route::put('/anos/{year:year}/escala', [Admin\Academic\GradingScaleController::class, 'update'])->name('scale.update');
         Route::post('/periodos/{period}/cerrar', [Admin\Academic\PeriodController::class, 'close'])->name('periods.close');
         Route::post('/periodos/{period}/reabrir', [Admin\Academic\PeriodController::class, 'reopen'])->name('periods.reopen');
 
