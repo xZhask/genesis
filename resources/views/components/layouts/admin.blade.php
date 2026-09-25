@@ -11,6 +11,7 @@
         'admin.resources.index' => ['Recursos', 'admin.resources.*'],
         'admin.volunteers.index' => ['Apóyanos', ['admin.volunteers.*', 'admin.accounts.*', 'admin.donors.*', 'admin.testimonials.*']],
         'admin.academic.years.index' => ['Académico', 'admin.academic.*'],
+        'admin.people.students.index' => ['Personas', 'admin.people.*'],
         'admin.settings.edit' => ['Configuración', 'admin.settings.*'],
     ];
 @endphp

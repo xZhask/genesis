@@ -71,6 +71,9 @@ Datos que ya se ven en la web y que el colegio debe confirmar antes de salir a p
 - [x] **Plataforma actual (cecgenesis.com):** ✅ el portal nuevo opera desde el año lectivo 2027; después se evaluará importar los registros de la plataforma antigua (25 de septiembre de 2026).
 - [ ] **Preescolar:** dimensiones del desarrollo que evalúa el colegio y modelo de su boletín. *Provisional: las siete dimensiones del Decreto 2247 de 1997.*
 - [x] **Modelo del boletín actual:** ✅ recibido el 25 de septiembre de 2026 (`referencia/Maximos-IETA.mht`, excluido de git porque tiene datos reales de un estudiante). Falta el de **preescolar** (evaluación cualitativa).
+- [ ] **Datos que se registran de cada estudiante.** *Provisional: solo lo mínimo para el portal (tipo y número de documento, nombres, apellidos y fecha de nacimiento), por minimización de datos (Ley 1581). Si el colegio necesita más (EPS, dirección, género), se agregan.*
+- [ ] **Datos de estudiantes y acudientes para cargar al portal 2027:** exportarlos de la plataforma actual o del SIMAT en Excel con la plantilla de Admin → Personas → Importar (una fila por estudiante y acudiente).
+- [ ] **Cómo se entregan las cuentas.** *Provisional: el admin imprime una hoja con fichas recortables (documento y contraseña temporal del tipo «tamo-4827»); al primer ingreso cada persona crea la suya. Quien no tiene correo pide una contraseña temporal nueva al colegio.*
 - [ ] **Asistencia por día o por clase.** *Provisional: por asignatura, como en el boletín actual (columna «Inas» por materia).*
 
 ## Infraestructura

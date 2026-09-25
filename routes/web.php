@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin;
 use App\Http\Controllers\AdmissionController;
+use App\Http\Controllers\Auth\PasswordChangeController;
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\HomeController;
@@ -43,13 +44,18 @@ Route::post('/apoyanos/voluntariado', [SupportController::class, 'storeVolunteer
     ->middleware('throttle:volunteers')
     ->name('support.volunteer');
 
-// Inicio de sesión y recuperación de contraseña: Fortify (config/fortify.php)
+// Inicio de sesión y recuperación de contraseña: Fortify (config/fortify.php).
+// Cambio de contraseña con sesión iniciada (obligatorio si es temporal).
+Route::middleware('auth')->group(function () {
+    Route::get('/cuenta/contrasena', [PasswordChangeController::class, 'edit'])->name('password.change');
+    Route::put('/cuenta/contrasena', [PasswordChangeController::class, 'update'])->name('password.change.update');
+});
 
 // Portales de docente, estudiante y acudiente: fase 2. Por ahora, un aviso.
-Route::view('/portal', 'portal.coming-soon')->middleware('auth')->name('portal');
+Route::view('/portal', 'portal.coming-soon')->middleware(['auth', 'password.changed'])->name('portal');
 
 // Panel admin
-Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->group(function () {
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin', 'password.changed'])->group(function () {
     Route::get('/', Admin\DashboardController::class)->name('dashboard');
 
     Route::get('/solicitudes', [Admin\AdmissionRequestController::class, 'index'])->name('admissions.index');
@@ -107,6 +113,43 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->grou
         Route::get('/plan-de-estudios/{grade}', [Admin\Academic\CurriculumController::class, 'edit'])->name('curriculum.edit');
         Route::put('/plan-de-estudios/{grade}', [Admin\Academic\CurriculumController::class, 'update'])->name('curriculum.update');
         Route::post('/plan-de-estudios/{grade}/copiar', [Admin\Academic\CurriculumController::class, 'copy'])->name('curriculum.copy');
+    });
+
+    // Portal (fase 2): estudiantes, acudientes, personal, cuentas e importación
+    Route::prefix('personas')->name('people.')->group(function () {
+        Route::redirect('/', '/admin/personas/estudiantes')->name('home');
+
+        Route::get('/estudiantes/nuevo', [Admin\People\StudentController::class, 'create'])->name('students.create');
+        Route::resource('estudiantes', Admin\People\StudentController::class)
+            ->parameters(['estudiantes' => 'student'])
+            ->names('students')
+            ->except(['show', 'create']);
+        Route::put('/estudiantes/{student}/matricula', [Admin\People\StudentController::class, 'enroll'])->name('students.enroll');
+        Route::post('/estudiantes/{student}/acudientes', [Admin\People\StudentGuardianController::class, 'store'])->name('students.guardians.store');
+        Route::put('/estudiantes/{student}/acudientes/{guardian}', [Admin\People\StudentGuardianController::class, 'update'])->name('students.guardians.update');
+        Route::delete('/estudiantes/{student}/acudientes/{guardian}', [Admin\People\StudentGuardianController::class, 'destroy'])->name('students.guardians.destroy');
+
+        Route::resource('acudientes', Admin\People\GuardianController::class)
+            ->parameters(['acudientes' => 'guardian'])
+            ->names('guardians')
+            ->only(['index', 'edit', 'update', 'destroy']);
+
+        Route::resource('personal', Admin\People\StaffController::class)
+            ->parameters(['personal' => 'user'])
+            ->names('staff')
+            ->only(['index', 'create', 'store', 'edit', 'update']);
+
+        Route::post('/estudiantes/{student}/cuenta', [Admin\People\AccountController::class, 'storeForStudent'])->name('accounts.student');
+        Route::post('/acudientes/{guardian}/cuenta', [Admin\People\AccountController::class, 'storeForGuardian'])->name('accounts.guardian');
+        Route::post('/cuentas/{user}/contrasena', [Admin\People\AccountController::class, 'resetPassword'])->name('accounts.reset');
+        Route::post('/cuentas/{user}/estado', [Admin\People\AccountController::class, 'toggle'])->name('accounts.toggle');
+        Route::post('/cuentas/pendientes', [Admin\People\AccountController::class, 'bulk'])->name('accounts.bulk');
+
+        Route::get('/importar', [Admin\People\ImportController::class, 'create'])->name('import.create');
+        Route::get('/importar/plantilla.csv', [Admin\People\ImportController::class, 'template'])->name('import.template');
+        Route::post('/importar/revision', [Admin\People\ImportController::class, 'preview'])->name('import.preview');
+        Route::post('/importar', [Admin\People\ImportController::class, 'store'])->name('import.store');
+        Route::delete('/importar', [Admin\People\ImportController::class, 'discard'])->name('import.discard');
     });
 
     Route::get('/configuracion', [Admin\SettingsController::class, 'edit'])->name('settings.edit');

@@ -1,0 +1,274 @@
+/* Personas: estudiantes, acudientes, personal, cuentas e importación */
+
+/* Grupos de campos dentro de un formulario, sin el recuadro de .form > fieldset */
+.form > fieldset.plain-fieldset {
+    background: none;
+    border: 0;
+    border-radius: 0;
+    padding: 0;
+    gap: 6px;
+}
+
+.form > fieldset.plain-fieldset > legend {
+    float: none;
+    font: 700 .95rem var(--font-b);
+    color: var(--text);
+    margin-bottom: 6px;
+}
+
+.list-count {
+    margin: 0 0 8px;
+}
+
+.mono {
+    font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+    letter-spacing: .02em;
+}
+
+/* Aviso con acción (crear cuentas pendientes) */
+.bulk-accounts {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px 16px;
+    margin-bottom: 16px;
+}
+
+.bulk-accounts p {
+    flex: 1 1 320px;
+    margin: 0;
+}
+
+/* Acudientes en la ficha del estudiante */
+.guardian-links {
+    list-style: none;
+    margin: 0 0 12px;
+    padding: 0;
+}
+
+.guardian-links > li {
+    display: grid;
+    gap: 8px;
+    padding: 12px 0;
+    border-top: 1px solid var(--line);
+}
+
+.guardian-links > li:first-child {
+    border-top: 0;
+    padding-top: 0;
+}
+
+.guardian-link-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 8px;
+}
+
+.guardian-link-head a {
+    color: var(--azul-ink);
+    text-decoration: none;
+}
+
+.guardian-link-head small {
+    flex-basis: 100%;
+    color: var(--muted);
+}
+
+.guardian-link-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px 16px;
+}
+
+.inline-form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 12px;
+}
+
+.inline-form select {
+    min-height: 38px;
+    padding: 4px 10px;
+    font: 500 max(16px, .95rem) var(--font-b);
+    color: var(--text);
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--r-sm);
+}
+
+.link-guardian {
+    border-top: 1px solid var(--line);
+    padding-top: 12px;
+}
+
+.link-guardian summary {
+    cursor: pointer;
+    font-weight: 700;
+    color: var(--azul-ink);
+    min-height: 32px;
+}
+
+.link-guardian[open] summary {
+    margin-bottom: 12px;
+}
+
+/* Importación */
+.steps-list {
+    margin: 0 0 20px;
+    padding-left: 22px;
+    display: grid;
+    gap: 6px;
+}
+
+.steps-list a {
+    color: var(--azul-ink);
+    font-weight: 600;
+}
+
+.columns-help dt {
+    font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+    font-size: .85rem;
+}
+
+.import-errors {
+    margin: 0 0 18px;
+    padding-left: 20px;
+    display: grid;
+    gap: 6px;
+    color: var(--error-ink);
+}
+
+.count-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    columns: 2 160px;
+}
+
+.count-list li {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--line);
+    break-inside: avoid;
+}
+
+/* Fichas de acceso con la contraseña temporal */
+.slips {
+    background: var(--card);
+    border: 2px solid var(--sol);
+    border-radius: var(--r-md);
+    padding: 18px 20px;
+    margin-bottom: 20px;
+}
+
+.slips-head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px 16px;
+    margin-bottom: 14px;
+}
+
+.slips-head h2 {
+    font-size: 1.2rem;
+}
+
+.slip-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 12px;
+}
+
+.slip {
+    border: 1px dashed var(--muted);
+    border-radius: var(--r-sm);
+    padding: 14px 16px;
+    break-inside: avoid;
+}
+
+.slip-school {
+    margin: 0 0 4px;
+    font-size: .8rem;
+    color: var(--muted);
+}
+
+.slip h3 {
+    font-size: 1.05rem;
+    margin-bottom: 8px;
+}
+
+.slip h3 small {
+    font: 600 .8rem var(--font-b);
+    color: var(--muted);
+}
+
+.slip dl {
+    margin: 0;
+    display: grid;
+    gap: 6px;
+}
+
+.slip dt {
+    font-size: .78rem;
+    color: var(--muted);
+}
+
+.slip dd {
+    margin: 0;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+.slip-pass {
+    font-size: 1.25rem;
+}
+
+.slip-note {
+    margin: 10px 0 0;
+    font-size: .82rem;
+    color: var(--muted);
+}
+
+/* Al imprimir una página con fichas, solo salen las fichas */
+@media print {
+    .admin-bar,
+    .no-print,
+    body:has(.slips) .admin-main .admin-wrap > :not(.slips) {
+        display: none !important;
+    }
+
+    .admin-body,
+    .slips,
+    .slip {
+        background: #fff;
+        color: #000;
+    }
+
+    .slips {
+        border: 0;
+        padding: 0;
+    }
+
+    .slip-list {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .slip dt,
+    .slip-school,
+    .slip-note {
+        color: #333;
+    }
+}
+
+/* En una columna del panel, la zona de eliminar no necesita separación extra */
+.stack > .danger-zone {
+    margin-top: 0;
+}

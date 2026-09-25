@@ -19,5 +19,7 @@
         </button>
     </form>
 
+    <p class="auth-help">¿Tu cuenta no tiene correo? Pide al colegio una contraseña temporal:
+        <a href="tel:{{ config('school.contact.phone_link') }}">{{ config('school.contact.phone') }}</a>.</p>
     <p class="auth-help"><a href="{{ route('login') }}">← Volver a ingresar</a></p>
 </x-layouts.auth>

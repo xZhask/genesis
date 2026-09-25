@@ -6,7 +6,7 @@
         'admin.academic.curriculum.index' => ['Plan de estudios', 'admin.academic.curriculum.*'],
     ];
     // Errores de acciones sin formulario propio (eliminar, validar periodos)
-    $general = collect(['subject', 'area', 'periods'])->map(fn ($key) => $errors->first($key))->filter();
+    $general = collect(['subject', 'area', 'periods', 'section'])->map(fn ($key) => $errors->first($key))->filter();
 @endphp
 
 <nav class="tabs" aria-label="Secciones de Académico">

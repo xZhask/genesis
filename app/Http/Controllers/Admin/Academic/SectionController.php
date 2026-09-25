@@ -71,6 +71,9 @@ class SectionController extends Controller
         Gate::authorize('manage-academic');
 
         $label = $section->label();
+        if ($count = $section->enrollments()->count()) {
+            return back()->withErrors(['section' => "No se puede eliminar {$label}: tiene {$count} estudiantes matriculados. Cámbialos de sección primero."]);
+        }
         $section->delete();
 
         return back()->with('status_message', "Se eliminó la sección {$label}.");

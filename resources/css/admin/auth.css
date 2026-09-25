@@ -80,6 +80,18 @@
     color: var(--muted);
 }
 
+/* Botón con aspecto de enlace (salir sin cambiar la contraseña) */
+.link-button {
+    border: 0;
+    background: none;
+    padding: 0;
+    font: inherit;
+    font-weight: 600;
+    color: var(--azul-ink);
+    text-decoration: underline;
+    cursor: pointer;
+}
+
 .auth-foot {
     text-align: center;
     margin-top: 20px;

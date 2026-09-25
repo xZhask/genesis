@@ -19,7 +19,7 @@ return [
 
     'passwords' => 'users',
 
-    'username' => 'email',
+    'username' => 'login',
 
     'email' => 'email',
 

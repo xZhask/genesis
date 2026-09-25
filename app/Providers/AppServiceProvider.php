@@ -33,6 +33,8 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('manage-settings', fn (User $user) => $user->isAdmin());
         // Estructura académica: años, periodos (cierre y reapertura), secciones, materias y plan de estudios
         Gate::define('manage-academic', fn (User $user) => $user->isAdmin());
+        // Personal, cuentas del portal e importación (estudiantes y acudientes usan sus Policies)
+        Gate::define('manage-people', fn (User $user) => $user->isAdmin());
 
         // Direcciones del admin en español: /admin/noticias/nueva, /admin/noticias/{post}/editar
         Route::resourceVerbs(['create' => 'nueva', 'edit' => 'editar']);

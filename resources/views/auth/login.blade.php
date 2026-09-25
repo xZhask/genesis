@@ -9,9 +9,9 @@
     <form class="form" method="POST" action="{{ route('login.store') }}" novalidate data-form>
         @csrf
 
-        <x-field name="email" label="Correo">
-            <input id="email" name="email" type="email" inputmode="email" value="{{ old('email') }}" autocomplete="username"
-                autofocus required @error('email') aria-invalid="true" aria-describedby="email-error" @enderror>
+        <x-field name="login" label="Número de documento" hint="Tu cédula o tarjeta de identidad. El personal del colegio también puede usar su correo.">
+            <input id="login" name="login" type="text" value="{{ old('login') }}" autocomplete="username" autocapitalize="off" spellcheck="false"
+                autofocus required aria-describedby="login-hint @error('login') login-error @enderror" @error('login') aria-invalid="true" @enderror>
         </x-field>
 
         <x-field name="password" label="Contraseña">

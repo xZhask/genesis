@@ -2,17 +2,20 @@
 
 namespace App\Models;
 
+use App\Enums\DocumentType;
 use App\Enums\Role;
 use App\Notifications\ResetPasswordNotification;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 // El rol no es asignable en masa: solo el admin lo cambia de forma explícita.
-#[Fillable(['name', 'email', 'password'])]
+#[Fillable(['name', 'document_number', 'email', 'password'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -31,12 +34,42 @@ class User extends Authenticatable
             'password' => 'hashed',
             'role' => Role::class,
             'is_active' => 'boolean',
+            'must_change_password' => 'boolean',
+            'last_login_at' => 'datetime',
         ];
+    }
+
+    /** Se ingresa con el documento: se guarda sin puntos ni espacios. */
+    protected function documentNumber(): Attribute
+    {
+        return Attribute::make(set: fn (?string $value) => filled($value) ? DocumentType::normalize($value) : null);
+    }
+
+    protected function email(): Attribute
+    {
+        return Attribute::make(set: fn (?string $value) => filled($value) ? mb_strtolower(trim($value)) : null);
+    }
+
+    public function student(): HasOne
+    {
+        return $this->hasOne(Student::class);
+    }
+
+    /** Un docente también puede ser acudiente: su cuenta se vincula a ambos. */
+    public function guardian(): HasOne
+    {
+        return $this->hasOne(Guardian::class);
     }
 
     public function hasRole(Role ...$roles): bool
     {
         return in_array($this->role, $roles, true);
+    }
+
+    /** Zona de cada rol después de ingresar (los portales llegan en la capa 1c). */
+    public function homeUrl(): string
+    {
+        return $this->isAdmin() ? route('admin.dashboard') : route('portal');
     }
 
     public function isAdmin(): bool

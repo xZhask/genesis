@@ -28,6 +28,7 @@ class AuthenticationTest extends TestCase
         $this->get(route('login'))
             ->assertOk()
             ->assertSee('Ingresar al portal')
+            ->assertSee('Número de documento')
             ->assertSee('¿Olvidaste tu contraseña?');
     }
 
@@ -41,7 +42,7 @@ class AuthenticationTest extends TestCase
     {
         $admin = User::factory()->admin()->create(['email' => 'admin@genesis.test']);
 
-        $this->post(route('login.store'), ['email' => 'ADMIN@genesis.test', 'password' => 'password'])
+        $this->post(route('login.store'), ['login' => 'ADMIN@genesis.test', 'password' => 'password'])
             ->assertRedirect(route('admin.dashboard'));
 
         $this->assertAuthenticatedAs($admin);
@@ -51,7 +52,7 @@ class AuthenticationTest extends TestCase
     {
         $guardian = User::factory()->role(Role::Guardian)->create();
 
-        $this->post(route('login.store'), ['email' => $guardian->email, 'password' => 'password'])
+        $this->post(route('login.store'), ['login' => $guardian->email, 'password' => 'password'])
             ->assertRedirect(route('portal'));
 
         $this->actingAs($guardian)->get(route('portal'))->assertOk()->assertSee('estará disponible muy pronto');
@@ -61,8 +62,8 @@ class AuthenticationTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $this->post(route('login.store'), ['email' => $user->email, 'password' => 'incorrecta'])
-            ->assertSessionHasErrors(['email' => 'El correo o la contraseña no son correctos.']);
+        $this->post(route('login.store'), ['login' => $user->email, 'password' => 'incorrecta'])
+            ->assertSessionHasErrors(['login' => 'El documento (o correo) o la contraseña no son correctos.']);
 
         $this->assertGuest();
     }
@@ -71,8 +72,8 @@ class AuthenticationTest extends TestCase
     {
         $user = User::factory()->admin()->inactive()->create();
 
-        $this->post(route('login.store'), ['email' => $user->email, 'password' => 'password'])
-            ->assertSessionHasErrors('email');
+        $this->post(route('login.store'), ['login' => $user->email, 'password' => 'password'])
+            ->assertSessionHasErrors('login');
 
         $this->assertGuest();
     }
@@ -82,10 +83,10 @@ class AuthenticationTest extends TestCase
         $user = User::factory()->create();
 
         for ($i = 0; $i < 5; $i++) {
-            $this->post(route('login.store'), ['email' => $user->email, 'password' => 'incorrecta']);
+            $this->post(route('login.store'), ['login' => $user->email, 'password' => 'incorrecta']);
         }
 
-        $this->post(route('login.store'), ['email' => $user->email, 'password' => 'password'])
+        $this->post(route('login.store'), ['login' => $user->email, 'password' => 'password'])
             ->assertStatus(429);
 
         $this->assertGuest();
@@ -124,7 +125,7 @@ class AuthenticationTest extends TestCase
             'password_confirmation' => 'nuevaClave2027',
         ])->assertRedirect(route('login'));
 
-        $this->post(route('login.store'), ['email' => $user->email, 'password' => 'nuevaClave2027']);
+        $this->post(route('login.store'), ['login' => $user->email, 'password' => 'nuevaClave2027']);
         $this->assertAuthenticatedAs($user);
     }
 
