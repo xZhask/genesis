@@ -7,6 +7,7 @@ use App\Enums\EnrollmentStatus;
 use App\Enums\EvaluationComponent;
 use App\Enums\Role;
 use App\Models\Attendance;
+use App\Models\DescriptiveEvaluation;
 use App\Models\GradeItem;
 use App\Models\GradingScale;
 use App\Models\PeriodObjective;
@@ -181,6 +182,40 @@ class TeachingDemoSeeder extends Seeder
 
         foreach ($periods->filter->isClosed() as $period) {
             PeriodResults::freeze($period);
+        }
+
+        $this->seedDescriptions($year, $periods);
+    }
+
+    /** Preescolar: descripciones de ejemplo por dimensión en los periodos que ya empezaron. */
+    private function seedDescriptions(SchoolYear $year, $periods): void
+    {
+        $samples = [
+            'Participa con entusiasmo en las actividades y cada vez sigue mejor las instrucciones del grupo.',
+            'Reconoce colores, formas y tamaños; está en proceso de contar objetos hasta 10. En casa pueden contar juntos objetos cotidianos.',
+            'Expresa sus ideas con frases completas y disfruta escuchar cuentos. Se le invita a pedir la palabra y esperar su turno.',
+            'Muestra buena coordinación al correr, saltar y lanzar; fortalece el agarre del lápiz con actividades de rasgado y punzado.',
+            'Comparte con sus compañeros, saluda y agradece. Está aprendiendo a manejar la frustración cuando pierde en un juego.',
+        ];
+
+        $sections = $year->sections()->with(['grade.subjects', 'enrollments'])->get()->filter(fn ($s) => $s->grade->isPreschool());
+        foreach ($sections as $section) {
+            foreach ($periods as $period) {
+                foreach ($section->grade->subjects as $subject) {
+                    foreach ($section->enrollments as $enrollment) {
+                        DescriptiveEvaluation::create([
+                            'enrollment_id' => $enrollment->id, 'subject_id' => $subject->id, 'period_id' => $period->id,
+                            'text' => $samples[mt_rand(0, count($samples) - 1)],
+                        ]);
+                    }
+                }
+                foreach ($section->enrollments as $enrollment) {
+                    PeriodReport::updateOrCreate(
+                        ['enrollment_id' => $enrollment->id, 'period_id' => $period->id],
+                        ['behavior' => null, 'observations' => 'Se adapta muy bien a la rutina del aula. ¡Sigamos acompañándolo en casa!'],
+                    );
+                }
+            }
         }
     }
 

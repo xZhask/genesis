@@ -66,6 +66,7 @@ Route::prefix('portal/docente')->name('portal.teacher.')->middleware(['auth', 'r
     Route::post('/notas/actividades', [Portal\GradesController::class, 'storeItem'])->name('grades.items.store');
     Route::delete('/notas/actividades/{item}', [Portal\GradesController::class, 'destroyItem'])->name('grades.items.destroy');
     Route::put('/notas/logros', [Portal\GradesController::class, 'saveObjectives'])->name('grades.objectives');
+    Route::put('/notas/descripciones', [Portal\GradesController::class, 'saveDescriptions'])->name('grades.descriptions');
 
     Route::get('/grupo', [Portal\HomeroomController::class, 'index'])->name('homeroom');
     Route::put('/grupo', [Portal\HomeroomController::class, 'save'])->name('homeroom.save');

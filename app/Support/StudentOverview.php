@@ -5,6 +5,7 @@ namespace App\Support;
 use App\Enums\AttendanceStatus;
 use App\Enums\EvaluationComponent;
 use App\Models\Attendance;
+use App\Models\DescriptiveEvaluation;
 use App\Models\Enrollment;
 use App\Models\GradingScale;
 use App\Models\PeriodObjective;
@@ -101,6 +102,25 @@ class StudentOverview
                 'objectives' => $texts,
             ];
         });
+    }
+
+    /**
+     * Preescolar: descripciones por dimensión del último periodo cerrado.
+     *
+     * @return Collection<int, array{name: string, text: ?string}>
+     */
+    public function descriptions(): Collection
+    {
+        $enrollment = $this->enrollment();
+        $latest = $this->closedPeriods()->last();
+        if (! $enrollment || ! $latest || $this->hasNumericGrades()) {
+            return collect();
+        }
+
+        $texts = DescriptiveEvaluation::where('enrollment_id', $enrollment->id)->where('period_id', $latest->id)->pluck('text', 'subject_id');
+
+        return $enrollment->section->grade->subjects()->get()
+            ->map(fn ($s) => ['name' => $s->name, 'text' => $texts[$s->id] ?? null]);
     }
 
     /** Comportamiento y observaciones del director de grupo en los periodos cerrados. */

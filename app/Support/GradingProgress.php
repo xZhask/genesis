@@ -4,6 +4,7 @@ namespace App\Support;
 
 use App\Enums\EnrollmentStatus;
 use App\Enums\EvaluationComponent;
+use App\Models\DescriptiveEvaluation;
 use App\Models\GradeItem;
 use App\Models\Period;
 use App\Models\PeriodObjective;
@@ -17,7 +18,8 @@ use Illuminate\Support\Facades\DB;
  * Avance de notas de un periodo, para revisar antes de cerrarlo. Una clase
  * está completa cuando tiene actividades en saber, hacer y ser, todos sus
  * estudiantes activos tienen nota en todas ellas y los tres logros están
- * escritos. Preescolar no se incluye (evaluación descriptiva).
+ * escritos. En preescolar, cuando cada niño tiene su descripción en cada
+ * dimensión.
  */
 class GradingProgress
 {
@@ -30,7 +32,6 @@ class GradingProgress
             ->with(['grade.subjects', 'assignments.teacher', 'homeroomTeacher'])
             ->withCount(['enrollments as students' => fn ($q) => $q->where('status', EnrollmentStatus::Active)])
             ->get()
-            ->reject(fn (Section $s) => $s->grade->isPreschool())
             ->sortBy(fn (Section $s) => [$s->grade->position, $s->name])
             ->values();
 
@@ -58,8 +59,39 @@ class GradingProgress
             ->groupBy('enrollments.section_id')
             ->pluck(DB::raw('count(*)'), 'enrollments.section_id');
 
-        return $sections->map(function (Section $section) use ($items, $filled, $objectives, $behavior) {
+        // Preescolar: descripciones escritas de estudiantes activos por sección y dimensión
+        $descriptions = DescriptiveEvaluation::query()
+            ->join('enrollments', 'enrollments.id', '=', 'descriptive_evaluations.enrollment_id')
+            ->where('descriptive_evaluations.period_id', $period->id)
+            ->where('enrollments.status', EnrollmentStatus::Active->value)
+            ->selectRaw('enrollments.section_id, descriptive_evaluations.subject_id, count(*) as total')
+            ->groupBy('enrollments.section_id', 'descriptive_evaluations.subject_id')
+            ->get()
+            ->keyBy(fn ($d) => $d->section_id.'|'.$d->subject_id);
+
+        return $sections->map(function (Section $section) use ($items, $filled, $objectives, $behavior, $descriptions) {
             $teachers = $section->assignments->mapWithKeys(fn ($a) => [$a->subject_id => $a->teacher->name]);
+
+            if ($section->grade->isPreschool()) {
+                $classes = $section->grade->subjects->map(function ($subject) use ($section, $descriptions, $teachers) {
+                    $written = (int) ($descriptions[$section->id.'|'.$subject->id]->total ?? 0);
+
+                    return [
+                        'subject' => $subject->name,
+                        'teacher' => $teachers[$subject->id] ?? null,
+                        'descriptive' => true,
+                        'components' => collect(),
+                        'items' => 0,
+                        'scores' => $written,
+                        'expected' => $section->students,
+                        'objectives' => null,
+                        'complete' => $written >= $section->students,
+                    ];
+                });
+
+                // En preescolar no hay nota de comportamiento: no se cuenta como pendiente
+                return ['section' => $section, 'students' => $section->students, 'behavior' => $section->students, 'classes' => $classes, 'preschool' => true];
+            }
 
             $classes = $section->grade->subjects->map(function ($subject) use ($section, $items, $filled, $objectives, $teachers) {
                 $key = $section->id.'|'.$subject->id;
@@ -73,6 +105,7 @@ class GradingProgress
                 return [
                     'subject' => $subject->name,
                     'teacher' => $teachers[$subject->id] ?? null,
+                    'descriptive' => false,
                     'components' => $components,
                     'items' => $classItems->count(),
                     'scores' => $scores,
@@ -87,6 +120,7 @@ class GradingProgress
                 'students' => $section->students,
                 'behavior' => (int) ($behavior[$section->id] ?? 0),
                 'classes' => $classes,
+                'preschool' => false,
             ];
         });
     }

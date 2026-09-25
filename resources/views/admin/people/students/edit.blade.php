@@ -164,7 +164,6 @@
 
             @php
                 $closedPeriods = $student->enrollments
-                    ->reject(fn ($e) => $e->section->grade->isPreschool())
                     ->flatMap(fn ($e) => $e->schoolYear->periods->filter->isClosed());
             @endphp
             @if ($closedPeriods->isNotEmpty())

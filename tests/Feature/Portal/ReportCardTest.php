@@ -123,13 +123,15 @@ class ReportCardTest extends PortalTestCase
         $this->assertStringNotContainsString('Puesto', $html);
     }
 
-    public function test_preschool_has_no_numeric_report_card_yet(): void
+    public function test_preschool_gets_its_descriptive_report_instead(): void
     {
         $preschool = $this->year->sections()->create(['grade_id' => Grade::firstWhere('name', 'Jardín')->id, 'name' => '1']);
         $child = Student::factory()->create();
         Enrollment::place($child, $preschool);
 
-        $this->actingAs($this->admin)->get(route('report-cards.student', [$child, $this->year->periods[0]]))->assertNotFound();
-        $this->actingAs($this->admin)->get(route('report-cards.section', [$preschool, $this->year->periods[0]]))->assertNotFound();
+        $this->actingAs($this->admin)->get(route('report-cards.student', [$child, $this->year->periods[0]]))
+            ->assertOk()->assertHeader('content-type', 'application/pdf');
+        $this->actingAs($this->admin)->get(route('report-cards.section', [$preschool, $this->year->periods[0]]))
+            ->assertOk();
     }
 }

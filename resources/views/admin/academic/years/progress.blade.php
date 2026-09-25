@@ -33,7 +33,7 @@
                 @if ($period->isClosed())
                     <a class="btn btn-line btn-sm" href="{{ route('report-cards.section', [$row['section'], $period]) }}"><x-icon name="download" /> Boletines</a>
                 @endif
-                <span class="muted">Comportamiento: {{ $row['behavior'] }} de {{ $row['students'] }}{{ $row['section']->homeroomTeacher ? ' · '.$row['section']->homeroomTeacher->name : '' }}</span>
+                <span class="muted">@if ($row['preschool'])Preescolar · evaluación descriptiva@else Comportamiento: {{ $row['behavior'] }} de {{ $row['students'] }}@endif{{ $row['section']->homeroomTeacher ? ' · '.$row['section']->homeroomTeacher->name : '' }}</span>
             </div>
             @if ($row['classes']->isNotEmpty())
                 <div class="table-wrap">
@@ -54,12 +54,13 @@
                                     <td data-label="Materia" class="strong">{{ $class['subject'] }}</td>
                                     <td data-label="Docente">{{ $class['teacher'] ?? 'Sin docente' }}</td>
                                     <td data-label="Actividades">
+                                        @if ($class['descriptive'])<span class="muted">No aplica</span>@endif
                                         @foreach ($class['components'] as $component => $has)
                                             <span class="comp-chip {{ $has ? 'is-done' : '' }}" title="{{ $has ? 'Con actividades' : 'Sin actividades' }}">{{ App\Enums\EvaluationComponent::from($component)->label() }}</span>
                                         @endforeach
                                     </td>
-                                    <td data-label="Notas" class="nowrap">{{ $class['scores'] }} de {{ $class['expected'] }}</td>
-                                    <td data-label="Logros">{{ $class['objectives'] }} de 3</td>
+                                    <td data-label="Notas" class="nowrap">{{ $class['scores'] }} de {{ $class['expected'] }}{{ $class['descriptive'] ? ' descripciones' : '' }}</td>
+                                    <td data-label="Logros">{{ $class['objectives'] === null ? 'No aplica' : $class['objectives'].' de 3' }}</td>
                                     <td data-label="Estado"><span class="badge badge-{{ $class['complete'] ? 'accepted' : 'in_review' }}">{{ $class['complete'] ? 'Completa' : 'Pendiente' }}</span></td>
                                 </tr>
                             @endforeach
@@ -69,6 +70,6 @@
             @endif
         </section>
     @empty
-        <p class="empty panel">{{ $onlyPending ? 'Todo está completo: puedes cerrar el periodo.' : 'No hay clases con notas numéricas en este año.' }}</p>
+        <p class="empty panel">{{ $onlyPending ? 'Todo está completo: puedes cerrar el periodo.' : 'No hay clases en este año.' }}</p>
     @endforelse
 </x-layouts.admin>

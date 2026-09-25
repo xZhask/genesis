@@ -27,9 +27,9 @@
                             <a class="btn btn-sm {{ $done ? 'btn-line' : 'btn-azul' }}" href="{{ route('portal.teacher.attendance', ['clase' => $assignment->id]) }}">
                                 {{ $done ? 'Revisar asistencia' : 'Tomar asistencia' }}
                             </a>
-                            @unless ($assignment->section->grade->isPreschool())
-                                <a class="btn btn-sm btn-line" href="{{ route('portal.teacher.grades', ['clase' => $assignment->id]) }}">Notas</a>
-                            @endunless
+                            <a class="btn btn-sm btn-line" href="{{ route('portal.teacher.grades', ['clase' => $assignment->id]) }}">
+                                {{ $assignment->section->grade->isPreschool() ? 'Evaluación' : 'Notas' }}
+                            </a>
                         </div>
                     </li>
                 @endforeach

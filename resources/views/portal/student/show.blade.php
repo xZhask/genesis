@@ -43,6 +43,36 @@
             <li class="stat"><b>{{ $totals['excused'] }}</b><span>{{ $totals['excused'] === 1 ? 'Excusa' : 'Excusas' }}</span></li>
         </ul>
 
+        @if (! $overview->hasNumericGrades())
+            <section class="panel" aria-labelledby="eval-title">
+                <div class="panel-head">
+                    <h2 id="eval-title">Evaluación</h2>
+                    @if ($overview->closedPeriods()->isNotEmpty())
+                        <div class="report-links" aria-label="Informes en PDF">
+                            @foreach ($overview->closedPeriods() as $closed)
+                                <a class="btn btn-line btn-sm" href="{{ route('report-cards.student', [$student, $closed]) }}" target="_blank" rel="noopener">
+                                    <x-icon name="download" /> {{ $closed->number === $year->periods->max('number') ? 'Informe final' : 'Informe P'.$closed->number }}
+                                </a>
+                            @endforeach
+                        </div>
+                    @endif
+                </div>
+                @if ($overview->closedPeriods()->isEmpty())
+                    <p class="hint">En preescolar la evaluación es descriptiva, sin notas. El informe aparece aquí cuando el colegio cierra cada periodo.</p>
+                @else
+                    <p class="hint">{{ $overview->closedPeriods()->last()->name() }}: cómo avanza en cada dimensión del desarrollo.</p>
+                    <div class="objectives-list">
+                        @foreach ($overview->descriptions() as $dimension)
+                            <details @if ($loop->first) open @endif>
+                                <summary>{{ $dimension['name'] }}</summary>
+                                <p>{{ $dimension['text'] ?? 'Sin descripción en este periodo.' }}</p>
+                            </details>
+                        @endforeach
+                    </div>
+                @endif
+            </section>
+        @endif
+
         @if ($overview->hasNumericGrades())
             @php
                 $scale = $overview->scale();

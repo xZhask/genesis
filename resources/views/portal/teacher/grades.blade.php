@@ -1,6 +1,6 @@
 <x-layouts.portal title="Notas">
     <div class="admin-head">
-        <h1>Notas</h1>
+        <h1>{{ ($preschool ?? false) ? 'Evaluación' : 'Notas' }}</h1>
     </div>
 
     @if ($assignments->isEmpty())
@@ -33,7 +33,46 @@
         @enderror
 
         @if ($preschool)
-            <p class="notice">Preescolar se evalúa de forma descriptiva, por dimensiones del desarrollo y sin notas numéricas. Esa evaluación llegará con el boletín de preescolar.</p>
+            @php $locked = $period->isClosed(); @endphp
+            <section class="panel" aria-labelledby="desc-title">
+                <h2 id="desc-title">{{ $assignment->label() }} · {{ $period->name() }}</h2>
+                <p class="hint">Preescolar se evalúa de forma descriptiva, sin notas: escribe cómo avanza cada niño en esta dimensión (lo que logra, lo que está
+                    en proceso y cómo acompañarlo en casa). Aparece en su boletín.</p>
+                @if ($locked)
+                    <p class="notice">El {{ mb_strtolower($period->name()) }} está cerrado: sus descripciones son de solo lectura.</p>
+                @endif
+
+                @if ($enrollments->isEmpty())
+                    <p class="empty">No hay niños matriculados en {{ $assignment->section->label() }}.</p>
+                @else
+                    <form method="POST" action="{{ route('portal.teacher.grades.descriptions') }}" novalidate>
+                        @csrf
+                        @method('PUT')
+                        <input type="hidden" name="clase" value="{{ $assignment->id }}">
+                        <input type="hidden" name="periodo" value="{{ $period->id }}">
+                        <ol class="behavior-list">
+                            @foreach ($enrollments as $enrollment)
+                                <li>
+                                    <div class="field @error("descriptions.{$enrollment->id}") has-error @enderror">
+                                        <label class="label" for="d-{{ $enrollment->id }}">{{ $enrollment->student->sortName() }}</label>
+                                        <textarea id="d-{{ $enrollment->id }}" name="descriptions[{{ $enrollment->id }}]" rows="4" maxlength="1000" class="description-input"
+                                            @disabled($locked)>{{ old("descriptions.{$enrollment->id}", $descriptions[$enrollment->id] ?? '') }}</textarea>
+                                        @error("descriptions.{$enrollment->id}")
+                                            <p class="error">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+                                </li>
+                            @endforeach
+                        </ol>
+                        @unless ($locked)
+                            <div class="att-save">
+                                <span>{{ $descriptions->count() }} de {{ $enrollments->count() }} con descripción</span>
+                                <button type="submit" class="btn btn-sol" data-submit data-loading-text="Guardando…"><span>Guardar descripciones</span></button>
+                            </div>
+                        @endunless
+                    </form>
+                @endif
+            </section>
         @else
             @php $locked = $period->isClosed(); @endphp
             @if ($locked)

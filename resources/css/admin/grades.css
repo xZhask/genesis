@@ -300,3 +300,20 @@
         white-space: normal;
     }
 }
+
+/* Preescolar: descripción por niño */
+.description-input {
+    width: 100%;
+    min-height: 80px;
+    padding: 8px 10px;
+    font: 500 max(16px, .95rem) var(--font-b);
+    color: var(--text);
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--r-sm);
+    resize: vertical;
+}
+
+.behavior-fields.single {
+    grid-template-columns: 1fr;
+}

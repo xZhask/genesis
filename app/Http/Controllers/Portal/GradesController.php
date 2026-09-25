@@ -7,6 +7,7 @@ use App\Enums\EvaluationComponent;
 use App\Enums\Performance;
 use App\Exceptions\PeriodClosedException;
 use App\Http\Controllers\Controller;
+use App\Models\DescriptiveEvaluation;
 use App\Models\GradeItem;
 use App\Models\GradingScale;
 use App\Models\Period;
@@ -54,19 +55,27 @@ class GradesController extends Controller
 
         $data = ['year' => $year, 'assignments' => $assignments, 'assignment' => $assignment, 'periods' => $periods, 'period' => $period];
 
-        if ($assignment->section->grade->isPreschool()) {
-            return response()->view('portal.teacher.grades', $data + ['preschool' => true])
-                ->withCookie(cookie()->forever(self::LAST_CLASS, (string) $assignment->id));
-        }
-
-        $scale = GradingScale::forYear($year);
-        $grades = new ClassGrades($assignment->section, $assignment->subject, $period, $scale);
         $enrollments = $assignment->section->enrollments()
             ->where('status', EnrollmentStatus::Active)
             ->with('student')
             ->get()
             ->sortBy(fn ($e) => $e->student->sortName(), SORT_NATURAL | SORT_FLAG_CASE)
             ->values();
+
+        // Preescolar: evaluación descriptiva por dimensión, sin notas
+        if ($assignment->section->grade->isPreschool()) {
+            return response()->view('portal.teacher.grades', $data + [
+                'preschool' => true,
+                'enrollments' => $enrollments,
+                'descriptions' => DescriptiveEvaluation::where('subject_id', $assignment->subject_id)
+                    ->where('period_id', $period->id)
+                    ->whereIn('enrollment_id', $enrollments->pluck('id'))
+                    ->pluck('text', 'enrollment_id'),
+            ])->withCookie(cookie()->forever(self::LAST_CLASS, (string) $assignment->id));
+        }
+
+        $scale = GradingScale::forYear($year);
+        $grades = new ClassGrades($assignment->section, $assignment->subject, $period, $scale);
 
         return response()->view('portal.teacher.grades', $data + [
             'preschool' => false,
@@ -208,19 +217,55 @@ class GradesController extends Controller
         });
     }
 
+    /** Preescolar: una descripción por niño en la dimensión y el periodo. */
+    public function saveDescriptions(Request $request): RedirectResponse
+    {
+        [$assignment, $period] = $this->context($request, preschool: true);
+
+        $data = $request->validate([
+            'descriptions' => ['array'],
+            'descriptions.*' => ['nullable', 'string', 'max:1000'],
+        ], ['descriptions.*.max' => 'Cada descripción puede tener hasta 1.000 caracteres.']);
+
+        $enrollments = $assignment->section->enrollments()->where('status', EnrollmentStatus::Active)->pluck('id')->all();
+        $descriptions = $data['descriptions'] ?? [];
+        if (array_diff(array_keys($descriptions), $enrollments)) {
+            return $this->back($assignment, $period)->withErrors(['period' => 'La lista cambió: recarga la página.']);
+        }
+
+        return $this->write($assignment, $period, function () use ($assignment, $period, $descriptions, $request) {
+            $saved = 0;
+            foreach ($descriptions as $enrollmentId => $text) {
+                $text = trim((string) $text);
+                $keys = ['enrollment_id' => $enrollmentId, 'subject_id' => $assignment->subject_id, 'period_id' => $period->id];
+                if ($text === '') {
+                    DescriptiveEvaluation::where($keys)->delete();
+
+                    continue;
+                }
+                DescriptiveEvaluation::updateOrCreate($keys, ['text' => $text, 'recorded_by' => $request->user()->id]);
+                $saved++;
+            }
+
+            return "Descripciones guardadas ({$saved}).";
+        });
+    }
+
     /**
      * Clase y periodo del formulario: la clase debe ser del docente y el
-     * periodo, del año de esa sección.
+     * periodo, del año de esa sección. Preescolar solo usa las descripciones.
      *
      * @return array{0: TeacherAssignment, 1: Period}
      */
-    private function context(Request $request): array
+    private function context(Request $request, bool $preschool = false): array
     {
         $request->validate(['clase' => ['required', 'integer'], 'periodo' => ['required', 'integer']]);
 
         $assignment = TeacherAssignment::with(['section.grade', 'subject'])->findOrFail($request->input('clase'));
         $this->authorize('record', $assignment);
-        abort_if($assignment->section->grade->isPreschool(), 403, 'Preescolar se evalúa de forma descriptiva.');
+        abort_if($assignment->section->grade->isPreschool() !== $preschool, 403, $preschool
+            ? 'La evaluación descriptiva es solo de preescolar.'
+            : 'Preescolar se evalúa de forma descriptiva.');
 
         $period = Period::where('school_year_id', $assignment->section->school_year_id)->findOrFail($request->input('periodo'));
 

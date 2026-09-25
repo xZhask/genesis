@@ -1,7 +1,7 @@
 <x-layouts.portal title="Mi grupo">
     <div class="admin-head">
         <h1>Mi grupo</h1>
-        <p class="lead-sm">Como director de grupo registras el comportamiento y las observaciones de cada periodo. Aparecen en el boletín.</p>
+        <p class="lead-sm">Como director de grupo registras el comportamiento y las observaciones de cada periodo (en preescolar, solo las observaciones). Aparecen en el boletín.</p>
     </div>
 
     <form class="attendance-picker panel" method="GET" action="{{ route('portal.teacher.homeroom') }}">
@@ -34,10 +34,8 @@
         @php($locked = $period->isClosed())
         @if ($locked)
             <p class="notice">El {{ mb_strtolower($period->name()) }} está cerrado: solo lectura.</p>
-            @unless ($section->grade->isPreschool())
-                <p><a class="btn btn-azul btn-sm" href="{{ route('report-cards.section', [$section, $period]) }}">
-                    <x-icon name="download" /> Boletines del grupo en PDF (para imprimir)</a></p>
-            @endunless
+            <p><a class="btn btn-azul btn-sm" href="{{ route('report-cards.section', [$section, $period]) }}">
+                <x-icon name="download" /> Boletines del grupo en PDF (para imprimir)</a></p>
         @endif
 
         @if ($enrollments->isEmpty())
@@ -54,11 +52,12 @@
                         <li>
                             <p class="strong">
                                 {{ $enrollment->student->sortName() }}
-                                @if ($locked && ! $section->grade->isPreschool())
+                                @if ($locked)
                                     <a class="small-link" href="{{ route('report-cards.student', [$enrollment->student, $period]) }}" target="_blank" rel="noopener">Boletín</a>
                                 @endif
                             </p>
-                            <div class="behavior-fields">
+                            <div class="behavior-fields {{ $section->grade->isPreschool() ? 'single' : '' }}">
+                                @unless ($section->grade->isPreschool())
                                 <div class="field @error("behavior.{$enrollment->id}") has-error @enderror">
                                     <label class="label" for="b-{{ $enrollment->id }}">Comportamiento</label>
                                     <input id="b-{{ $enrollment->id }}" name="behavior[{{ $enrollment->id }}]" type="text" inputmode="decimal" maxlength="4" @disabled($locked)
@@ -67,6 +66,7 @@
                                         <p class="error">{{ $message }}</p>
                                     @enderror
                                 </div>
+                                @endunless
                                 <div class="field @error("observations.{$enrollment->id}") has-error @enderror">
                                     <label class="label" for="o-{{ $enrollment->id }}">Observaciones <span class="opt">(opcional)</span></label>
                                     <textarea id="o-{{ $enrollment->id }}" name="observations[{{ $enrollment->id }}]" rows="2" maxlength="1000" @disabled($locked)>{{ old("observations.{$enrollment->id}", $report?->observations) }}</textarea>
