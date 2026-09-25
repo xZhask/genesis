@@ -1,0 +1,161 @@
+footer.site-footer {
+    background: var(--band);
+    color: var(--on-band);
+    padding: 64px 0 48px;
+    font-size: .95rem;
+}
+
+.site-footer .grid {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr 1.4fr;
+    gap: 36px;
+}
+
+.site-footer .grid.with-hours {
+    grid-template-columns: 1.3fr 1fr 1fr 1.4fr;
+}
+
+.site-footer h2 {
+    font: var(--wd) 1.2rem var(--font-d);
+    color: #fff;
+    margin: 0 0 12px;
+}
+
+.site-footer ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 8px;
+}
+
+.site-footer a {
+    text-decoration: none;
+    opacity: .9;
+}
+
+.site-footer a:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+.site-footer .fbrand {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.site-footer .fbrand img {
+    width: 56px;
+    background: #fff;
+    border-radius: 14px;
+    padding: 6px;
+}
+
+.site-footer .fbrand b {
+    font: var(--wd-x) 1.4rem/1 var(--font-d);
+    color: #fff;
+    letter-spacing: .06em;
+}
+
+.site-footer .fbrand small {
+    display: block;
+    color: var(--on-band-accent);
+    font-size: .8rem;
+}
+
+.site-footer .fdesc {
+    margin-top: 14px;
+    opacity: .85;
+}
+
+.site-footer .social {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 16px;
+    min-height: 44px;
+}
+
+.site-footer .social svg {
+    width: 22px;
+    height: 22px;
+}
+
+.site-footer .contact {
+    margin-bottom: 14px;
+}
+
+/* Mapa ilustrativo (dibujo del mockup) con enlace real a Google Maps */
+.map {
+    border-radius: var(--r-md);
+    overflow: hidden;
+    height: 170px;
+    position: relative;
+    background:
+        linear-gradient(0deg, transparent 48%, rgba(255, 255, 255, .55) 48% 52%, transparent 52%),
+        linear-gradient(90deg, transparent 30%, rgba(255, 255, 255, .55) 30% 33%, transparent 33%),
+        linear-gradient(35deg, transparent 60%, rgba(255, 255, 255, .4) 60% 62%, transparent 62%),
+        #CFE3D2;
+}
+
+.map .pin {
+    position: absolute;
+    left: 31%;
+    top: 40%;
+    transform: translate(-50%, -100%);
+    color: #E0453A;
+}
+
+.map .pin svg {
+    width: 36px;
+    height: 36px;
+}
+
+.site-footer .map a {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    display: inline-flex;
+    align-items: center;
+    min-height: 36px;
+    background: #fff;
+    color: #104976;
+    font-weight: 700;
+    font-size: .85rem;
+    padding: 6px 14px;
+    border-radius: 999px;
+    opacity: 1;
+    --focus: #104976;
+}
+
+.copyline {
+    margin-top: 44px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, .15);
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    font-size: .85rem;
+    opacity: .8;
+}
+
+@media (max-width: 980px) {
+    .site-footer .grid,
+    .site-footer .grid.with-hours {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    .site-footer .grid,
+    .site-footer .grid.with-hours {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Deja espacio para el botón flotante de WhatsApp */
+.has-whatsapp footer.site-footer {
+    padding-bottom: 110px;
+}

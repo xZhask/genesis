@@ -1,7 +1,11 @@
 # Contenido institucional oficial
 
 Fuente: folleto oficial del colegio (`referencia/folleto-1.png`, `referencia/folleto-2.png`), recibido en septiembre de 2026.
-**Usa estos textos tal cual.** Solo puedes corregir ortografía evidente. No inventes textos institucionales nuevos; si hace falta uno (por ejemplo, la descripción de un nivel), propón un borrador y márcalo como pendiente de aprobación.
+El folleto es **contexto y referencia de tono**, no una regla. Cómo usar este documento:
+
+- **Literales** (solo se corrige ortografía evidente): identidad, contacto, misión, visión, valores, principios, objetivos, propuesta educativa, niveles y costos.
+- **Contexto** (frases del folleto, descripción de las fotos): orientan el tono. Los textos de la web (hero, introducciones, descripciones de niveles, botones) se redactan con criterio de UX y quedan como borrador revisable por el colegio.
+- No se publican cifras ni promesas que el colegio no haya confirmado.
 
 ## Identidad
 

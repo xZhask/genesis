@@ -4,11 +4,11 @@ Sitio web público + portal académico para un colegio privado cristiano en **Za
 Niveles: **Preescolar (Párvulos, Prejardín, Jardín, Transición), Básica primaria (1.° a 5.°) y Básica secundaria (6.° a 9.°)**. El colegio **no** ofrece media (10.° y 11.°): nunca menciones "bachillerato", "grado 11", "media" ni "Saber 11".
 
 Documentos que debes leer según la tarea:
-- @docs/contenido-institucional.md — textos oficiales del colegio (misión, visión, valores, contacto, costos). Úsalos tal cual; no inventes textos institucionales.
+- @docs/contenido-institucional.md — declaraciones formales del colegio (misión, visión, valores, contacto, costos) y contexto. Ver "Textos de la web" más abajo.
 - @docs/alcance-y-modelo.md — módulos, roles, modelo de datos y reglas del portal.
 - @docs/pendientes.md — decisiones que el colegio aún no toma. Si una tarea depende de una de ellas, **pregunta antes de suponer**.
 - `referencia/mockup-inicio/index.html` — diseño aprobado de la página de inicio. Es la guía visual: respeta colores, tipografía, espaciados y estructura.
-- `referencia/folleto-*.png` — folleto oficial del colegio (fuente de los textos y del tono).
+- `referencia/folleto-*.png` — folleto oficial del colegio. Es contexto y referencia de tono, no una regla de diseño ni de redacción.
 
 ---
 
@@ -35,6 +35,11 @@ Documentos que debes leer según la tarea:
 - Término para padre/madre/tutor: **acudiente**.
 - Nombre del colegio en textos: "Centro Educativo Cristiano Génesis" (con tilde). El logo es una imagen y no se redibuja.
 
+### Textos de la web
+- **Declaraciones formales, literales:** misión, visión, valores, principios, objetivos, propuesta educativa, contacto y costos. Solo se corrige ortografía evidente; sí se decide cómo presentarlas (jerarquía, orden, extractos).
+- **Textos de la web, con criterio de UX:** hero, introducciones de sección, descripciones de niveles, botones y microcopy. Se redactan pensando en el acudiente que entra desde el celular; el folleto solo aporta el tono. Se publican como borrador revisable por el colegio, sin bloquear el desarrollo.
+- **Nunca** se publican cifras ni promesas no confirmadas (tamaño de grupos, años de trayectoria, resultados en pruebas, etc.).
+
 ## Diseño (decidido)
 
 Toma los valores exactos del mockup de referencia. Resumen:
@@ -42,6 +47,7 @@ Toma los valores exactos del mockup de referencia. Resumen:
 - **Paleta (del logo):** navy `#104976`, azul `#1D5FA8`, verde `#3FA64A`, acento amarillo `#F6B91C` (usar con moderación, sobre todo en botones principales).
 - **Color por nivel:** Preescolar verde `#3FA64A`, Primaria naranja `#D9800A`, Secundaria azul `#1D5FA8`.
 - **Tipografía:** cuerpo **Figtree**; títulos con una variable `--font-d`. Opción recomendada: **Nunito** (redondeada y sobria, coherente con el folleto). La elección final está en `docs/pendientes.md`: mientras tanto usa Nunito y deja la fuente en una sola variable CSS para cambiarla en un solo lugar.
+- **Modo claro y oscuro:** la primera visita sigue la preferencia del sistema; un botón (luna/sol, 44 × 44 px, junto al menú) permite cambiarlo y la elección se recuerda en el navegador. Ambos temas deben cumplir contraste AA: los colores de marca se usan como relleno y, para texto, sus variantes `*-ink`.
 - **Web pública:** alegre y cálida (esquinas redondeadas, color por nivel, fotos reales). **Portal y panel admin:** sobrios y funcionales, con los mismos colores y la misma tipografía, pero densos en información y sin decoración.
 - Diseño **primero para celular**; los acudientes entran casi siempre desde el teléfono.
 - Accesibilidad: contraste AA, foco visible, `alt` en imágenes, respetar `prefers-reduced-motion`.

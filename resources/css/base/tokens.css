@@ -1,0 +1,107 @@
+/*
+ * Tokens de diseño (valores del mockup aprobado).
+ * Los colores de marca se usan como relleno; para texto se usan las
+ * variantes *-ink, verificadas con contraste AA en ambos temas.
+ */
+:root {
+    color-scheme: light;
+
+    /* Marca */
+    --navy: #104976;
+    --azul: #1D5FA8;
+    --verde: #3FA64A;
+    --sol: #F6B91C;
+    --on-sol: #3A2A00;
+    --sol-shadow: #D39A00;
+
+    /* Niveles (relleno) */
+    --pre: #3FA64A;
+    --pri: #D9800A;
+    --sec: #1D5FA8;
+
+    /* Texto de color */
+    --azul-ink: #1D5FA8;
+    --verde-ink: #2B7A34;
+    --pre-ink: #2B7A34;
+    --pri-ink: #9A5500;
+    --sec-ink: #1D5FA8;
+
+    /* Superficies y texto */
+    --bg: #FFFFFF;
+    --bg-soft: #EFF6FD;
+    --bg-mint: #EEF8EF;
+    --card: #FFFFFF;
+    --text: #18324D;
+    --muted: #56708A;
+    --line: #D8E4F0;
+
+    /* Superficies de acción (botón azul, caja de admisiones) */
+    --action: #1D5FA8;
+    --on-action: #FFFFFF;
+
+    /* Bandas oscuras (barra superior, footer, voluntariado) */
+    --band: #104976;
+    --band-2: #104976;
+    --on-band: #DCE8F4;
+    --on-band-accent: #9FD7A5;
+
+    /* Fondos suaves de iconos */
+    --tint-azul: #E6F0FB;
+    --tint-verde: #E8F6E9;
+    --tint-sol: #FEF3DC;
+
+    /* Foco: navy sobre claro; amarillo sobre oscuro (ver .on-dark) */
+    --focus: #104976;
+
+    --shadow: 0 10px 30px -12px rgba(16, 73, 118, .28);
+    --r-lg: 28px;
+    --r-md: 18px;
+    --r-sm: 12px;
+
+    /* Tipografía. Títulos provisionalmente en Nunito (docs/pendientes.md):
+       para cambiarla basta con editar --font-d y sus pesos. */
+    --font-d: "Nunito", "Trebuchet MS", system-ui, sans-serif;
+    --font-b: "Figtree", "Segoe UI", system-ui, -apple-system, sans-serif;
+    --wd: 800;
+    --wd-x: 800;
+    --hero-fs: clamp(2.3rem, 4.8vw, 3.5rem);
+    --hero-ls: -.015em;
+
+    --header-h: 78px;
+}
+
+/* El script del <head> pone data-theme="dark" según la preferencia guardada
+   o la del sistema, así que este es el único bloque del tema oscuro. */
+:root[data-theme="dark"] {
+    color-scheme: dark;
+
+    --navy: #8EC0F0;
+    --azul: #5B9BE0;
+
+    --azul-ink: #7DB3EE;
+    --verde-ink: #72CC7B;
+    --pre-ink: #72CC7B;
+    --pri-ink: #F2A646;
+    --sec-ink: #7DB3EE;
+
+    --bg: #0F1E2E;
+    --bg-soft: #132840;
+    --bg-mint: #12291C;
+    --card: #172C44;
+    --text: #E6EFF8;
+    --muted: #9DB3C8;
+    --line: #27425F;
+
+    --action: #2A6DB8;
+
+    --band: #0A1624;
+    --band-2: #1A3A5E;
+
+    --tint-azul: #1B3656;
+    --tint-verde: #173A26;
+    --tint-sol: #3A2E12;
+
+    --focus: #F6B91C;
+
+    --shadow: 0 10px 30px -12px rgba(0, 0, 0, .6);
+}

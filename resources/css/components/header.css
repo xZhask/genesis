@@ -1,0 +1,249 @@
+/* Barra superior */
+.topbar {
+    background: var(--band);
+    color: #fff;
+    font-size: .88rem;
+    padding-top: env(safe-area-inset-top, 0px);
+}
+
+.topbar .wrap {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 8px 0;
+    flex-wrap: wrap;
+}
+
+.topbar .tb-left {
+    display: flex;
+    gap: 22px;
+    flex-wrap: wrap;
+}
+
+.topbar span,
+.topbar a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    opacity: .92;
+    text-decoration: none;
+}
+
+.topbar a:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+.topbar svg {
+    width: 15px;
+    height: 15px;
+    flex: none;
+}
+
+/* Navegación */
+header.nav {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: color-mix(in srgb, var(--bg) 92%, transparent);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+}
+
+.nav .wrap {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    height: var(--header-h);
+}
+
+.brand {
+    flex: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+}
+
+.brand img {
+    width: 50px;
+    height: auto;
+}
+
+.brand b {
+    display: block;
+    font: var(--wd-x) 1.55rem/1 var(--font-d);
+    color: var(--navy);
+    letter-spacing: .06em;
+}
+
+.brand small {
+    display: block;
+    white-space: nowrap;
+    font-size: .76rem;
+    color: var(--verde-ink);
+    font-weight: 600;
+    margin-top: 2px;
+}
+
+.menu-nav {
+    margin-left: auto;
+}
+
+.menu {
+    display: flex;
+    gap: 2px;
+    margin: 0;
+    list-style: none;
+    padding: 0;
+}
+
+.menu a {
+    display: block;
+    padding: 9px 10px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: .95rem;
+    color: var(--text);
+}
+
+.menu a:hover,
+.menu a[aria-current="page"] {
+    background: var(--bg-soft);
+    color: var(--azul-ink);
+}
+
+/* Solo en el menú del celular */
+.menu .menu-portal {
+    display: none;
+}
+
+.nav .btn {
+    padding: 11px 18px;
+    font-size: .93rem;
+}
+
+.icon-btn {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    background: var(--bg-soft);
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    color: var(--navy);
+    cursor: pointer;
+}
+
+.icon-btn:hover {
+    color: var(--azul-ink);
+    border-color: var(--azul-ink);
+}
+
+.icon-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* Botón de tema: muestra el modo al que se cambiará */
+.theme-btn .sun,
+:root[data-theme="dark"] .theme-btn .moon {
+    display: none;
+}
+
+:root[data-theme="dark"] .theme-btn .sun {
+    display: block;
+}
+
+.burger {
+    display: none;
+    background: none;
+    border-color: transparent;
+}
+
+.burger svg {
+    width: 28px;
+    height: 28px;
+}
+
+.burger .close,
+.burger[aria-expanded="true"] .open {
+    display: none;
+}
+
+.burger[aria-expanded="true"] .close {
+    display: block;
+}
+
+@media (max-width: 1180px) {
+    .menu {
+        display: none;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: var(--header-h);
+        flex-direction: column;
+        background: var(--bg);
+        padding: 12px 20px 20px;
+        border-bottom: 1px solid var(--line);
+        box-shadow: var(--shadow);
+        max-height: calc(100dvh - var(--header-h));
+        overflow-y: auto;
+    }
+
+    .menu.open {
+        display: flex;
+    }
+
+    .menu a {
+        padding: 12px 14px;
+        font-size: 1.02rem;
+    }
+
+    .menu .menu-portal {
+        display: block;
+        margin-top: 8px;
+        padding-top: 12px;
+        border-top: 1px solid var(--line);
+    }
+
+    .menu .menu-portal a {
+        color: var(--azul-ink);
+    }
+
+    .menu-nav {
+        margin-left: 0;
+    }
+
+    .theme-btn {
+        margin-left: auto;
+    }
+
+    .burger {
+        display: grid;
+    }
+
+    .nav .btn-portal {
+        display: none;
+    }
+}
+
+@media (max-width: 640px) {
+    .topbar {
+        display: none;
+    }
+
+    header.nav {
+        padding-top: env(safe-area-inset-top, 0px);
+    }
+}
+
+@media (max-width: 380px) {
+    .brand small {
+        display: none;
+    }
+}

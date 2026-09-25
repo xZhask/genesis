@@ -1,1 +1,10 @@
-/* Estilos propios del sitio. Los valores de diseño se portarán desde referencia/mockup-inicio/index.html */
+/* Web pública. Valores portados de referencia/mockup-inicio/index.html */
+@import './base/tokens.css';
+@import './base/base.css';
+
+@import './components/buttons.css';
+@import './components/header.css';
+@import './components/footer.css';
+@import './components/floating.css';
+
+@import './pages/coming-soon.css';

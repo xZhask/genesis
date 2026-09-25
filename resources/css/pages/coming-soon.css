@@ -1,0 +1,17 @@
+/* Página temporal para las secciones que aún no se construyen */
+.coming-soon {
+    padding: 96px 0 120px;
+    background:
+        radial-gradient(900px 420px at 88% 20%, var(--bg-soft), transparent 70%),
+        radial-gradient(600px 380px at 0% 100%, var(--bg-mint), transparent 70%);
+}
+
+.coming-soon h1 {
+    font-size: clamp(2.2rem, 5vw, 3.2rem);
+    font-weight: var(--wd-x);
+    letter-spacing: var(--hero-ls);
+}
+
+.coming-soon .btn {
+    margin-top: 28px;
+}

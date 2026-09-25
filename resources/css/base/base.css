@@ -1,0 +1,132 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: calc(env(safe-area-inset-top, 0px) + var(--header-h) + 6px);
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-b);
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+a {
+    color: inherit;
+}
+
+h1,
+h2,
+h3,
+h4 {
+    font-family: var(--font-d);
+    line-height: 1.1;
+    margin: 0;
+    color: var(--navy);
+    font-weight: var(--wd);
+}
+
+h2 {
+    font-size: clamp(2rem, 4vw, 2.75rem);
+}
+
+h3 {
+    font-size: 1.35rem;
+}
+
+p {
+    margin: 0;
+}
+
+.wrap {
+    width: min(1160px, 100% - 40px);
+    margin-inline: auto;
+}
+
+section {
+    padding: 88px 0;
+}
+
+.lead {
+    color: var(--muted);
+    font-size: 1.08rem;
+    max-width: 56ch;
+    margin-top: 12px;
+}
+
+/* Foco visible: navy sobre fondos claros, amarillo sobre fondos oscuros */
+:focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 3px;
+    border-radius: 6px;
+}
+
+.on-dark {
+    --focus: var(--sol);
+}
+
+.skip-link {
+    position: absolute;
+    left: 12px;
+    top: -60px;
+    z-index: 100;
+    background: var(--action);
+    color: var(--on-action);
+    padding: 10px 16px;
+    border-radius: var(--r-sm);
+    font-weight: 700;
+    text-decoration: none;
+    --focus: var(--sol);
+}
+
+.skip-link:focus {
+    top: calc(12px + env(safe-area-inset-top, 0px));
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+    body {
+        font-size: 16px;
+    }
+
+    section {
+        padding: 64px 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
+    }
+
+    html {
+        scroll-behavior: auto;
+    }
+}

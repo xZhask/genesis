@@ -1,0 +1,47 @@
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 44px;
+    font: 600 1rem/1 var(--font-b);
+    padding: 15px 24px;
+    border-radius: 999px;
+    border: 2px solid transparent;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform .15s, background .15s;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+.btn svg {
+    width: 20px;
+    height: 20px;
+    flex: none;
+}
+
+/* Botón principal: amarillo, con moderación */
+.btn-sol {
+    background: var(--sol);
+    color: var(--on-sol);
+    box-shadow: 0 6px 0 var(--sol-shadow);
+}
+
+.btn-sol:active {
+    transform: translateY(3px);
+    box-shadow: 0 3px 0 var(--sol-shadow);
+}
+
+.btn-azul {
+    background: var(--action);
+    color: var(--on-action);
+}
+
+.btn-line {
+    border-color: var(--azul-ink);
+    color: var(--azul-ink);
+    background: transparent;
+}
