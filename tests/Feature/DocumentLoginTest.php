@@ -28,7 +28,7 @@ class DocumentLoginTest extends TestCase
         $guardian = User::factory()->role(Role::Guardian)->create(['document_number' => '1045678901', 'email' => null]);
 
         $this->post(route('login.store'), ['login' => '1.045.678 901', 'password' => 'password'])
-            ->assertRedirect(route('portal'));
+            ->assertRedirect(route('portal.guardian.home'));
 
         $this->assertAuthenticatedAs($guardian);
         $this->assertNotNull($guardian->fresh()->last_login_at);
@@ -126,7 +126,7 @@ class DocumentLoginTest extends TestCase
 
         $this->actingAs($user)
             ->put(route('password.change.update'), ['current_password' => 'password', 'password' => 'nuevaClave2027', 'password_confirmation' => 'nuevaClave2027'])
-            ->assertRedirect(route('portal'));
+            ->assertRedirect(route('portal.guardian.home'));
     }
 
     public function test_password_change_requires_login(): void

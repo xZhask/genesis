@@ -8,6 +8,7 @@ use App\Enums\GuardianRelationship;
 use App\Enums\Role;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\People\StudentRequest;
+use App\Models\Attendance;
 use App\Models\Enrollment;
 use App\Models\SchoolYear;
 use App\Models\Section;
@@ -131,6 +132,11 @@ class StudentController extends Controller
     public function destroy(Student $student): RedirectResponse
     {
         $this->authorize('delete', $student);
+
+        // Con asistencia registrada, se conserva el historial: se marca como retirado
+        if (Attendance::whereIn('enrollment_id', $student->enrollments()->pluck('id'))->exists()) {
+            return back()->withErrors(['account' => "{$student->fullName()} ya tiene asistencia registrada y no se puede eliminar. Si dejó el colegio, márcalo como retirado en la matrícula."]);
+        }
 
         DB::transaction(function () use ($student) {
             // Su cuenta del portal ya no tiene uso

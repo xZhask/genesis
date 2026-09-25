@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -50,6 +51,17 @@ class User extends Authenticatable
         return Attribute::make(set: fn (?string $value) => filled($value) ? mb_strtolower(trim($value)) : null);
     }
 
+    /** Materias y secciones que dicta (docentes). */
+    public function assignments(): HasMany
+    {
+        return $this->hasMany(TeacherAssignment::class, 'teacher_id');
+    }
+
+    public function homeroomSections(): HasMany
+    {
+        return $this->hasMany(Section::class, 'homeroom_teacher_id');
+    }
+
     public function student(): HasOne
     {
         return $this->hasOne(Student::class);
@@ -66,10 +78,15 @@ class User extends Authenticatable
         return in_array($this->role, $roles, true);
     }
 
-    /** Zona de cada rol después de ingresar (los portales llegan en la capa 1c). */
+    /** Zona de cada rol después de ingresar. */
     public function homeUrl(): string
     {
-        return $this->isAdmin() ? route('admin.dashboard') : route('portal');
+        return match ($this->role) {
+            Role::Admin => route('admin.dashboard'),
+            Role::Teacher => route('portal.teacher.home'),
+            Role::Student => route('portal.student.home'),
+            Role::Guardian => route('portal.guardian.home'),
+        };
     }
 
     public function isAdmin(): bool

@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // Un usuario por rol para probar permisos (contraseña: password)
-        User::factory()->role(Role::Teacher)->create(['name' => 'Luis Martínez', 'email' => 'docente@genesis.test']);
+        User::factory()->role(Role::Teacher)->create(['name' => 'Edgar Ojoalegre', 'email' => 'docente@genesis.test']);
         User::factory()->role(Role::Guardian)->create(['name' => 'Marta Díaz', 'email' => 'acudiente@genesis.test']);
         User::factory()->role(Role::Student)->create(['name' => 'Andrés Pérez', 'email' => 'estudiante@genesis.test']);
 
@@ -48,6 +48,6 @@ class DatabaseSeeder extends Seeder
         $this->call([NewsAndEventsSeeder::class, GallerySeeder::class, ResourcesSeeder::class, SupportSeeder::class]);
 
         // Portal (fase 2): catálogo provisional y un año de ejemplo
-        $this->call([AcademicCatalogSeeder::class, AcademicDemoSeeder::class, PeopleDemoSeeder::class]);
+        $this->call([AcademicCatalogSeeder::class, AcademicDemoSeeder::class, PeopleDemoSeeder::class, TeachingDemoSeeder::class]);
     }
 }

@@ -6,6 +6,7 @@ use App\Enums\EnrollmentStatus;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /** Matrícula de un estudiante en una sección durante un año lectivo. */
 class Enrollment extends Model
@@ -33,6 +34,11 @@ class Enrollment extends Model
     public function schoolYear(): BelongsTo
     {
         return $this->belongsTo(SchoolYear::class);
+    }
+
+    public function attendances(): HasMany
+    {
+        return $this->hasMany(Attendance::class);
     }
 
     public function scopeActive(Builder $query): void

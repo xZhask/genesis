@@ -52,6 +52,18 @@
             <div class="stack">
                 @include('admin.people.partials.account', ['user' => $user, 'createRoute' => null, 'cannot' => null])
 
+                @if ($user->role === App\Enums\Role::Teacher)
+                    <section class="panel" aria-labelledby="clases-title">
+                        <h2 id="clases-title">Clases {{ $year?->year }}</h2>
+                        @forelse ($user->assignments->sortBy(fn ($a) => [$a->section->grade->position, $a->section->name]) as $assignment)
+                            <p class="assignment-line">{{ $assignment->label() }}</p>
+                        @empty
+                            <p class="hint">Sin materias asignadas este año.</p>
+                        @endforelse
+                        <a class="btn-link" href="{{ route('admin.academic.assignments.index') }}">Editar asignaciones en Académico</a>
+                    </section>
+                @endif
+
                 @if ($user->guardian)
                     <section class="panel" aria-labelledby="acudiente-title">
                         <h2 id="acudiente-title">También es acudiente</h2>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\People;
 use App\Enums\Role;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\People\StaffRequest;
+use App\Models\SchoolYear;
 use App\Models\User;
 use App\Support\Accounts;
 use Illuminate\Http\RedirectResponse;
@@ -57,7 +58,10 @@ class StaffController extends Controller
         Gate::authorize('manage-people');
         abort_unless($user->hasRole(Role::Teacher, Role::Admin), 404);
 
-        return view('admin.people.staff.form', ['user' => $user->load('guardian.students')]);
+        $year = SchoolYear::current();
+        $user->load(['guardian.students', 'assignments' => fn ($q) => $q->whereHas('section', fn ($s) => $s->where('school_year_id', $year?->id))->with('section.grade', 'subject')]);
+
+        return view('admin.people.staff.form', ['user' => $user, 'year' => $year]);
     }
 
     public function update(StaffRequest $request, User $user): RedirectResponse

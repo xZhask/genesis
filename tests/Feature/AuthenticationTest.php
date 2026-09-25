@@ -48,14 +48,21 @@ class AuthenticationTest extends TestCase
         $this->assertAuthenticatedAs($admin);
     }
 
-    public function test_other_roles_land_on_the_portal_notice(): void
+    public function test_each_role_lands_on_its_own_portal(): void
     {
-        $guardian = User::factory()->role(Role::Guardian)->create();
+        $homes = [
+            Role::Teacher->value => route('portal.teacher.home'),
+            Role::Guardian->value => route('portal.guardian.home'),
+            Role::Student->value => route('portal.student.home'),
+        ];
 
-        $this->post(route('login.store'), ['login' => $guardian->email, 'password' => 'password'])
-            ->assertRedirect(route('portal'));
+        foreach ($homes as $role => $home) {
+            $user = User::factory()->role(Role::from($role))->create();
 
-        $this->actingAs($guardian)->get(route('portal'))->assertOk()->assertSee('estará disponible muy pronto');
+            $this->post(route('login.store'), ['login' => $user->email, 'password' => 'password'])->assertRedirect($home);
+            $this->get(route('portal'))->assertRedirect($home);
+            $this->post(route('logout'));
+        }
     }
 
     public function test_wrong_password_shows_spanish_error(): void

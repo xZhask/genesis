@@ -37,7 +37,7 @@ document.querySelectorAll('button[data-confirm]').forEach((btn) => {
 initUploader();
 
 // Selectores que cambian la vista al elegir (sin botón "Ver"; hay <noscript> de respaldo)
-document.querySelectorAll('select[data-autosubmit]').forEach((select) => {
+document.querySelectorAll('[data-autosubmit]').forEach((select) => {
     select.addEventListener('change', () => select.form.submit());
 });
 
@@ -90,3 +90,23 @@ if (allDay && times) {
 document.querySelectorAll('[data-print]').forEach((btn) => {
     btn.addEventListener('click', () => window.print());
 });
+
+// Asistencia: resumen en vivo junto al botón de guardar ("22 presentes · 2 ausentes")
+const attendanceForm = document.querySelector('[data-attendance]');
+const attendanceSummary = document.querySelector('[data-attendance-summary]');
+
+if (attendanceForm && attendanceSummary) {
+    const labels = { present: ['presente', 'presentes'], absent: ['ausente', 'ausentes'], late: ['tarde', 'tarde'], excused: ['con excusa', 'con excusa'] };
+    const update = () => {
+        const counts = {};
+        attendanceForm.querySelectorAll('input[type="radio"]:checked').forEach((r) => {
+            counts[r.value] = (counts[r.value] || 0) + 1;
+        });
+        attendanceSummary.textContent = Object.keys(labels)
+            .filter((k) => counts[k])
+            .map((k) => `${counts[k]} ${labels[k][counts[k] === 1 ? 0 : 1]}`)
+            .join(' · ');
+    };
+    attendanceForm.addEventListener('change', update);
+    update();
+}

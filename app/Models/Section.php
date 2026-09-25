@@ -33,6 +33,11 @@ class Section extends Model
         return $this->hasMany(Enrollment::class);
     }
 
+    public function assignments(): HasMany
+    {
+        return $this->hasMany(TeacherAssignment::class);
+    }
+
     /** "3.° 1", "Transición A". */
     public function label(): string
     {

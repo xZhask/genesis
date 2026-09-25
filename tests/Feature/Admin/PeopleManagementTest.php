@@ -293,7 +293,7 @@ class PeopleManagementTest extends TestCase
     public function test_admin_creates_teacher_accounts_and_cannot_demote_themselves(): void
     {
         $this->actingAs($this->admin)->post(route('admin.people.staff.store'), [
-            'name' => 'Luis Martínez', 'document_number' => '72.345.678', 'email' => '', 'role' => 'teacher',
+            'name' => 'Edgar Ojoalegre', 'document_number' => '72.345.678', 'email' => '', 'role' => 'teacher',
         ])->assertSessionHas('credentials');
 
         $teacher = User::firstWhere('document_number', '72345678');

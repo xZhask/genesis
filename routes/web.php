@@ -7,6 +7,7 @@ use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\Portal;
 use App\Http\Controllers\ResourceController;
 use App\Http\Controllers\SupportController;
 use Illuminate\Support\Facades\Route;
@@ -51,8 +52,24 @@ Route::middleware('auth')->group(function () {
     Route::put('/cuenta/contrasena', [PasswordChangeController::class, 'update'])->name('password.change.update');
 });
 
-// Portales de docente, estudiante y acudiente: fase 2. Por ahora, un aviso.
-Route::view('/portal', 'portal.coming-soon')->middleware(['auth', 'password.changed'])->name('portal');
+// Portales (fase 2). /portal lleva a cada quien a su zona según el rol.
+Route::get('/portal', fn () => redirect(auth()->user()->homeUrl()))->middleware(['auth', 'password.changed'])->name('portal');
+
+Route::prefix('portal/docente')->name('portal.teacher.')->middleware(['auth', 'role:teacher', 'password.changed'])->group(function () {
+    Route::get('/', [Portal\TeacherPortalController::class, 'home'])->name('home');
+    Route::get('/asistencia', [Portal\TeacherPortalController::class, 'attendance'])->name('attendance');
+    Route::put('/asistencia', [Portal\TeacherPortalController::class, 'saveAttendance'])->name('attendance.save');
+});
+
+// Acudientes, y docentes que también son acudientes (el controlador exige el vínculo)
+Route::prefix('portal/acudiente')->name('portal.guardian.')->middleware(['auth', 'role:guardian,teacher', 'password.changed'])->group(function () {
+    Route::get('/', [Portal\GuardianPortalController::class, 'home'])->name('home');
+    Route::get('/estudiantes/{student}', [Portal\GuardianPortalController::class, 'student'])->name('student');
+});
+
+Route::prefix('portal/estudiante')->name('portal.student.')->middleware(['auth', 'role:student', 'password.changed'])->group(function () {
+    Route::get('/', [Portal\StudentPortalController::class, 'home'])->name('home');
+});
 
 // Panel admin
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin', 'password.changed'])->group(function () {
@@ -108,6 +125,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin', 'passw
         Route::delete('/materias/{subject}', [Admin\Academic\SubjectController::class, 'destroy'])->name('subjects.destroy');
         Route::post('/areas', [Admin\Academic\SubjectController::class, 'storeArea'])->name('areas.store');
         Route::delete('/areas/{area}', [Admin\Academic\SubjectController::class, 'destroyArea'])->name('areas.destroy');
+
+        Route::get('/asignaciones', [Admin\Academic\AssignmentController::class, 'index'])->name('assignments.index');
+        Route::put('/secciones/{section}/asignaciones', [Admin\Academic\AssignmentController::class, 'update'])->name('assignments.update');
 
         Route::get('/plan-de-estudios', [Admin\Academic\CurriculumController::class, 'index'])->name('curriculum.index');
         Route::get('/plan-de-estudios/{grade}', [Admin\Academic\CurriculumController::class, 'edit'])->name('curriculum.edit');

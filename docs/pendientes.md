@@ -74,7 +74,9 @@ Datos que ya se ven en la web y que el colegio debe confirmar antes de salir a p
 - [ ] **Datos que se registran de cada estudiante.** *Provisional: solo lo mínimo para el portal (tipo y número de documento, nombres, apellidos y fecha de nacimiento), por minimización de datos (Ley 1581). Si el colegio necesita más (EPS, dirección, género), se agregan.*
 - [ ] **Datos de estudiantes y acudientes para cargar al portal 2027:** exportarlos de la plataforma actual o del SIMAT en Excel con la plantilla de Admin → Personas → Importar (una fila por estudiante y acudiente).
 - [ ] **Cómo se entregan las cuentas.** *Provisional: el admin imprime una hoja con fichas recortables (documento y contraseña temporal del tipo «tamo-4827»); al primer ingreso cada persona crea la suya. Quien no tiene correo pide una contraseña temporal nueva al colegio.*
-- [ ] **Asistencia por día o por clase.** *Provisional: por asignatura, como en el boletín actual (columna «Inas» por materia).*
+- [ ] **Asistencia por día o por clase.** *Provisional: por asignatura, como en el boletín actual (columna «Inas» por materia). En preescolar, donde una docente dicta todas las dimensiones, esto obliga a tomarla por dimensión: confirmar si allí se prefiere una sola asistencia diaria.*
+- [ ] **Docentes y asignaciones 2027:** lista de docentes (nombre, documento, correo), qué materia dicta cada uno en cada sección y quién es el director de cada grupo. Se cargan en Admin → Personas y Admin → Académico → Asignaciones docentes.
+- [ ] **¿Los docentes pueden ver los datos de contacto de los acudientes de sus grupos?** *Provisional: no; el portal docente solo muestra nombres de estudiantes y su asistencia.*
 
 ## Infraestructura
 - [ ] **Dominio** (por ejemplo, colegiogenesis.edu.co) y hosting.

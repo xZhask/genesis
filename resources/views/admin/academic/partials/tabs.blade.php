@@ -4,6 +4,7 @@
         'admin.academic.sections.index' => ['Grados y secciones', 'admin.academic.sections.*'],
         'admin.academic.subjects.index' => ['Áreas y materias', 'admin.academic.subjects.*'],
         'admin.academic.curriculum.index' => ['Plan de estudios', 'admin.academic.curriculum.*'],
+        'admin.academic.assignments.index' => ['Asignaciones docentes', 'admin.academic.assignments.*'],
     ];
     // Errores de acciones sin formulario propio (eliminar, validar periodos)
     $general = collect(['subject', 'area', 'periods', 'section'])->map(fn ($key) => $errors->first($key))->filter();

@@ -65,6 +65,8 @@ class AcademicAccessTest extends TestCase
             ['GET', route('admin.academic.curriculum.edit', $grade)],
             ['PUT', route('admin.academic.curriculum.update', $grade)],
             ['POST', route('admin.academic.curriculum.copy', $grade)],
+            ['GET', route('admin.academic.assignments.index')],
+            ['PUT', route('admin.academic.assignments.update', $section)],
         ];
 
         foreach ($requests as [$method, $url]) {
