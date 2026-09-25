@@ -78,6 +78,37 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->grou
         ->names('resources')
         ->except('show');
 
+    // Portal (fase 2): estructura académica
+    Route::prefix('academico')->name('academic.')->group(function () {
+        Route::redirect('/', '/admin/academico/anos')->name('home');
+
+        Route::get('/anos', [Admin\Academic\SchoolYearController::class, 'index'])->name('years.index');
+        Route::post('/anos', [Admin\Academic\SchoolYearController::class, 'store'])->name('years.store');
+        Route::get('/anos/{year:year}', [Admin\Academic\SchoolYearController::class, 'edit'])->name('years.edit');
+        Route::put('/anos/{year:year}', [Admin\Academic\SchoolYearController::class, 'update'])->name('years.update');
+        Route::post('/anos/{year:year}/actual', [Admin\Academic\SchoolYearController::class, 'makeCurrent'])->name('years.current');
+        Route::put('/anos/{year:year}/periodos', [Admin\Academic\PeriodController::class, 'update'])->name('periods.update');
+        Route::post('/periodos/{period}/cerrar', [Admin\Academic\PeriodController::class, 'close'])->name('periods.close');
+        Route::post('/periodos/{period}/reabrir', [Admin\Academic\PeriodController::class, 'reopen'])->name('periods.reopen');
+
+        Route::get('/secciones', [Admin\Academic\SectionController::class, 'index'])->name('sections.index');
+        Route::post('/anos/{year:year}/secciones', [Admin\Academic\SectionController::class, 'store'])->name('sections.store');
+        Route::post('/anos/{year:year}/secciones/basicas', [Admin\Academic\SectionController::class, 'createDefaults'])->name('sections.defaults');
+        Route::delete('/secciones/{section}', [Admin\Academic\SectionController::class, 'destroy'])->name('sections.destroy');
+
+        Route::get('/materias', [Admin\Academic\SubjectController::class, 'index'])->name('subjects.index');
+        Route::post('/materias', [Admin\Academic\SubjectController::class, 'store'])->name('subjects.store');
+        Route::put('/materias/{subject}', [Admin\Academic\SubjectController::class, 'update'])->name('subjects.update');
+        Route::delete('/materias/{subject}', [Admin\Academic\SubjectController::class, 'destroy'])->name('subjects.destroy');
+        Route::post('/areas', [Admin\Academic\SubjectController::class, 'storeArea'])->name('areas.store');
+        Route::delete('/areas/{area}', [Admin\Academic\SubjectController::class, 'destroyArea'])->name('areas.destroy');
+
+        Route::get('/plan-de-estudios', [Admin\Academic\CurriculumController::class, 'index'])->name('curriculum.index');
+        Route::get('/plan-de-estudios/{grade}', [Admin\Academic\CurriculumController::class, 'edit'])->name('curriculum.edit');
+        Route::put('/plan-de-estudios/{grade}', [Admin\Academic\CurriculumController::class, 'update'])->name('curriculum.update');
+        Route::post('/plan-de-estudios/{grade}/copiar', [Admin\Academic\CurriculumController::class, 'copy'])->name('curriculum.copy');
+    });
+
     Route::get('/configuracion', [Admin\SettingsController::class, 'edit'])->name('settings.edit');
     Route::put('/configuracion', [Admin\SettingsController::class, 'update'])->name('settings.update');
 

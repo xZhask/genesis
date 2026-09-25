@@ -62,13 +62,16 @@ Datos que ya se ven en la web y que el colegio debe confirmar antes de salir a p
 - [ ] **Pagos en línea** (PSE): solo en fase 3 y si el colegio lo confirma.
 
 ## Académico (necesario antes de la fase 2)
-- [ ] **SIEE:** escala numérica (1,0–5,0, 1–10, 1–100…), nota mínima aprobatoria y rangos de Superior, Alto, Básico y Bajo.
-- [ ] **Número de periodos** por año y peso de cada uno.
-- [ ] **Asignaturas por grado** e intensidad horaria.
-- [ ] **Secciones por grado** (¿una sola o A/B?).
-- [ ] **¿Los estudiantes tienen cuenta propia, o solo el acudiente?** *Provisional: acudiente para todos; cuenta de estudiante desde 4.° o 6.°, a confirmar.*
-- [ ] **Modelo del boletín actual** (el colegio debe compartir uno como referencia).
-- [ ] **Asistencia por día o por clase.** *Provisional: por día, con opción por asignatura.*
+- [ ] **SIEE:** ✅ escala de 1 a 5 (confirmado el 25 de septiembre de 2026). Falta confirmar: nota mínima aprobatoria (el boletín muestra 3,0) y rangos de desempeño. *Provisional, deducido del boletín: Bajo 1,00–2,99; Básico 3,00–4,19; Alto 4,20–4,79; Superior 4,80–5,00.*
+- [ ] **Número de periodos:** ✅ 4 por año (confirmado el 25 de septiembre de 2026). Falta confirmar el peso de cada uno. *Provisional: 25 % cada uno (el acumulado del boletín es la suma de los periodos ÷ 4).*
+- [ ] **Asignaturas por grado** e intensidad horaria. ✅ Lista de materias recibida el 25 de septiembre de 2026 (Español, Matemáticas, Álgebra, Geometría, Estadística, Inglés, Informática, Música, Artística, Física, Biología, Química, Sociales e historia, Constitución Política y Democracia, Filosofía, Educación Física, Educación cristiana, Educación financiera y Cátedra de Educación Emocional). Falta: **qué grados ven cada materia, su intensidad horaria y su área**. *Provisional: áreas según la Ley 115, intensidades del boletín de 3.°; todo editable en Admin → Académico.*
+- [x] **Secciones por grado:** ✅ puede haber más de una (25 de septiembre de 2026).
+- [x] **Cuentas de estudiante:** ✅ desde 6.°; antes entra solo el acudiente (25 de septiembre de 2026).
+- [x] **Ingreso al portal:** ✅ con número de documento y contraseña; el correo es opcional y sirve para recuperarla (25 de septiembre de 2026).
+- [x] **Plataforma actual (cecgenesis.com):** ✅ el portal nuevo opera desde el año lectivo 2027; después se evaluará importar los registros de la plataforma antigua (25 de septiembre de 2026).
+- [ ] **Preescolar:** dimensiones del desarrollo que evalúa el colegio y modelo de su boletín. *Provisional: las siete dimensiones del Decreto 2247 de 1997.*
+- [x] **Modelo del boletín actual:** ✅ recibido el 25 de septiembre de 2026 (`referencia/Maximos-IETA.mht`, excluido de git porque tiene datos reales de un estudiante). Falta el de **preescolar** (evaluación cualitativa).
+- [ ] **Asistencia por día o por clase.** *Provisional: por asignatura, como en el boletín actual (columna «Inas» por materia).*
 
 ## Infraestructura
 - [ ] **Dominio** (por ejemplo, colegiogenesis.edu.co) y hosting.

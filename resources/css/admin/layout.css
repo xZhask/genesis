@@ -18,11 +18,13 @@
     padding-top: env(safe-area-inset-top, 0px);
 }
 
+/* Dos filas: marca y usuario arriba; el menú completo debajo (crece con la fase 2) */
 .admin-bar-inner {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    gap: 20px;
-    min-height: 64px;
+    gap: 6px 20px;
+    padding-top: 10px;
 }
 
 .admin-brand {
@@ -41,22 +43,37 @@
 }
 
 .admin-nav {
+    order: 3;
+    width: 100%;
     display: flex;
-    gap: 4px;
+    gap: 2px;
+    overflow-x: auto;
+    scrollbar-width: none;
 }
 
 .admin-nav a {
-    padding: 8px 12px;
-    border-radius: 10px;
+    flex: none;
+    white-space: nowrap;
+    padding: 10px 12px 12px;
     text-decoration: none;
     font-weight: 600;
     color: var(--text);
+    border-bottom: 3px solid transparent;
 }
 
-.admin-nav a:hover,
-.admin-nav a[aria-current="page"] {
-    background: var(--bg-soft);
+.admin-nav a:hover {
     color: var(--azul-ink);
+}
+
+.admin-nav a[aria-current="page"] {
+    color: var(--azul-ink);
+    border-bottom-color: var(--azul-ink);
+}
+
+/* "Ver sitio" al final, separado de las secciones del panel */
+.admin-nav a[target="_blank"] {
+    margin-left: auto;
+    color: var(--muted);
 }
 
 .admin-user {
@@ -128,18 +145,6 @@
 }
 
 @media (max-width: 900px) {
-    .admin-bar-inner {
-        flex-wrap: wrap;
-        gap: 8px 14px;
-        padding-block: 10px;
-    }
-
-    .admin-nav {
-        order: 3;
-        width: 100%;
-        overflow-x: auto;
-    }
-
     .admin-user .who {
         display: none;
     }

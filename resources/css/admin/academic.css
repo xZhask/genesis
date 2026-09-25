@@ -1,0 +1,253 @@
+/* Académico: años y periodos, secciones, materias y plan de estudios */
+.w-num {
+    width: 90px;
+}
+
+.field-group.even {
+    grid-template-columns: 1fr 1fr;
+}
+
+.period-table input {
+    width: 100%;
+    min-height: 44px;
+    padding: 6px 8px;
+}
+
+.period-states {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 14px;
+}
+
+.period-states > li {
+    border-top: 1px solid var(--line);
+    padding-top: 12px;
+}
+
+.period-states > li:first-child {
+    border-top: 0;
+    padding-top: 0;
+}
+
+.period-state-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.period-state-head form {
+    margin-left: auto;
+}
+
+.period-history {
+    margin: 6px 0 0;
+    padding-left: 18px;
+    color: var(--muted);
+    font-size: .85rem;
+}
+
+.inline-select {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+}
+
+.section-intro {
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+}
+
+.level-panel {
+    --lvl: var(--azul);
+    border-left: 5px solid var(--lvl);
+    margin-bottom: 16px;
+}
+
+.level-panel.lvl-preschool { --lvl: var(--pre); }
+.level-panel.lvl-primary { --lvl: var(--pri); }
+
+.grade-rows {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.grade-rows > li {
+    display: grid;
+    grid-template-columns: 110px 1fr auto;
+    align-items: center;
+    gap: 8px 14px;
+    padding: 10px 0;
+    border-top: 1px solid var(--line);
+}
+
+.grade-rows > li:first-child {
+    border-top: 0;
+}
+
+.grade-rows .error {
+    grid-column: 1 / -1;
+}
+
+.section-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.section-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    background: var(--bg-soft);
+    border-radius: 999px;
+    padding: 2px 4px 2px 12px;
+    font-weight: 600;
+    font-size: .9rem;
+}
+
+.section-chip button {
+    border: 0;
+    background: none;
+    color: var(--muted);
+    font-size: 1.1rem;
+    line-height: 1;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.section-chip button:hover {
+    background: var(--error-bg);
+    color: var(--error-ink);
+}
+
+.add-section {
+    display: flex;
+    gap: 6px;
+}
+
+.add-section input {
+    width: 80px;
+    min-height: 36px;
+    padding: 4px 10px;
+}
+
+.subject-row {
+    display: grid;
+    grid-template-columns: 1.3fr 1.3fr auto auto;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 0;
+    border-top: 1px solid var(--line);
+}
+
+.subject-row input,
+.subject-row select {
+    min-height: 38px;
+    padding: 4px 10px;
+}
+
+.subject-delete {
+    margin: -4px 0 6px;
+}
+
+.link-danger {
+    border: 0;
+    background: none;
+    padding: 0;
+    color: var(--error-ink);
+    font: inherit;
+    font-size: .82rem;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.grade-switch {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 16px;
+}
+
+.grade-switch a {
+    min-width: 44px;
+    min-height: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 12px;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+    background: var(--card);
+    font-weight: 700;
+    font-size: .9rem;
+    text-decoration: none;
+}
+
+.grade-switch a[aria-current="page"] {
+    background: var(--action);
+    border-color: var(--action);
+    color: var(--on-action);
+}
+
+/* Sin el recuadro de .form > fieldset (Admisiones): aquí va dentro del panel */
+.form > fieldset.plan-area {
+    background: none;
+    border: 0;
+    border-radius: 0;
+    margin: 0;
+    padding: 0;
+    gap: 0;
+}
+
+.form > fieldset.plan-area > legend {
+    float: none;
+    font-family: var(--font-b);
+    font-weight: 700;
+    color: var(--muted);
+    font-size: .85rem;
+    text-transform: uppercase;
+    letter-spacing: .03em;
+    margin-bottom: 4px;
+}
+
+.plan-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 4px 0;
+}
+
+.plan-hours {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--muted);
+}
+
+.plan-hours input {
+    width: 72px;
+    min-height: 38px;
+    padding: 4px 8px;
+}
+
+.plan-row:has(input[type="checkbox"]:not(:checked)) .plan-hours {
+    opacity: .4;
+}
+
+@media (max-width: 700px) {
+    .grade-rows > li {
+        grid-template-columns: 1fr;
+    }
+
+    .subject-row {
+        grid-template-columns: 1fr 1fr;
+    }
+}

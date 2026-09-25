@@ -10,6 +10,7 @@
         'admin.albums.index' => ['Galería', 'admin.albums.*'],
         'admin.resources.index' => ['Recursos', 'admin.resources.*'],
         'admin.volunteers.index' => ['Apóyanos', ['admin.volunteers.*', 'admin.accounts.*', 'admin.donors.*', 'admin.testimonials.*']],
+        'admin.academic.years.index' => ['Académico', 'admin.academic.*'],
         'admin.settings.edit' => ['Configuración', 'admin.settings.*'],
     ];
 @endphp

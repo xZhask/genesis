@@ -139,6 +139,16 @@ return [
         ],
     ],
 
+    /*
+    | Portal académico (fase 2). Confirmado el 25/09/2026: escala de 1 a 5,
+    | 4 periodos, cuentas de estudiante desde 6.° e ingreso con documento.
+    | Pesos de los periodos y rangos de desempeño: provisionales (pendientes.md).
+    */
+    'academic' => [
+        'periods' => 4,
+        'student_accounts_from' => '6.°',
+    ],
+
     // Versión de la política aceptada en los formularios (se guarda con cada solicitud).
     'privacy_policy_version' => '2026-09-borrador',
 

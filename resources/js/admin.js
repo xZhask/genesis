@@ -36,6 +36,30 @@ document.querySelectorAll('button[data-confirm]').forEach((btn) => {
 
 initUploader();
 
+// Selectores que cambian la vista al elegir (sin botón "Ver"; hay <noscript> de respaldo)
+document.querySelectorAll('select[data-autosubmit]').forEach((select) => {
+    select.addEventListener('change', () => select.form.submit());
+});
+
+// Plan de estudios: total de materias y horas mientras se edita
+const curriculum = document.querySelector('[data-curriculum]');
+const hoursTotal = document.querySelector('[data-hours-total]');
+
+if (curriculum && hoursTotal) {
+    const update = () => {
+        let subjects = 0;
+        let hours = 0;
+        curriculum.querySelectorAll('.plan-row').forEach((row) => {
+            if (!row.querySelector('[data-plan-check]').checked) return;
+            subjects++;
+            hours += Number(row.querySelector('[data-plan-hours]').value) || 0;
+        });
+        hoursTotal.textContent = `${subjects} materias · ${hours} h/semana`;
+    };
+    curriculum.addEventListener('input', update);
+    curriculum.addEventListener('change', update);
+}
+
 // Recursos: muestra solo los campos que aplican al tipo elegido.
 // El servidor ignora los que no corresponden (ResourceRequest::resourceData).
 const typeRadios = [...document.querySelectorAll('[data-type-radio]')];

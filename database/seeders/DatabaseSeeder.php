@@ -46,5 +46,8 @@ class DatabaseSeeder extends Seeder
         AdmissionRequest::factory()->create()->changeStatus(AdmissionStatus::Withdrawn, $admin, note: 'La familia se trasladó de municipio.');
 
         $this->call([NewsAndEventsSeeder::class, GallerySeeder::class, ResourcesSeeder::class, SupportSeeder::class]);
+
+        // Portal (fase 2): catálogo provisional y un año de ejemplo
+        $this->call([AcademicCatalogSeeder::class, AcademicDemoSeeder::class]);
     }
 }
