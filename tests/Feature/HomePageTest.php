@@ -60,7 +60,7 @@ class HomePageTest extends TestCase
 
         $this->get(route('home'))
             ->assertOk()
-            ->assertSee('Contenido de ejemplo para revisar el diseño')
+            ->assertDontSee('Contenido de ejemplo para revisar el diseño')
             ->assertSee('Momentos Génesis')
             ->assertSee('data-copy="000-000000-00"', false);
     }

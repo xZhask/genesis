@@ -12,9 +12,11 @@
 <body @class(['has-whatsapp' => config('school.whatsapp.enabled')])>
     <a class="skip-link" href="#contenido">Saltar al contenido</a>
 
-    @if ($demo)
-        <div class="demo-note">Contenido de ejemplo para revisar el diseño: las fotos, las cuentas y los datos de prueba no son reales.</div>
-    @endif
+    {{--
+        Franja superior desactivada. Se conserva (con su estilo .demo-note) por si
+        se necesita para un anuncio de suma importancia, por ejemplo:
+        <div class="demo-note">Mañana no habrá clases por la jornada electoral.</div>
+    --}}
 
     @include('partials.topbar')
     @include('partials.header')
