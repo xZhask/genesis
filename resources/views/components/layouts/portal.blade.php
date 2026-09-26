@@ -13,10 +13,12 @@
                 ? ['Mi grupo', 'portal.teacher.homeroom'] : null,
             // Un docente que también es acudiente ve a sus acudidos con la misma cuenta
             'portal.guardian.home' => $user->guardian ? ['Mis acudidos', ['portal.guardian.home', 'portal.guardian.student', 'portal.guardian.student.*']] : null,
+            'portal.guardian.circulars' => $user->guardian ? ['Circulares', 'portal.guardian.circulars'] : null,
             'portal.guardian.contact' => $user->guardian ? ['Mis datos', 'portal.guardian.contact'] : null,
         ]),
         App\Enums\Role::Guardian => [
             'portal.guardian.home' => ['Mis acudidos', ['portal.guardian.home', 'portal.guardian.student', 'portal.guardian.student.*']],
+            'portal.guardian.circulars' => ['Circulares', 'portal.guardian.circulars'],
             'portal.guardian.contact' => ['Mis datos', 'portal.guardian.contact'],
         ],
         App\Enums\Role::Student => [
@@ -25,6 +27,8 @@
         ],
         default => [],
     };
+    // Circulares de la última semana, junto al enlace
+    $navCounts = $user->guardian ? ['portal.guardian.circulars' => App\Models\Resource::circularsFor($user->guardian)->filter->isNew()->count()] : [];
 @endphp
 
 <!DOCTYPE html>
@@ -48,7 +52,7 @@
 
             <nav class="admin-nav" aria-label="Portal">
                 @foreach ($nav as $route => [$label, $pattern])
-                    <a href="{{ route($route) }}" @if (request()->routeIs($pattern)) aria-current="page" @endif>{{ $label }}</a>
+                    <a href="{{ route($route) }}" @if (request()->routeIs($pattern)) aria-current="page" @endif>{{ $label }}@if ($navCounts[$route] ?? 0) <span class="nav-count">{{ $navCounts[$route] }}<span class="sr-only"> nuevas</span></span>@endif</a>
                 @endforeach
                 <a href="{{ route('password.change') }}" @if (request()->routeIs('password.change')) aria-current="page" @endif>Contraseña</a>
             </nav>

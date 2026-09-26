@@ -163,3 +163,15 @@ if (scheduleGrid) {
     };
     scheduleGrid.addEventListener('change', recount);
 }
+
+// Circulares: los grados solo aplican si es «solo familias»
+const visibilityRadios = [...document.querySelectorAll('[data-visibility-radio]')];
+const audience = document.querySelector('[data-audience]');
+
+if (visibilityRadios.length && audience) {
+    const syncAudience = () => {
+        audience.hidden = visibilityRadios.find((r) => r.checked)?.value !== 'families';
+    };
+    visibilityRadios.forEach((r) => r.addEventListener('change', syncAudience));
+    syncAudience();
+}

@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin;
 use App\Http\Controllers\AdmissionController;
 use App\Http\Controllers\Auth\PasswordChangeController;
 use App\Http\Controllers\CalendarController;
+use App\Http\Controllers\CircularFileController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NewsController;
@@ -78,6 +79,7 @@ Route::prefix('portal/acudiente')->name('portal.guardian.')->middleware(['auth',
     Route::get('/', [Portal\GuardianPortalController::class, 'home'])->name('home');
     Route::get('/estudiantes/{student}', [Portal\GuardianPortalController::class, 'student'])->name('student');
     Route::get('/estudiantes/{student}/horario', [Portal\ScheduleController::class, 'guardian'])->name('student.schedule');
+    Route::get('/circulares', [Portal\CircularController::class, 'index'])->name('circulars');
     Route::get('/mis-datos', [Portal\ContactController::class, 'show'])->name('contact');
     Route::post('/mis-datos', [Portal\ContactController::class, 'store'])->name('contact.store')->middleware('throttle:10,60');
 });
@@ -88,6 +90,10 @@ Route::prefix('portal/estudiante')->name('portal.student.')->middleware(['auth',
 });
 
 // Boletines en PDF: la autorización está en StudentPolicy::downloadReportCard y en el controlador
+// PDF de las circulares «solo familias» (fuera del disco público; el controlador autoriza)
+Route::get('/circulares/{resource}/archivo', CircularFileController::class)
+    ->middleware(['auth', 'password.changed'])->name('circulars.file');
+
 Route::prefix('boletines')->name('report-cards.')->middleware(['auth', 'role:admin,teacher,guardian,student', 'password.changed'])->group(function () {
     Route::get('/estudiantes/{student}/periodos/{period}', [ReportCardController::class, 'student'])->name('student');
     Route::get('/secciones/{section}/periodos/{period}', [ReportCardController::class, 'section'])->name('section');

@@ -680,3 +680,44 @@ fieldset:disabled .att-option input:checked + span {
 }
 
 .print-only { display: none; }
+
+/* Circulares en el portal del acudiente */
+.portal-circulars {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 12px;
+}
+
+.portal-circular h2 { font-size: 1.15rem; margin: 4px 0; }
+
+.circular-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 10px;
+    margin: 0;
+    font-size: .88rem;
+    color: var(--muted);
+}
+
+.circular-actions:empty { display: none; }
+.circular-actions { margin-top: 8px; }
+
+.circular-body { margin-top: 10px; }
+
+.circular-body summary {
+    cursor: pointer;
+    font-weight: 700;
+    color: var(--azul-ink);
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+}
+
+.md-body > * + * { margin-top: .7em; }
+.md-body ul { padding-left: 1.2em; }
+.md-body table { border-collapse: collapse; }
+.md-body th,
+.md-body td { border: 1px solid var(--line); padding: 4px 8px; }

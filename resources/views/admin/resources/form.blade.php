@@ -1,11 +1,14 @@
 @use('App\Enums\ResourceType')
 @use('App\Enums\PublicationStatus')
+@use('App\Enums\ResourceVisibility')
 @php
     $editing = $resource->exists;
     $type = old('type', $resource->type?->value ?? ResourceType::Circular->value);
     $status = old('status', $resource->status?->value ?? PublicationStatus::Draft->value);
     $levels = config('school.levels');
     $title = $editing ? 'Editar recurso' : 'Nuevo recurso';
+    $visibility = old('visibility', $resource->visibility?->value ?? ResourceVisibility::Families->value);
+    $audience = old('audience', $resource->audience ?? []);
 @endphp
 
 <x-layouts.admin :title="$title">
@@ -14,7 +17,8 @@
         <h1>{{ $title }}</h1>
     </div>
 
-    <p class="notice">Esta sección es pública: publica solo información general. Nada de nombres de estudiantes, notas ni datos personales.</p>
+    <p class="notice">Útiles, uniformes y horarios se publican en la web. Las circulares pueden ser públicas o solo para las familias del portal.
+        En ningún caso incluyas nombres de estudiantes, notas ni datos personales.</p>
 
     <form class="form admin-form" method="POST" enctype="multipart/form-data" novalidate data-form data-resource-form
         action="{{ $editing ? route('admin.resources.update', $resource) : route('admin.resources.store') }}">
@@ -82,6 +86,41 @@
             </div>
 
             <div class="stack">
+                <section class="panel" data-for-types="circular" aria-labelledby="visibilidad-title">
+                    <h2 id="visibilidad-title">¿Quién la ve?</h2>
+                    <fieldset @class(['field', 'choices', 'has-error' => $errors->has('visibility')])>
+                        <legend class="sr-only">Visibilidad de la circular</legend>
+                        @foreach (ResourceVisibility::cases() as $case)
+                            <label class="check visibility-option">
+                                <input type="radio" name="visibility" value="{{ $case->value }}" @checked($visibility === $case->value) data-visibility-radio>
+                                <span><strong>{{ $case->label() }}</strong><small class="block">{{ $case->hint() }}</small></span>
+                            </label>
+                        @endforeach
+                        @error('visibility')
+                            <p class="error">{{ $message }}</p>
+                        @enderror
+                    </fieldset>
+
+                    <fieldset @class(['field', 'audience', 'has-error' => $errors->has('audience.*')]) data-audience>
+                        <legend class="label">Grados</legend>
+                        <p class="hint">Déjalos sin marcar para enviarla a todas las familias. Si la marcas para algunos grados, solo la ven los acudientes de estudiantes matriculados en ellos este año.</p>
+                        @foreach ($levels as $level)
+                            <div class="audience-level">
+                                <span class="audience-level-name">{{ $level['short'] }}</span>
+                                @foreach ($level['grades'] as $grade)
+                                    <label class="check">
+                                        <input type="checkbox" name="audience[]" value="{{ $grade }}" @checked(in_array($grade, $audience, true))>
+                                        <span>{{ $grade }}</span>
+                                    </label>
+                                @endforeach
+                            </div>
+                        @endforeach
+                        @error('audience.*')
+                            <p class="error">{{ $message }}</p>
+                        @enderror
+                    </fieldset>
+                </section>
+
                 <section class="panel">
                     <h2>Publicación</h2>
                     <fieldset class="field choices">

@@ -491,3 +491,27 @@
     line-height: 1.5;
     text-align: center;
 }
+
+/* Recursos: quién ve una circular y a qué grados va */
+.visibility-option {
+    align-items: flex-start;
+    padding: 10px 0;
+}
+
+.visibility-option small { font-weight: 400; color: var(--muted); }
+
+.audience-level {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 14px;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--line);
+}
+
+.audience-level-name {
+    flex-basis: 100%;
+    font-size: .8rem;
+    font-weight: 700;
+    color: var(--muted);
+}

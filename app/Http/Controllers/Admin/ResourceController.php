@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 use App\Enums\PublicationStatus;
 use App\Enums\ResourceType;
+use App\Enums\ResourceVisibility;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ResourceRequest;
 use App\Models\Resource;
 use App\Support\ImageResizer;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 
@@ -43,6 +45,8 @@ class ResourceController extends Controller
         return view('admin.resources.form', ['resource' => new Resource([
             'type' => $type,
             'status' => PublicationStatus::Draft,
+            // Lo más seguro si nadie cambia la opción: solo las familias
+            'visibility' => ResourceVisibility::Families,
             'published_on' => today(),
             'school_year' => config('school.admissions.school_year'),
         ])]);
@@ -87,15 +91,25 @@ class ResourceController extends Controller
     /** PDF adjunto y foto (solo uniformes): reemplazar, quitar o conservar. */
     private function syncFiles(ResourceRequest $request, Resource $resource): void
     {
+        // Si cambió la visibilidad, el PDF actual pasa al disco que corresponde
+        $previousDisk = $resource->exists && $resource->isDirty('visibility')
+            ? (ResourceVisibility::from($resource->getRawOriginal('visibility')) === ResourceVisibility::Families ? 'local' : 'public')
+            : $resource->fileDisk();
+
         if ($request->hasFile('file') || $request->boolean('remove_file')) {
-            $resource->deleteFile();
+            if ($resource->file_path) {
+                Storage::disk($previousDisk)->delete($resource->file_path);
+            }
             $resource->file_path = $resource->file_name = $resource->file_size = null;
 
             if ($file = $request->file('file')) {
-                $resource->file_path = $file->store('resources', 'public');
+                $resource->file_path = $file->store('resources', $resource->fileDisk());
                 $resource->file_name = Str::limit($file->getClientOriginalName(), 200, '');
                 $resource->file_size = $file->getSize();
             }
+        } elseif ($resource->file_path && $previousDisk !== $resource->fileDisk()) {
+            Storage::disk($resource->fileDisk())->put($resource->file_path, Storage::disk($previousDisk)->get($resource->file_path));
+            Storage::disk($previousDisk)->delete($resource->file_path);
         }
 
         $isUniform = $resource->type === ResourceType::Uniform;
@@ -114,7 +128,11 @@ class ResourceController extends Controller
 
     private function saved(Resource $resource, string $verb): RedirectResponse
     {
-        $state = $resource->isPublished() ? 'Ya se ve en la web.' : 'Quedó como borrador.';
+        $state = match (true) {
+            ! $resource->isPublished() => 'Quedó como borrador.',
+            $resource->isForFamiliesOnly() => "Ya la ven en el portal: {$resource->audienceLabel()}.",
+            default => 'Ya se ve en la web.',
+        };
 
         return redirect()
             ->route('admin.resources.index', ['tipo' => $resource->type->anchor()])

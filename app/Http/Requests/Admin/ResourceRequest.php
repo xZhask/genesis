@@ -4,6 +4,7 @@ namespace App\Http\Requests\Admin;
 
 use App\Enums\PublicationStatus;
 use App\Enums\ResourceType;
+use App\Enums\ResourceVisibility;
 use App\Models\Resource;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -55,6 +56,10 @@ class ResourceRequest extends FormRequest
             'school_year' => [$type === ResourceType::Supplies ? 'required' : 'nullable', 'integer', 'between:2020,2100'],
             'published_on' => ['required', 'date'],
             'status' => ['required', Rule::enum(PublicationStatus::class)],
+            // Solo circulares: la web pública o solo las familias (y a qué grados)
+            'visibility' => [$type === ResourceType::Circular ? 'required' : 'nullable', Rule::enum(ResourceVisibility::class)],
+            'audience' => ['nullable', 'array'],
+            'audience.*' => [Rule::in(Resource::grades())],
             'position' => ['nullable', 'integer', 'between:0,999'],
         ];
     }
@@ -62,8 +67,13 @@ class ResourceRequest extends FormRequest
     /** Datos del modelo según el tipo (se descartan los campos que no aplican). */
     public function resourceData(): array
     {
-        $data = $this->safe()->only(['type', 'title', 'summary', 'body', 'image_alt', 'grade', 'school_year', 'published_on', 'status']);
+        $data = $this->safe()->only(['type', 'title', 'summary', 'body', 'image_alt', 'grade', 'school_year', 'published_on', 'status', 'visibility']);
         $type = ResourceType::from($data['type']);
+
+        // Útiles, uniformes y horarios siempre son públicos
+        $families = $type === ResourceType::Circular && $data['visibility'] === ResourceVisibility::Families->value;
+        $data['visibility'] = $families ? ResourceVisibility::Families : ResourceVisibility::Public;
+        $data['audience'] = $families && $this->validated('audience') ? array_values($this->validated('audience')) : null;
 
         $data['position'] = (int) $this->validated('position');
 
@@ -90,6 +100,7 @@ class ResourceRequest extends FormRequest
             'school_year' => 'año lectivo',
             'published_on' => 'fecha',
             'position' => 'orden',
+            'visibility' => 'quién la ve',
         ];
     }
 
@@ -103,6 +114,8 @@ class ResourceRequest extends FormRequest
             'file.max' => 'El PDF pesa más de 5 MB. Usa uno más liviano.',
             'file.uploaded' => 'El PDF no se pudo subir. Puede que pese demasiado para el servidor.',
             'grade.in' => 'Elige un grado del colegio.',
+            'audience.*.in' => 'Elige grados del colegio.',
+            'visibility.required' => 'Elige quién ve la circular.',
             'image_alt.required' => 'Describe la foto en pocas palabras (la leen las personas con discapacidad visual).',
             'minors_consent.accepted' => 'Confirma que tienes la autorización de los acudientes para publicar la foto.',
             'image.image' => 'La foto debe ser JPG, PNG o WebP.',

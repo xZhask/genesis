@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Enums\PublicationStatus;
 use App\Enums\ResourceType;
+use App\Enums\ResourceVisibility;
 use App\Models\Resource;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Storage;
@@ -45,6 +46,32 @@ class ResourcesSeeder extends Seeder
 
             $resource->save();
         }
+
+        // Solo para las familias de 3.° en el portal: no aparece en la web
+        Resource::create([
+            'type' => ResourceType::Circular,
+            'title' => 'Salida pedagógica de 3.° (ejemplo)',
+            'summary' => 'Autorización y recomendaciones para la salida del próximo viernes.',
+            'body' => 'Queridas familias de 3.°:
+
+El próximo viernes visitaremos un vivero de la zona. Salimos a las **7:30 a. m.** y regresamos a las **11:30 a. m.**
+
+- Envía la autorización firmada.
+- Gorra, bloqueador y agua.',
+            'published_on' => today()->subDays(2),
+            'status' => PublicationStatus::Published,
+            'visibility' => ResourceVisibility::Families,
+            'audience' => ['3.°'],
+        ]);
+        Resource::create([
+            'type' => ResourceType::Circular,
+            'title' => 'Reunión de padres del tercer periodo (ejemplo)',
+            'summary' => 'Entrega de informes y reunión con cada director de grupo.',
+            'body' => 'Te esperamos en el aula de tu acudido. Si no puedes asistir, avisa al director de grupo.',
+            'published_on' => today()->subDays(4),
+            'status' => PublicationStatus::Published,
+            'visibility' => ResourceVisibility::Families,
+        ]);
 
         Resource::create([
             'type' => ResourceType::Circular,

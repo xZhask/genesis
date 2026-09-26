@@ -12,7 +12,7 @@ class ResourceController extends Controller
 
     public function index(): View
     {
-        $circulars = Resource::published()->ofType(ResourceType::Circular)
+        $circulars = Resource::published()->publicWeb()->ofType(ResourceType::Circular)
             ->latest('published_on')->latest('id')
             ->limit(self::CIRCULARS_ON_PAGE + 1)
             ->get();
@@ -39,7 +39,7 @@ class ResourceController extends Controller
     public function circulars(): View
     {
         return view('resources.circulars', [
-            'circulars' => Resource::published()->ofType(ResourceType::Circular)
+            'circulars' => Resource::published()->publicWeb()->ofType(ResourceType::Circular)
                 ->latest('published_on')->latest('id')
                 ->paginate(15),
         ]);

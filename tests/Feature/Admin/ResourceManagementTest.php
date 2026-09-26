@@ -35,6 +35,7 @@ class ResourceManagementTest extends TestCase
             'body' => 'Apreciadas familias…',
             'published_on' => '2026-09-20',
             'status' => 'published',
+            'visibility' => 'public',
             ...$overrides,
         ];
     }

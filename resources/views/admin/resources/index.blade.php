@@ -22,6 +22,9 @@
                     <tr>
                         <th scope="col">Título</th>
                         <th scope="col">{{ $type === ResourceType::Supplies ? 'Grado' : ($type === ResourceType::Circular ? 'Fecha' : 'Orden') }}</th>
+                        @if ($type === ResourceType::Circular)
+                            <th scope="col">Quién la ve</th>
+                        @endif
                         <th scope="col">Contenido</th>
                         <th scope="col">Estado</th>
                         <th scope="col"><span class="sr-only">Acciones</span></th>
@@ -40,12 +43,15 @@
                                     {{ $resource->position }}
                                 @endif
                             </td>
+                            @if ($type === ResourceType::Circular)
+                                <td data-label="Quién la ve">{{ $resource->isForFamiliesOnly() ? $resource->audienceLabel() : 'Web pública' }}</td>
+                            @endif
                             <td data-label="Contenido">{{ collect([$resource->file_path ? 'PDF' : null, $resource->body ? 'Texto' : null, $resource->image_path ? 'Foto' : null])->filter()->implode(' · ') }}</td>
                             <td data-label="Estado">
                                 <span class="badge badge-{{ $resource->status === PublicationStatus::Published ? 'accepted' : 'withdrawn' }}">{{ $resource->status->label() }}</span>
                             </td>
                             <td class="row-actions">
-                                @if ($resource->isPublished())
+                                @if ($resource->isPublished() && ! $resource->isForFamiliesOnly())
                                     <a href="{{ route('resources') }}#{{ $resource->anchor() }}" target="_blank" rel="noopener">Ver</a>
                                 @endif
                             </td>
