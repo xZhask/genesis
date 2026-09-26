@@ -40,7 +40,7 @@ Guía corta para recorrer el sitio y el portal con los **datos de prueba**. Todo
 
 ## Correos de prueba
 
-Los correos que envía el sistema (pre-inscripción, recuperación de contraseña, avisos a las familias) llegan a **Mailpit**: `http://localhost:8025`. Los avisos a las familias salen cada minuto; para enviarlos al instante, ejecuta:
+Los correos que envía el sistema (pre-inscripción, recuperación de contraseña, avisos a las familias) llegan a **Mailpit**: `http://localhost:8025`. En el hosting, los avisos a las familias salen solos cada minuto gracias al cron. En local no hay cron, así que para enviarlos ejecuta:
 
 ```
 php artisan app:deliver-family-mail
