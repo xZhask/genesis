@@ -1,5 +1,6 @@
 /* Académico: años y periodos, secciones, materias y plan de estudios */
-.w-num {
+.w-num,
+.form input.w-num {
     width: 90px;
 }
 
@@ -232,7 +233,8 @@
     color: var(--muted);
 }
 
-.plan-hours input {
+.plan-hours input,
+.form .plan-hours input {
     width: 72px;
     min-height: 38px;
     padding: 4px 8px;

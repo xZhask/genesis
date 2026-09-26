@@ -71,6 +71,8 @@
 .form input[type="password"],
 .form input[type="search"],
 .form input[type="time"],
+.form input[type="number"],
+.form input[type="url"],
 .form select,
 .form textarea {
     width: 100%;
