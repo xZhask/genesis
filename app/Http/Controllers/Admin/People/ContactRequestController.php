@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Admin\People;
 
+use App\Enums\ContactField;
 use App\Http\Controllers\Controller;
 use App\Models\ContactUpdateRequest;
+use App\Support\FamilyMail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -27,7 +29,10 @@ class ContactRequestController extends Controller
     {
         $this->authorize('update', $contactRequest);
 
+        $previousEmail = FamilyMail::address($contactRequest->guardian);
         $contactRequest->approve($request->user());
+        $contactRequest->refresh()->guardian->refresh();
+        FamilyMail::queueContactReview($contactRequest, $contactRequest->field === ContactField::Email ? $previousEmail : null);
 
         return back()->with('status_message', "Se actualizó el {$this->fieldName($contactRequest)} de {$contactRequest->guardian->fullName()}.");
     }
@@ -38,6 +43,7 @@ class ContactRequestController extends Controller
         $data = $request->validate(['note' => ['nullable', 'string', 'max:300']], [], ['note' => 'motivo']);
 
         $contactRequest->reject($request->user(), $data['note'] ?? null);
+        FamilyMail::queueContactReview($contactRequest);
 
         return back()->with('status_message', "Se rechazó el cambio de {$this->fieldName($contactRequest)} de {$contactRequest->guardian->fullName()}.");
     }

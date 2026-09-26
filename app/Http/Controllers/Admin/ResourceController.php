@@ -8,6 +8,7 @@ use App\Enums\ResourceVisibility;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ResourceRequest;
 use App\Models\Resource;
+use App\Support\FamilyMail;
 use App\Support\ImageResizer;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -57,6 +58,7 @@ class ResourceController extends Controller
         $resource = new Resource($request->resourceData());
         $this->syncFiles($request, $resource);
         $resource->save();
+        $this->notifyFamilies($request, $resource);
 
         return $this->saved($resource, 'Se guardó');
     }
@@ -73,6 +75,7 @@ class ResourceController extends Controller
         $resource->fill($request->resourceData());
         $this->syncFiles($request, $resource);
         $resource->save();
+        $this->notifyFamilies($request, $resource);
 
         return $this->saved($resource, 'Se actualizó');
     }
@@ -123,6 +126,14 @@ class ResourceController extends Controller
             if (! $resource->image_path) {
                 $resource->image_alt = null;
             }
+        }
+    }
+
+    /** Aviso por correo de una circular publicada (una sola vez por familia). */
+    private function notifyFamilies(ResourceRequest $request, Resource $resource): void
+    {
+        if ($resource->type === ResourceType::Circular && $request->boolean('notify')) {
+            FamilyMail::queueCircular($resource);
         }
     }
 

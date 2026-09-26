@@ -25,6 +25,7 @@
                         <td style="padding:18px 28px;background:#F6F9FC;font-size:12px;color:#56708A;line-height:1.5;">
                             {{ config('school.name') }} · {{ config('school.contact.address') }}, {{ config('school.contact.city') }}<br>
                             {{ config('school.contact.phone') }} · {{ config('school.contact.email') }}
+                            @yield('footer')
                         </td>
                     </tr>
                 </table>

@@ -19,6 +19,7 @@ Datos que ya se ven en la web y que el colegio debe confirmar antes de salir a p
 | Portal de familias: notas y «lo que falta para aprobar» | Solo periodos cerrados; acumulado = suma de periodos según su peso; mensaje «Necesita en promedio X en los periodos que faltan» o «Requiere acompañamiento: habla con el docente» si ya no alcanza. Validar la redacción con el colegio | `resources/views/portal/student/show.blade.php` y `app/Support/StudentOverview.php` |
 | Alertas del portal (docente, director de grupo y admin; las familias no las ven) | Inasistencia: 3 o más faltas sin excusa en una materia dentro del periodo. Bajo rendimiento: nota del periodo en curso por debajo de la aprobatoria con al menos 2 actividades calificadas, o un acumulado con el que ya no se alcanza el año. Cumpleaños: próximos 7 días | Faltas: Admin → Configuración → Alertas del portal. Lo demás: `config/school.php` → `alerts` |
 | Gráficos del portal (docente: Resumen; admin: Académico → Indicadores) | Asistencia = presentes + llegadas tarde sobre el total de registros (la falta con excusa cuenta como falta). Notas del periodo en curso: nota hasta hoy de cada estudiante en cada clase. Aprobación por grado: porcentaje de notas de materia aprobadas en cada periodo cerrado. Validar las definiciones con el colegio | `app/Support/Indicators.php` |
+| Correos a las familias | Recordatorio de los eventos marcados 2 días antes (6:00 a. m.); «boletín disponible» al cerrar un periodo (casilla marcada por defecto); circular nueva si el admin marca «Avisar por correo»; resultado del cambio de contacto y aviso de seguridad al correo anterior. Solo a acudientes con cuenta activa y correo; nunca llevan notas; cada familia puede desactivarlos (salvo seguridad y la respuesta a sus solicitudes). Tope provisional: 400 correos al día | `config/school.php` → `family_mail` y `FAMILY_MAIL_DAILY_LIMIT` en `.env` |
 | Circulares: quién las ve | Cada circular es «solo familias del portal» (opción por defecto) o «pública en la web»; las de familias pueden dirigirse a ciertos grados (se ven en el portal de los acudientes con estudiantes matriculados en ellos este año) y su PDF no queda en el disco público. Útiles, uniformes y horarios generales siempre son públicos. Los estudiantes no ven circulares (van dirigidas a las familias) | Admin → Recursos → Circulares |
 | Política de tratamiento de datos | Borrador basado en la Ley 1581 de 2012 y el Decreto 1377 de 2013, sin NIT ni representante legal. **Requiere revisión legal** | `resources/views/pages/privacy.blade.php` y `config/school.php` → `privacy_policy_version` |
 
@@ -28,7 +29,7 @@ Datos que ya se ven en la web y que el colegio debe confirmar antes de salir a p
 - [ ] No subir `public/demo/` (fotos provisionales del mockup).
 - [ ] **No ejecutar `db:seed`** (crea usuarios con contraseñas conocidas). Crear el admin con `php artisan app:create-admin correo "Nombre"`.
 - [ ] `php artisan migrate --force`, `php artisan storage:link`, `php artisan config:cache route:cache view:cache`.
-- [ ] Cron cada minuto: `php /ruta/al/proyecto/artisan schedule:run` (procesa la cola de correos).
+- [ ] Cron cada minuto: `php /ruta/al/proyecto/artisan schedule:run` (procesa la cola de correos, envía la bandeja de correos a las familias y a las 6:00 a. m. anota los recordatorios de eventos). Sin este cron no sale ningún correo.
 - [ ] La raíz pública del dominio debe apuntar a `public/`, nunca a la raíz del proyecto.
 - [ ] **PHP del hosting para las fotos** (noticias y galería): extensión GD con soporte WebP y extensión `exif` (corrige la rotación de las fotos del celular). Verificar con `php -i` o `phpinfo()`.
 - [ ] **Límites de PHP del hosting:** `memory_limit` ≥ 128M (redimensionar una foto de 12 MP con GD usa unos 60–80 MB), `upload_max_filesize` ≥ 10M y `post_max_size` ≥ 12M (la galería acepta fotos de hasta 10 MB y el panel las sube una por una). Si el hosting no permite subirlos, bajar el máximo en `StoreGalleryPhotosRequest::MAX_KB`.
@@ -95,7 +96,7 @@ Datos que ya se ven en la web y que el colegio debe confirmar antes de salir a p
 
 ## Infraestructura
 - [ ] **Dominio** (por ejemplo, colegiogenesis.edu.co) y hosting.
-- [ ] **Correo para envíos automáticos.** *Provisional: SMTP de cecgenesis16@gmail.com con contraseña de aplicación; ideal migrar a un correo con el dominio.*
+- [ ] **Correo para envíos automáticos.** *Provisional: SMTP de cecgenesis16@gmail.com con contraseña de aplicación; ideal migrar a un correo con el dominio.* Gmail permite unos 500 destinatarios al día: el portal envía como máximo 400 al día (`FAMILY_MAIL_DAILY_LIMIT`) y deja el resto para el día siguiente. Con muchas familias, un correo con el dominio o un servicio de envío evita la espera.
 - [ ] **¿El +57 321 797 5579 tiene WhatsApp** para el botón flotante? Se activa en Admin → Configuración.
 - [ ] **Horarios de atención** reales para el pie de página. Se escriben en Admin → Configuración (vacío = no se muestran).
 - [ ] **Quién administrará el contenido** y con qué frecuencia se publican noticias.

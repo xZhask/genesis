@@ -9,6 +9,10 @@
             <form method="POST" action="{{ route('admin.academic.periods.close', $period) }}"
                 data-confirm="{{ $complete < $total ? 'Faltan '.($total - $complete).' clases por completar. ' : '' }}¿Cerrar el {{ mb_strtolower($period->name()) }}? Sus notas quedarán congeladas y en solo lectura, y las familias podrán verlas.">
                 @csrf
+                <label class="check notify-check">
+                    <input type="checkbox" name="notify" value="1" checked>
+                    <span>Avisar a las familias por correo</span>
+                </label>
                 <button type="submit" class="btn btn-sm btn-danger">Cerrar periodo</button>
             </form>
         @endunless

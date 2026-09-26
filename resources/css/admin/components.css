@@ -515,3 +515,16 @@
     font-weight: 700;
     color: var(--muted);
 }
+
+/* Casilla «Avisar a las familias» junto al botón de cerrar periodo */
+form:has(> .notify-check) {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 10px;
+}
+
+.notify-check {
+    font-size: .85rem;
+    font-weight: 600;
+}

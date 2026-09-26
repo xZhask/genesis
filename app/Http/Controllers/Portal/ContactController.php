@@ -27,6 +27,19 @@ class ContactController extends Controller
         return view('portal.guardian.contact', ['guardian' => $guardian, 'latest' => $latest]);
     }
 
+    /** Recibir o no los avisos por correo (eventos, boletines, circulares). */
+    public function notifications(Request $request): RedirectResponse
+    {
+        $guardian = $request->user()->guardian;
+        abort_unless($guardian, 403);
+
+        $guardian->forceFill(['email_notifications' => $request->boolean('email_notifications')])->save();
+
+        return redirect()->route('portal.guardian.contact')->with('status_message', $guardian->email_notifications
+            ? 'Listo: te enviaremos los avisos por correo.'
+            : 'Listo: no te enviaremos avisos por correo. Los seguirás viendo en el portal.');
+    }
+
     public function store(ContactUpdateRequestRequest $request): RedirectResponse
     {
         $guardian = $request->user()->guardian;

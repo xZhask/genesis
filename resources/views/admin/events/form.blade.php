@@ -63,6 +63,12 @@
                 <textarea id="description" name="description" rows="3" maxlength="2000">{{ old('description', $event->description) }}</textarea>
             </x-field>
 
+            <label class="check">
+                <input type="checkbox" name="send_reminder" value="1" @checked(old('send_reminder', $event->send_reminder))>
+                <span>Enviar un recordatorio por correo a las familias {{ config('school.family_mail.reminder_days') }} días antes
+                    <small class="block">A los acudientes del nivel elegido (o de todo el colegio) que tienen cuenta en el portal y correo.</small></span>
+            </label>
+
             <button type="submit" class="btn btn-azul" data-submit data-loading-text="Guardando…"><span>Guardar evento</span></button>
         </section>
     </form>

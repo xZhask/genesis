@@ -28,6 +28,10 @@
             @else
                 No hay solicitudes ni voluntarios nuevos por atender.
             @endif
+            @if ($mailQueue)
+                <br>{{ trans_choice(':count correo a familias en cola|:count correos a familias en cola', $mailQueue) }}
+                ({{ $mailToday }} enviados hoy; tope diario {{ config('school.family_mail.daily_limit') }}).
+            @endif
             @if ($alertStudents)
                 <br><a href="{{ route('admin.academic.alerts') }}">{{ trans_choice(':count estudiante con alertas|:count estudiantes con alertas', $alertStudents) }}</a> de rendimiento o inasistencia.
             @endif

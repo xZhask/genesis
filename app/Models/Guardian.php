@@ -20,6 +20,7 @@ class Guardian extends Model
     {
         return [
             'document_type' => DocumentType::class,
+            'email_notifications' => 'boolean',
         ];
     }
 

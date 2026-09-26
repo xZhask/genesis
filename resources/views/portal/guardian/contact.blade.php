@@ -43,6 +43,21 @@
                 <a href="tel:{{ config('school.contact.phone_link') }}">{{ config('school.contact.phone') }}</a>.</p>
         </section>
 
+        <section class="panel" aria-labelledby="avisos-title">
+            <h2 id="avisos-title">Avisos por correo</h2>
+            <form method="POST" action="{{ route('portal.guardian.contact.notifications') }}">
+                @csrf
+                @method('PUT')
+                <input type="hidden" name="email_notifications" value="0">
+                <label class="check">
+                    <input type="checkbox" name="email_notifications" value="1" @checked($guardian->email_notifications !== false)>
+                    <span>Quiero recibir por correo los recordatorios de eventos, el aviso de boletín disponible y las circulares nuevas.</span>
+                </label>
+                <p class="hint">Los avisos de seguridad y la respuesta a tus solicitudes de cambio te llegan siempre. Los correos nunca incluyen notas.</p>
+                <button type="submit" class="btn btn-line btn-sm">Guardar preferencia</button>
+            </form>
+        </section>
+
         <section class="panel" aria-labelledby="cambio-title">
             <h2 id="cambio-title">Solicitar un cambio</h2>
             <p class="muted">Escribe el dato nuevo. El colegio revisa la solicitud antes de actualizarlo.</p>

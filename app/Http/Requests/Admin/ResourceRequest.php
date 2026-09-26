@@ -59,6 +59,7 @@ class ResourceRequest extends FormRequest
             // Solo circulares: la web pública o solo las familias (y a qué grados)
             'visibility' => [$type === ResourceType::Circular ? 'required' : 'nullable', Rule::enum(ResourceVisibility::class)],
             'audience' => ['nullable', 'array'],
+            'notify' => ['nullable', 'boolean'],
             'audience.*' => [Rule::in(Resource::grades())],
             'position' => ['nullable', 'integer', 'between:0,999'],
         ];

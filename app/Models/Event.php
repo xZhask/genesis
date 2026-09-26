@@ -12,7 +12,7 @@ class Event extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'description', 'starts_at', 'ends_at', 'all_day', 'location', 'level'];
+    protected $fillable = ['title', 'description', 'starts_at', 'ends_at', 'all_day', 'location', 'level', 'send_reminder'];
 
     protected function casts(): array
     {
@@ -20,6 +20,7 @@ class Event extends Model
             'starts_at' => 'datetime',
             'ends_at' => 'datetime',
             'all_day' => 'boolean',
+            'send_reminder' => 'boolean',
         ];
     }
 

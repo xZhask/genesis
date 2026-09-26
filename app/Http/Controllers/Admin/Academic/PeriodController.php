@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Academic;
 use App\Http\Controllers\Controller;
 use App\Models\Period;
 use App\Models\SchoolYear;
+use App\Support\FamilyMail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -67,7 +68,11 @@ class PeriodController extends Controller
 
         $period->close($request->user());
 
-        return back()->with('status_message', "{$period->name()} quedó cerrado: sus notas y asistencia ya no se pueden modificar.");
+        // Si se cierra, se reabre y se vuelve a cerrar, la bandeja no repite el aviso
+        $notified = $request->boolean('notify') ? FamilyMail::queueReportCards($period) : 0;
+
+        return back()->with('status_message', "{$period->name()} quedó cerrado: sus notas y asistencia ya no se pueden modificar."
+            .($notified ? " Se avisará por correo a {$notified} ".($notified === 1 ? 'familia' : 'familias').'.' : ''));
     }
 
     public function reopen(Request $request, Period $period): RedirectResponse

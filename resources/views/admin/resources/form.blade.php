@@ -119,6 +119,12 @@
                             <p class="error">{{ $message }}</p>
                         @enderror
                     </fieldset>
+
+                    <label class="check">
+                        <input type="checkbox" name="notify" value="1" @checked(old('notify'))>
+                        <span>Avisar por correo a las familias al publicarla
+                            <small class="block">Llega a quienes la pueden ver. Cada familia recibe el aviso una sola vez, aunque edites la circular.</small></span>
+                    </label>
                 </section>
 
                 <section class="panel">

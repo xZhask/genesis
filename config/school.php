@@ -188,6 +188,16 @@ return [
         'birthday_days' => 7,
     ],
 
+    // Correos a las familias (fase 3). Gmail permite unos 500 destinatarios al
+    // día: lo que pase del tope sale al día siguiente.
+    'family_mail' => [
+        'daily_limit' => (int) env('FAMILY_MAIL_DAILY_LIMIT', 400),
+        // Correos por minuto (el cron ejecuta el envío cada minuto)
+        'per_minute' => 20,
+        // Recordatorio de eventos: días antes
+        'reminder_days' => 2,
+    ],
+
     // Horario de clases, fijo para el año (provisional: lunes a viernes, una jornada)
     'schedule' => [
         // Días con clase (ISO: 1 = lunes … 6 = sábado)

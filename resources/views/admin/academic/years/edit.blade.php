@@ -105,6 +105,10 @@
                                 <form method="POST" action="{{ route('admin.academic.periods.close', $period) }}"
                                     data-confirm="¿Cerrar el {{ mb_strtolower($period->name()) }}? Sus notas y asistencia quedarán en solo lectura.">
                                     @csrf
+                                    <label class="check notify-check">
+                                        <input type="checkbox" name="notify" value="1" checked>
+                                        <span>Avisar a las familias por correo</span>
+                                    </label>
                                     <button type="submit" class="btn btn-sm btn-danger">Cerrar</button>
                                 </form>
                             @endif

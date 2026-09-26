@@ -20,7 +20,7 @@ class EventRequest extends FormRequest
 
     protected function prepareForValidation(): void
     {
-        $this->merge(['all_day' => $this->boolean('all_day')]);
+        $this->merge(['all_day' => $this->boolean('all_day'), 'send_reminder' => $this->boolean('send_reminder')]);
     }
 
     public function rules(): array
@@ -29,6 +29,7 @@ class EventRequest extends FormRequest
             'title' => ['required', 'string', 'max:160'],
             'date' => ['required', 'date'],
             'all_day' => ['boolean'],
+            'send_reminder' => ['boolean'],
             'start_time' => ['nullable', Rule::requiredIf(! $this->boolean('all_day')), 'date_format:H:i'],
             'end_time' => [
                 'nullable',
@@ -87,6 +88,7 @@ class EventRequest extends FormRequest
         return [
             ...$this->safe()->only(['title', 'location', 'level', 'description']),
             'all_day' => $allDay,
+            'send_reminder' => $this->boolean('send_reminder'),
             'starts_at' => $startsAt,
             'ends_at' => $endsAt,
         ];

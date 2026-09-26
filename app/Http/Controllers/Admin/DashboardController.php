@@ -15,6 +15,7 @@ use App\Models\GalleryPhoto;
 use App\Models\Post;
 use App\Models\Resource;
 use App\Models\SchoolYear;
+use App\Models\SentNotification;
 use App\Models\VolunteerApplication;
 use App\Support\AcademicAlerts;
 use Illuminate\View\View;
@@ -35,6 +36,8 @@ class DashboardController extends Controller
             'pending' => ($counts[AdmissionStatus::Received->value] ?? 0),
             'newVolunteers' => VolunteerApplication::where('status', VolunteerStatus::New)->count(),
             'contactChanges' => ContactUpdateRequest::pending()->count(),
+            'mailQueue' => SentNotification::whereNull('sent_at')->count(),
+            'mailToday' => SentNotification::where('sent_at', '>=', today())->count(),
             'alertStudents' => ($year = SchoolYear::current()) ? AcademicAlerts::forSections($year, $year->sections()->with('grade')->get())->studentCount() : 0,
             'upcomingInterviews' => AdmissionRequest::where('status', AdmissionStatus::InterviewScheduled)
                 ->where('interview_at', '>=', now()->startOfDay())
