@@ -76,6 +76,10 @@ Route::prefix('portal/docente')->name('portal.teacher.')->middleware(['auth', 'r
     Route::put('/grupo', [Portal\HomeroomController::class, 'save'])->name('homeroom.save');
 });
 
+// Calendario del portal: acudientes y docentes (el controlador filtra qué ve cada quien)
+Route::get('/portal/calendario', [Portal\CalendarController::class, 'index'])
+    ->middleware(['auth', 'role:guardian,teacher', 'password.changed'])->name('portal.calendar');
+
 // Acudientes, y docentes que también son acudientes (el controlador exige el vínculo)
 Route::prefix('portal/acudiente')->name('portal.guardian.')->middleware(['auth', 'role:guardian,teacher', 'password.changed'])->group(function () {
     Route::get('/', [Portal\GuardianPortalController::class, 'home'])->name('home');

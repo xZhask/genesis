@@ -20,6 +20,7 @@
                         <th scope="col">Evento</th>
                         <th scope="col">Horario y lugar</th>
                         <th scope="col">Nivel</th>
+                        <th scope="col">Quién lo ve</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -29,6 +30,7 @@
                             <td data-label="Evento"><a href="{{ route('admin.events.edit', $event) }}">{{ $event->title }}</a></td>
                             <td data-label="Horario y lugar">{{ $event->metaLabel() }}</td>
                             <td data-label="Nivel">{{ $event->levelName() ?? 'Todo el colegio' }}</td>
+                            <td data-label="Quién lo ve">{{ $event->isForFamiliesOnly() ? $event->audienceLabel() : 'Web pública' }}</td>
                         </tr>
                     @endforeach
                 </tbody>

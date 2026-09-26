@@ -217,7 +217,7 @@ class FamilyMailTest extends PortalTestCase
     public function test_admin_marks_events_for_reminder(): void
     {
         $this->actingAs($this->admin)->post(route('admin.events.store'), [
-            'title' => 'Izada de bandera', 'date' => today()->addDays(5)->toDateString(), 'all_day' => '1', 'send_reminder' => '1',
+            'title' => 'Izada de bandera', 'date' => today()->addDays(5)->toDateString(), 'all_day' => '1', 'send_reminder' => '1', 'visibility' => 'public',
         ])->assertSessionHasNoErrors();
 
         $this->assertTrue(Event::sole()->send_reminder);

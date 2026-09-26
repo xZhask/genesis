@@ -36,7 +36,7 @@ class HomeController extends Controller
             'levels' => config('school.levels'),
             'heroPhotos' => $demo ? DemoContent::heroPhotos() : config('school.hero_photos'),
             'posts' => Post::published()->latest('published_at')->limit(3)->get(),
-            'events' => Event::upcoming()->limit(3)->get(),
+            'events' => Event::publicWeb()->upcoming()->limit(3)->get(),
             'photos' => $photos->isEmpty() && $demo ? DemoContent::photos() : $photos,
             'support' => $this->support($demo),
         ]);

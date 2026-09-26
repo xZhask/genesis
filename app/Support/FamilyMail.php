@@ -102,7 +102,9 @@ class FamilyMail
     {
         $year = SchoolYear::current();
 
-        return $year ? self::queue(FamilyNotice::EventReminder, self::guardiansOf($year, $event->level ? [$event->level] : null), $event) : 0;
+        $grades = $event->isForFamiliesOnly() && $event->audience ? $event->audience : null;
+
+        return $year ? self::queue(FamilyNotice::EventReminder, self::guardiansOf($year, $event->level ? [$event->level] : null, $grades), $event) : 0;
     }
 
     /** «El boletín ya está disponible» al cerrar un periodo. */

@@ -10,6 +10,7 @@
             'portal.teacher.grades' => ['Notas', 'portal.teacher.grades'],
             'portal.teacher.schedule' => ['Horario', 'portal.teacher.schedule'],
             'portal.teacher.summary' => ['Resumen', 'portal.teacher.summary'],
+            'portal.calendar' => ['Calendario', 'portal.calendar'],
             'portal.teacher.homeroom' => $user->homeroomSections()->whereHas('schoolYear', fn ($q) => $q->where('is_current', true))->exists()
                 ? ['Mi grupo', 'portal.teacher.homeroom'] : null,
             // Un docente que también es acudiente ve a sus acudidos con la misma cuenta
@@ -20,6 +21,7 @@
         App\Enums\Role::Guardian => [
             'portal.guardian.home' => ['Mis acudidos', ['portal.guardian.home', 'portal.guardian.student', 'portal.guardian.student.*']],
             'portal.guardian.circulars' => ['Circulares', 'portal.guardian.circulars'],
+            'portal.calendar' => ['Calendario', 'portal.calendar'],
             'portal.guardian.contact' => ['Mis datos', 'portal.guardian.contact'],
         ],
         App\Enums\Role::Student => [

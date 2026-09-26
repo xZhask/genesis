@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\PublicationStatus;
 use App\Enums\ResourceType;
 use App\Enums\ResourceVisibility;
+use App\Models\Concerns\HasAudience;
 use App\Support\ImageResizer;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -16,7 +17,7 @@ use Illuminate\Support\Str;
 
 class Resource extends Model
 {
-    use HasFactory;
+    use HasAudience, HasFactory;
 
     protected $fillable = ['type', 'title', 'summary', 'body', 'image_alt', 'grade', 'school_year', 'published_on', 'status', 'visibility', 'audience', 'position'];
 
@@ -53,35 +54,6 @@ class Resource extends Model
     public function scopeOfType(Builder $query, ResourceType $type): void
     {
         $query->where('type', $type);
-    }
-
-    /** Lo que se ve en la web pública (las circulares «solo familias» no). */
-    public function scopePublicWeb(Builder $query): void
-    {
-        $query->where('visibility', ResourceVisibility::Public);
-    }
-
-    public function isForFamiliesOnly(): bool
-    {
-        return $this->visibility === ResourceVisibility::Families;
-    }
-
-    /** ¿Va dirigida a alguno de estos grados? Sin grados elegidos, es para todas las familias. */
-    public function isForGrades(array $grades): bool
-    {
-        return empty($this->audience) || array_intersect($this->audience, $grades) !== [];
-    }
-
-    /** «Todas las familias» o «Familias de 5.° y 6.°». */
-    public function audienceLabel(): string
-    {
-        if (empty($this->audience)) {
-            return 'Todas las familias';
-        }
-        // En el orden del colegio, no en el que se marcaron
-        $grades = array_values(array_intersect(self::grades(), $this->audience));
-
-        return 'Familias de '.collect($grades)->join(', ', ' y ');
     }
 
     /**

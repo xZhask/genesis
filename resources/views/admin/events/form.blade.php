@@ -2,6 +2,8 @@
     $editing = $event->exists;
     $allDay = (bool) old('all_day', $event->all_day ?? false);
     $multiDay = $editing && $event->isMultiDay();
+    $visibility = old('visibility', $event->visibility?->value ?? App\Enums\ResourceVisibility::Families->value);
+    $audience = old('audience', $event->audience ?? []);
 @endphp
 
 <x-layouts.admin :title="$editing ? 'Editar evento' : 'Nuevo evento'">
@@ -62,6 +64,42 @@
             <x-field name="description" label="Descripción" optional hint="Qué deben saber o traer las familias.">
                 <textarea id="description" name="description" rows="3" maxlength="2000">{{ old('description', $event->description) }}</textarea>
             </x-field>
+
+            <fieldset @class(['field', 'choices', 'has-error' => $errors->has('visibility')])>
+                <legend class="label">¿Quién lo ve?</legend>
+                <label class="check visibility-option">
+                    <input type="radio" name="visibility" value="families" @checked($visibility === 'families') data-visibility-radio>
+                    <span><strong>Solo familias del portal</strong>
+                        <small class="block">Salidas pedagógicas, actividades fuera del colegio, reuniones o asuntos de un grupo. Se ve en el calendario del portal.</small></span>
+                </label>
+                <label class="check visibility-option">
+                    <input type="radio" name="visibility" value="public" @checked($visibility === 'public') data-visibility-radio>
+                    <span><strong>Público en la web</strong>
+                        <small class="block">Fechas generales: inicio de clases, vacaciones, matrículas, celebraciones abiertas. Lo ve cualquier persona.</small></span>
+                </label>
+                @error('visibility')
+                    <p class="error">{{ $message }}</p>
+                @enderror
+            </fieldset>
+
+            <fieldset @class(['field', 'audience', 'has-error' => $errors->has('audience.*')]) data-audience>
+                <legend class="label">Grados</legend>
+                <p class="hint">Sin marcar, lo ven todas las familias del nivel elegido. ¿Es una salida? No pongas el punto de encuentro en un evento público.</p>
+                @foreach (config('school.levels') as $level)
+                    <div class="audience-level">
+                        <span class="audience-level-name">{{ $level['short'] }}</span>
+                        @foreach ($level['grades'] as $grade)
+                            <label class="check">
+                                <input type="checkbox" name="audience[]" value="{{ $grade }}" @checked(in_array($grade, $audience, true))>
+                                <span>{{ $grade }}</span>
+                            </label>
+                        @endforeach
+                    </div>
+                @endforeach
+                @error('audience.*')
+                    <p class="error">{{ $message }}</p>
+                @enderror
+            </fieldset>
 
             <label class="check">
                 <input type="checkbox" name="send_reminder" value="1" @checked(old('send_reminder', $event->send_reminder))>

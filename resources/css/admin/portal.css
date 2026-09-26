@@ -866,3 +866,9 @@ fieldset:disabled .att-option input:checked + span {
     border-radius: 2px;
     border: 1px solid var(--line);
 }
+
+/* Calendario del portal */
+.portal-month + .portal-month { margin-top: 8px; }
+.portal-event h3 { font-size: 1.1rem; margin: 4px 0; }
+.event-meta { margin: 0 0 4px; font-weight: 600; }
+.event-add { margin: 8px 0 0; font-size: .9rem; color: var(--muted); }

@@ -13,7 +13,7 @@ class NewsController extends Controller
     {
         return view('news.index', [
             'posts' => Post::published()->latest('published_at')->paginate(9),
-            'events' => Event::upcoming()->limit(4)->get(),
+            'events' => Event::publicWeb()->upcoming()->limit(4)->get(),
         ]);
     }
 

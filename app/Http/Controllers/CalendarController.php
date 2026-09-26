@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use App\Models\Post;
 use App\Support\CalendarExport;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Carbon;
@@ -34,7 +35,7 @@ class CalendarController extends Controller
             $from = $month->copy()->startOfMonth()->startOfWeek(Carbon::MONDAY);
             $to = $month->copy()->endOfMonth()->endOfWeek(Carbon::SUNDAY);
 
-            $events = Event::between($from, $to)->forLevel($level)->get();
+            $events = Event::publicWeb()->between($from, $to)->forLevel($level)->get();
 
             $days = collect();
             for ($day = $from->copy(); $day->lte($to); $day->addDay()) {
@@ -54,14 +55,19 @@ class CalendarController extends Controller
         }
 
         return view('calendar.index', $data + [
-            'groups' => Event::upcoming()->forLevel($level)->limit(60)->get()
+            'groups' => Event::publicWeb()->upcoming()->forLevel($level)->limit(60)->get()
                 ->groupBy(fn (Event $e) => Str::ucfirst($e->starts_at->max(now()->startOfDay())->translatedFormat('F \d\e Y'))),
         ]);
     }
 
-    /** Descarga del evento para "Agregar a mi calendario". */
-    public function ics(Event $event): Response
+    /** Descarga del evento para "Agregar a mi calendario". Los de solo familias piden iniciar sesión. */
+    public function ics(Request $request, Event $event): Response|RedirectResponse
     {
+        if ($event->isForFamiliesOnly() && ! $request->user()) {
+            return redirect()->guest(route('login'));
+        }
+        abort_unless($event->visibleTo($request->user()), 403);
+
         $filename = Str::slug($event->title).'.ics';
 
         return response(CalendarExport::ics($event), 200, [

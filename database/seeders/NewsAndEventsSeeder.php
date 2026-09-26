@@ -3,12 +3,13 @@
 namespace Database\Seeders;
 
 use App\Enums\PostStatus;
+use App\Enums\ResourceVisibility;
 use App\Models\Event;
 use App\Models\Post;
 use App\Models\User;
 use App\Support\ImageResizer;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Database\Seeder;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Carbon;
 
 /**
@@ -84,5 +85,18 @@ class NewsAndEventsSeeder extends Seeder
             $event->created_by = $admin?->id;
             $event->save();
         }
+
+        // Solo para familias (no aparecen en la web pública): una reunión y una salida
+        Event::where('title', 'Reunión de acudientes de preescolar')->update(['visibility' => ResourceVisibility::Families->value]);
+        Event::create([
+            'title' => 'Salida pedagógica de 7.° (ejemplo)',
+            'starts_at' => $day(6, '07:30'),
+            'ends_at' => $day(6, '11:30'),
+            'location' => 'Punto de encuentro: portería del colegio',
+            'description' => 'Visita a un vivero de la zona. Envía la autorización firmada, gorra y agua.',
+            'level' => 'secondary',
+            'visibility' => ResourceVisibility::Families,
+            'audience' => ['7.°'],
+        ]);
     }
 }

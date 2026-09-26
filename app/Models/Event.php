@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Enums\ResourceVisibility;
+use App\Enums\Role;
+use App\Models\Concerns\HasAudience;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,9 +13,9 @@ use Illuminate\Support\Carbon;
 
 class Event extends Model
 {
-    use HasFactory;
+    use HasAudience, HasFactory;
 
-    protected $fillable = ['title', 'description', 'starts_at', 'ends_at', 'all_day', 'location', 'level', 'send_reminder'];
+    protected $fillable = ['title', 'description', 'starts_at', 'ends_at', 'all_day', 'location', 'level', 'send_reminder', 'visibility', 'audience'];
 
     protected function casts(): array
     {
@@ -21,6 +24,8 @@ class Event extends Model
             'ends_at' => 'datetime',
             'all_day' => 'boolean',
             'send_reminder' => 'boolean',
+            'visibility' => ResourceVisibility::class,
+            'audience' => 'array',
         ];
     }
 
@@ -56,6 +61,37 @@ class Event extends Model
                 ->where('starts_at', '>=', $from)
                 ->orWhere('ends_at', '>=', $from))
             ->orderBy('starts_at');
+    }
+
+    /**
+     * ¿Puede verlo esta persona? Los públicos, cualquiera; los de solo
+     * familias, el personal del colegio y los acudientes de los grados a los
+     * que va (dentro del nivel del evento, si tiene uno).
+     */
+    public function visibleTo(?User $user): bool
+    {
+        if (! $this->isForFamiliesOnly()) {
+            return true;
+        }
+        if (! $user) {
+            return false;
+        }
+        if ($user->isAdmin() || $user->hasRole(Role::Teacher)) {
+            return true;
+        }
+
+        return $user->guardian !== null && $this->reachesGrades(Resource::gradesOf($user->guardian));
+    }
+
+    /** ¿Llega a alguno de estos grados? (nivel del evento y grados elegidos). */
+    public function reachesGrades(array $grades): bool
+    {
+        if ($this->level) {
+            $levelGrades = collect(config('school.levels'))->firstWhere('key', $this->level)['grades'] ?? [];
+            $grades = array_values(array_intersect($grades, $levelGrades));
+        }
+
+        return $grades !== [] && $this->isForGrades($grades);
     }
 
     public function isMultiDay(): bool

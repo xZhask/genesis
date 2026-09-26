@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Admin;
 
+use App\Enums\ResourceVisibility;
 use App\Models\Event;
+use App\Models\Resource;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Carbon;
 use Illuminate\Validation\Rule;
@@ -30,6 +32,9 @@ class EventRequest extends FormRequest
             'date' => ['required', 'date'],
             'all_day' => ['boolean'],
             'send_reminder' => ['boolean'],
+            'visibility' => ['required', Rule::enum(ResourceVisibility::class)],
+            'audience' => ['nullable', 'array'],
+            'audience.*' => [Rule::in(Resource::grades())],
             'start_time' => ['nullable', Rule::requiredIf(! $this->boolean('all_day')), 'date_format:H:i'],
             'end_time' => [
                 'nullable',
@@ -55,6 +60,7 @@ class EventRequest extends FormRequest
             'location' => 'lugar',
             'level' => 'nivel',
             'description' => 'descripción',
+            'visibility' => 'quién lo ve',
         ];
     }
 
@@ -64,6 +70,8 @@ class EventRequest extends FormRequest
             'start_time.required' => 'Indica la hora de inicio o marca "Todo el día".',
             'end_time.after' => 'La hora de fin debe ser posterior a la de inicio.',
             'end_date.after_or_equal' => 'La fecha de fin no puede ser anterior a la de inicio.',
+            'visibility.required' => 'Elige quién ve el evento.',
+            'audience.*.in' => 'Elige grados del colegio.',
         ];
     }
 
@@ -89,6 +97,11 @@ class EventRequest extends FormRequest
             ...$this->safe()->only(['title', 'location', 'level', 'description']),
             'all_day' => $allDay,
             'send_reminder' => $this->boolean('send_reminder'),
+            'visibility' => ResourceVisibility::from($this->validated('visibility')),
+            // Los grados solo aplican a los eventos de solo familias
+            'audience' => $this->validated('visibility') === ResourceVisibility::Families->value && $this->validated('audience')
+                ? array_values($this->validated('audience'))
+                : null,
             'starts_at' => $startsAt,
             'ends_at' => $endsAt,
         ];

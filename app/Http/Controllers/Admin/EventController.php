@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\ResourceVisibility;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\EventRequest;
 use App\Models\Event;
@@ -32,7 +33,8 @@ class EventController extends Controller
     {
         $this->authorize('create', Event::class);
 
-        return view('admin.events.form', ['event' => new Event]);
+        // Lo más seguro si nadie cambia la opción: solo las familias
+        return view('admin.events.form', ['event' => new Event(['visibility' => ResourceVisibility::Families])]);
     }
 
     public function store(EventRequest $request): RedirectResponse

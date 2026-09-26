@@ -24,7 +24,7 @@ class EventManagementTest extends TestCase
     public function test_creates_a_timed_event(): void
     {
         $this->actingAs($this->admin)->post(route('admin.events.store'), [
-            'title' => 'Entrega de boletines',
+            'title' => 'Entrega de boletines', 'visibility' => 'public',
             'date' => '2026-10-02',
             'start_time' => '07:00',
             'end_time' => '10:00',
@@ -43,7 +43,7 @@ class EventManagementTest extends TestCase
     public function test_creates_an_all_day_multi_day_event_for_one_level(): void
     {
         $this->actingAs($this->admin)->post(route('admin.events.store'), [
-            'title' => 'Receso',
+            'title' => 'Receso', 'visibility' => 'public',
             'date' => '2026-10-05',
             'end_date' => '2026-10-09',
             'all_day' => '1',
@@ -60,12 +60,12 @@ class EventManagementTest extends TestCase
     public function test_validation(): void
     {
         $this->actingAs($this->admin)->post(route('admin.events.store'), [
-            'title' => 'Sin hora',
+            'title' => 'Sin hora', 'visibility' => 'public',
             'date' => '2026-10-02',
         ])->assertSessionHasErrors(['start_time' => 'Indica la hora de inicio o marca "Todo el día".']);
 
         $this->actingAs($this->admin)->post(route('admin.events.store'), [
-            'title' => 'Horas al revés',
+            'title' => 'Horas al revés', 'visibility' => 'public',
             'date' => '2026-10-02',
             'start_time' => '10:00',
             'end_time' => '08:00',
@@ -74,7 +74,7 @@ class EventManagementTest extends TestCase
         ])->assertSessionHasErrors(['end_date', 'level']);
 
         $this->actingAs($this->admin)->post(route('admin.events.store'), [
-            'title' => 'Horas al revés',
+            'title' => 'Horas al revés', 'visibility' => 'public',
             'date' => '2026-10-02',
             'start_time' => '10:00',
             'end_time' => '08:00',
@@ -88,7 +88,7 @@ class EventManagementTest extends TestCase
         $event = Event::factory()->create(['title' => 'Antes']);
 
         $this->actingAs($this->admin)->put(route('admin.events.update', $event), [
-            'title' => 'Después',
+            'title' => 'Después', 'visibility' => 'public',
             'date' => '2026-11-20',
             'all_day' => '1',
         ])->assertSessionHasNoErrors();
