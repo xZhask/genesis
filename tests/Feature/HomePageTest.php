@@ -54,7 +54,7 @@ class HomePageTest extends TestCase
         $this->get(route('home'))->assertSee('Matrículas 2027 abiertas');
     }
 
-    public function test_demo_content_shows_every_section_with_a_visible_notice(): void
+    public function test_demo_content_fills_every_section(): void
     {
         config(['school.demo_content' => true]);
 
@@ -62,7 +62,12 @@ class HomePageTest extends TestCase
             ->assertOk()
             ->assertDontSee('Contenido de ejemplo para revisar el diseño')
             ->assertSee('Momentos Génesis')
+            ->assertSee('demo/nivel-preescolar.webp', false)
             ->assertSee('data-copy="000-000000-00"', false);
+        $this->get(route('about'))->assertOk()->assertSee('demo/nivel-secundaria.webp', false);
+
+        config(['school.demo_content' => false]);
+        $this->get(route('home'))->assertDontSee('demo/nivel-', false);
     }
 
     public function test_demo_content_never_appears_in_production(): void

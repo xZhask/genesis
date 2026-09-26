@@ -29,7 +29,7 @@
         'Acompañamiento integral a estudiantes y familias.',
     ];
 
-    $levels = config('school.levels');
+    $levels = App\Support\DemoContent::levels();
 @endphp
 
 <x-layouts.public title="Nosotros" description="Conoce el Centro Educativo Cristiano Génesis: misión, visión, valores, propuesta educativa y niveles de preescolar, primaria y secundaria en Zambrano, Bolívar.">

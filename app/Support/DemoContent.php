@@ -20,6 +20,24 @@ class DemoContent
         return (bool) config('school.demo_content') && ! app()->isProduction();
     }
 
+    /**
+     * Niveles de config/school.php con su foto. Las fotos reales se ponen en
+     * config (clave 'image'); en local, si no hay, se usan las de ejemplo
+     * (imágenes del mockup: nunca van a producción).
+     */
+    public static function levels(): array
+    {
+        $photos = [
+            'preschool' => 'demo/nivel-preescolar.webp',
+            'primary' => 'demo/nivel-primaria.webp',
+            'secondary' => 'demo/nivel-secundaria.webp',
+        ];
+
+        return collect(config('school.levels'))
+            ->map(fn (array $level) => $level + ['image' => self::enabled() ? ($photos[$level['key']] ?? null) : null])
+            ->all();
+    }
+
     public static function heroPhotos(): array
     {
         return ['demo/aula.jpg', 'demo/patio.jpg', 'demo/feria.jpg', 'demo/devocional.jpg'];
