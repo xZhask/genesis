@@ -9,6 +9,8 @@ export default defineConfig({
                 'resources/js/app.js',
                 'resources/css/admin.css',
                 'resources/js/admin.js',
+                // Solo en las páginas con gráficos (Chart.js)
+                'resources/js/charts.js',
             ],
             refresh: true,
         }),

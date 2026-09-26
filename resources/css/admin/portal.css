@@ -721,3 +721,148 @@ fieldset:disabled .att-option input:checked + span {
 .md-body table { border-collapse: collapse; }
 .md-body th,
 .md-body td { border: 1px solid var(--line); padding: 4px 8px; }
+
+/* Gráficos (Chart.js). Paleta validada con daltonismo y contraste:
+   serie 1 azul, serie 2 naranja; «sin dato» en gris neutro. El modo oscuro
+   tiene sus propios tonos, no una inversión automática. */
+:root {
+    --chart-1: #1D5FA8;
+    --chart-2: #D9800A;
+    --chart-neutral: #C3CFDB;
+    --chart-grid: #E3EBF3;
+    --chart-surface: #FFFFFF;
+}
+
+:root[data-theme="dark"] {
+    --chart-1: #4A8ED6;
+    --chart-2: #CF7B12;
+    --chart-neutral: #3F5773;
+    --chart-grid: #223B56;
+    --chart-surface: #172C44;
+}
+
+.charts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr));
+    gap: 16px;
+    align-items: start;
+}
+
+.chart-card h2 { font-size: 1.1rem; margin-bottom: 2px; }
+
+.chart-card .chart-summary {
+    margin: 0 0 10px;
+    color: var(--muted);
+    font-size: .9rem;
+}
+
+.chart-box {
+    position: relative;
+    height: var(--chart-h, 260px);
+}
+
+.chart-box canvas { max-width: 100%; }
+
+.chart-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 16px;
+    margin: 10px 0 0;
+    padding: 0;
+    list-style: none;
+    font-size: .85rem;
+    color: var(--muted);
+}
+
+.chart-legend li { display: flex; align-items: center; gap: 6px; }
+
+.chart-legend i {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+    background: var(--swatch);
+}
+
+.chart-table { margin-top: 10px; }
+
+.chart-table summary {
+    cursor: pointer;
+    font-weight: 600;
+    font-size: .9rem;
+    color: var(--azul-ink);
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+}
+
+.chart-table .num { text-align: right; font-variant-numeric: tabular-nums; }
+
+/* Sin JavaScript, la tabla queda como la forma de leer los datos */
+.chart-box[data-empty] { display: none; }
+
+.kpi-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.kpi {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    padding: 14px 16px;
+}
+
+.kpi span { display: block; font-size: .85rem; color: var(--muted); }
+.kpi b { display: block; font-size: 1.8rem; font-weight: 700; line-height: 1.2; margin-top: 2px; }
+.kpi small { color: var(--muted); font-size: .8rem; }
+
+.filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 12px;
+    margin-bottom: 16px;
+    font-weight: 600;
+}
+
+.filter-row select {
+    min-height: 44px;
+    padding: 8px 12px;
+    border: 1px solid var(--line);
+    border-radius: var(--r-sm);
+    background: var(--card);
+    color: var(--text);
+    font: inherit;
+}
+
+/* Aprobación por grado y periodo: tabla con escala de un solo tono */
+.heat td.num { font-weight: 700; }
+:is(.heat td, .heat-swatch)[data-step="1"] { background: color-mix(in srgb, var(--chart-1) 8%, var(--card)); }
+:is(.heat td, .heat-swatch)[data-step="2"] { background: color-mix(in srgb, var(--chart-1) 22%, var(--card)); }
+:is(.heat td, .heat-swatch)[data-step="3"] { background: color-mix(in srgb, var(--chart-1) 40%, var(--card)); }
+/* Tonos elegidos para que el número conserve contraste AA en cada paso */
+:is(.heat td, .heat-swatch)[data-step="4"] { background: color-mix(in srgb, var(--chart-1) 62%, var(--card)); }
+:is(.heat td, .heat-swatch)[data-step="5"] { background: var(--chart-1); color: #fff; }
+
+:root[data-theme="dark"] :is(.heat td, .heat-swatch)[data-step="3"] { background: color-mix(in srgb, var(--chart-1) 38%, var(--card)); }
+:root[data-theme="dark"] :is(.heat td, .heat-swatch)[data-step="4"] { background: color-mix(in srgb, var(--chart-1) 52%, var(--card)); }
+:root[data-theme="dark"] :is(.heat td, .heat-swatch)[data-step="5"] { background: color-mix(in srgb, var(--chart-1) 65%, var(--card)); color: var(--text); }
+
+.heat-legend {
+    display: flex;
+    gap: 2px;
+    align-items: center;
+    margin-top: 10px;
+    font-size: .8rem;
+    color: var(--muted);
+}
+
+.heat-swatch {
+    display: inline-block;
+    width: 34px;
+    height: 12px;
+    border-radius: 2px;
+    border: 1px solid var(--line);
+}

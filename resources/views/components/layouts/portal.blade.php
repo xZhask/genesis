@@ -9,6 +9,7 @@
             'portal.teacher.attendance' => ['Asistencia', 'portal.teacher.attendance'],
             'portal.teacher.grades' => ['Notas', 'portal.teacher.grades'],
             'portal.teacher.schedule' => ['Horario', 'portal.teacher.schedule'],
+            'portal.teacher.summary' => ['Resumen', 'portal.teacher.summary'],
             'portal.teacher.homeroom' => $user->homeroomSections()->whereHas('schoolYear', fn ($q) => $q->where('is_current', true))->exists()
                 ? ['Mi grupo', 'portal.teacher.homeroom'] : null,
             // Un docente que también es acudiente ve a sus acudidos con la misma cuenta

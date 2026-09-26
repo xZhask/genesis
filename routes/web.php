@@ -70,6 +70,7 @@ Route::prefix('portal/docente')->name('portal.teacher.')->middleware(['auth', 'r
     Route::put('/notas/descripciones', [Portal\GradesController::class, 'saveDescriptions'])->name('grades.descriptions');
 
     Route::get('/horario', [Portal\ScheduleController::class, 'teacher'])->name('schedule');
+    Route::get('/resumen', [Portal\SummaryController::class, 'index'])->name('summary');
     Route::get('/grupo', [Portal\HomeroomController::class, 'index'])->name('homeroom');
     Route::put('/grupo', [Portal\HomeroomController::class, 'save'])->name('homeroom.save');
 });
@@ -142,6 +143,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin', 'passw
         Route::get('/anos/{year:year}/escala', [Admin\Academic\GradingScaleController::class, 'edit'])->name('scale.edit');
         Route::put('/anos/{year:year}/escala', [Admin\Academic\GradingScaleController::class, 'update'])->name('scale.update');
         Route::get('/alertas', [Admin\Academic\AlertController::class, 'index'])->name('alerts');
+        Route::get('/indicadores', [Admin\Academic\IndicatorController::class, 'index'])->name('indicators');
 
         Route::get('/horarios', [Admin\Academic\ScheduleController::class, 'index'])->name('schedule.index');
         Route::put('/anos/{year:year}/franjas/{level}', [Admin\Academic\ScheduleController::class, 'updateBlocks'])->name('schedule.blocks');

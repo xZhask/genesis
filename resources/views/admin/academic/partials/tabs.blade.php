@@ -7,6 +7,7 @@
         'admin.academic.assignments.index' => ['Asignaciones docentes', 'admin.academic.assignments.*'],
         'admin.academic.schedule.index' => ['Horarios', 'admin.academic.schedule.*'],
         'admin.academic.alerts' => ['Alertas', 'admin.academic.alerts'],
+        'admin.academic.indicators' => ['Indicadores', 'admin.academic.indicators'],
     ];
     // Errores de acciones sin formulario propio (eliminar, validar periodos)
     $general = collect(['subject', 'area', 'periods', 'section'])->map(fn ($key) => $errors->first($key))->filter();
