@@ -5,6 +5,7 @@
         'admin.academic.subjects.index' => ['Áreas y materias', 'admin.academic.subjects.*'],
         'admin.academic.curriculum.index' => ['Plan de estudios', 'admin.academic.curriculum.*'],
         'admin.academic.assignments.index' => ['Asignaciones docentes', 'admin.academic.assignments.*'],
+        'admin.academic.schedule.index' => ['Horarios', 'admin.academic.schedule.*'],
         'admin.academic.alerts' => ['Alertas', 'admin.academic.alerts'],
     ];
     // Errores de acciones sin formulario propio (eliminar, validar periodos)

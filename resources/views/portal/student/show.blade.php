@@ -18,18 +18,23 @@
         </nav>
     @endif
 
-    <div class="admin-head">
-        <h1>{{ $isSelf ? 'Hola, '.$student->first_names : $student->fullName() }}</h1>
-        <p class="lead-sm">
-            @if ($enrollment)
-                {{ $enrollment->section->label() }} · Año lectivo {{ $year->year }}
-                @if ($enrollment->section->homeroomTeacher)
-                    · Director de grupo: {{ $enrollment->section->homeroomTeacher->name }}
+    <div class="admin-head row">
+        <div>
+            <h1>{{ $isSelf ? 'Hola, '.$student->first_names : $student->fullName() }}</h1>
+            <p class="lead-sm">
+                @if ($enrollment)
+                    {{ $enrollment->section->label() }} · Año lectivo {{ $year->year }}
+                    @if ($enrollment->section->homeroomTeacher)
+                        · Director de grupo: {{ $enrollment->section->homeroomTeacher->name }}
+                    @endif
+                @else
+                    Sin matrícula en {{ $year?->year ?? 'el año actual' }}
                 @endif
-            @else
-                Sin matrícula en {{ $year?->year ?? 'el año actual' }}
-            @endif
-        </p>
+            </p>
+        </div>
+        @if ($enrollment)
+            <a class="btn btn-line btn-sm" href="{{ $isSelf ? route('portal.student.schedule') : route('portal.guardian.student.schedule', $student) }}">Ver horario</a>
+        @endif
     </div>
 
     @if ($enrollment?->status === App\Enums\EnrollmentStatus::Withdrawn)

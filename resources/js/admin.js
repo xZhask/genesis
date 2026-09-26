@@ -114,3 +114,52 @@ if (attendanceForm && attendanceSummary) {
 
 initGradeSheet();
 initObjectivePreview();
+
+// Horario: en el celular se ve un día a la vez (sin JavaScript, todos seguidos)
+document.querySelectorAll('[data-timetable]').forEach((timetable) => {
+    const tabs = timetable.querySelector('.tt-tabs');
+    const buttons = [...timetable.querySelectorAll('.tt-tabs [role="tab"]')];
+    const days = [...timetable.querySelectorAll('.tt-day')];
+    if (!tabs || !buttons.length) return;
+
+    const show = (day) => {
+        buttons.forEach((b) => {
+            const selected = b.dataset.day === day;
+            b.setAttribute('aria-selected', selected ? 'true' : 'false');
+            b.tabIndex = selected ? 0 : -1;
+        });
+        days.forEach((d) => { d.hidden = d.dataset.day !== day; });
+    };
+
+    tabs.hidden = false;
+    show(timetable.dataset.today);
+    buttons.forEach((b, i) => {
+        b.addEventListener('click', () => show(b.dataset.day));
+        // Flechas entre pestañas (patrón de pestañas accesible)
+        b.addEventListener('keydown', (e) => {
+            if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+            const next = buttons[(i + (e.key === 'ArrowRight' ? 1 : -1) + buttons.length) % buttons.length];
+            next.focus();
+            show(next.dataset.day);
+        });
+    });
+});
+
+// Horario de una sección (admin): horas por materia en vivo al elegir en la cuadrícula
+const scheduleGrid = document.querySelector('[data-schedule-grid]');
+
+if (scheduleGrid) {
+    const recount = () => {
+        const counts = {};
+        scheduleGrid.querySelectorAll('[data-slot]').forEach((select) => {
+            if (select.value) counts[select.value] = (counts[select.value] || 0) + 1;
+        });
+        document.querySelectorAll('[data-hours-row]').forEach((row) => {
+            const count = counts[row.dataset.hoursRow] || 0;
+            const plan = Number(row.dataset.plan);
+            row.querySelector('[data-hours-count]').textContent = count;
+            row.classList.toggle('is-off', plan > 0 && count !== plan);
+        });
+    };
+    scheduleGrid.addEventListener('change', recount);
+}

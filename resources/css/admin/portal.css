@@ -523,3 +523,160 @@ fieldset:disabled .att-option input:checked + span {
 @media (max-width: 640px) {
     .table.keep-grid.alert-summary .hide-sm { display: none; }
 }
+
+/* Horario de clases: cuadrícula en computador, un día a la vez en el celular */
+.tt-table { table-layout: fixed; }
+
+.tt-table thead th:first-child { width: 9.5em; }
+
+.tt-table th[scope="row"] {
+    white-space: nowrap;
+    font-size: .85rem;
+    color: var(--muted);
+    font-weight: 600;
+}
+
+.tt-table thead th.is-today { color: var(--azul-ink); }
+
+.tt-table td {
+    vertical-align: top;
+    min-width: 120px;
+}
+
+.tt-entry { display: block; }
+.tt-entry + .tt-entry { margin-top: 6px; }
+
+.tt-entry small {
+    display: block;
+    color: var(--muted);
+    font-size: .8rem;
+}
+
+.tt-table td.is-now,
+.tt-list li.is-now {
+    background: var(--tint-azul);
+    box-shadow: inset 3px 0 0 var(--azul);
+}
+
+.tt-now-tag {
+    display: inline-block;
+    margin-top: 4px;
+    padding: 0 8px;
+    border-radius: 999px;
+    background: var(--action);
+    color: var(--on-action);
+    font-size: .72rem;
+    font-weight: 700;
+}
+
+.tt-break th,
+.tt-break td {
+    background: var(--bg-soft);
+    color: var(--muted);
+    font-size: .85rem;
+    text-align: center;
+}
+
+.tt-break th { text-align: left; }
+
+.tt-mobile { display: none; }
+
+.tt-tabs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+    gap: 4px;
+    margin-bottom: 12px;
+}
+
+.tt-tabs [role="tab"] {
+    min-height: 44px;
+    border: 1px solid var(--line);
+    border-radius: var(--r-sm);
+    background: var(--card);
+    color: var(--text);
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.tt-tabs [role="tab"][aria-selected="true"] {
+    background: var(--action);
+    border-color: var(--action);
+    color: var(--on-action);
+}
+
+.tt-day {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    padding: 14px 16px;
+    margin-bottom: 12px;
+}
+
+.tt-day h3 { font-size: 1.1rem; margin-bottom: 6px; }
+.tt-day h3 small { color: var(--muted); font-weight: 600; font-size: .85rem; }
+
+.tt-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.tt-list li {
+    display: grid;
+    grid-template-columns: 7.5em 1fr;
+    gap: 10px;
+    padding: 10px 6px;
+    border-bottom: 1px solid var(--line);
+}
+
+.tt-list li:last-child { border-bottom: 0; }
+
+.tt-time {
+    font-size: .82rem;
+    color: var(--muted);
+    font-weight: 600;
+}
+
+.tt-list .tt-break,
+.tt-list .is-empty { color: var(--muted); font-size: .9rem; }
+
+.tt-list .tt-break { background: var(--bg-soft); }
+
+@media (max-width: 720px) {
+    .tt-week { display: none; }
+    .tt-mobile { display: block; }
+}
+
+@media print {
+    @page { size: landscape; margin: 10mm; }
+
+    .admin-bar,
+    .no-print,
+    .tt-mobile { display: none !important; }
+
+    .tt-week { display: block !important; }
+
+    .admin-body,
+    .tt-table,
+    .tt-table th,
+    .tt-table td {
+        background: #fff !important;
+        color: #000 !important;
+        box-shadow: none !important;
+    }
+
+    .tt-table th,
+    .tt-table td { border: 1px solid #999 !important; }
+
+    .tt-break th,
+    .tt-break td { background: #eee !important; }
+
+    .tt-now-tag { display: none; }
+
+    .tt-table thead th:first-child { width: 11.5em; }
+
+    .print-only { display: block !important; }
+}
+
+.print-only { display: none; }

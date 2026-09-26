@@ -68,6 +68,7 @@ Route::prefix('portal/docente')->name('portal.teacher.')->middleware(['auth', 'r
     Route::put('/notas/logros', [Portal\GradesController::class, 'saveObjectives'])->name('grades.objectives');
     Route::put('/notas/descripciones', [Portal\GradesController::class, 'saveDescriptions'])->name('grades.descriptions');
 
+    Route::get('/horario', [Portal\ScheduleController::class, 'teacher'])->name('schedule');
     Route::get('/grupo', [Portal\HomeroomController::class, 'index'])->name('homeroom');
     Route::put('/grupo', [Portal\HomeroomController::class, 'save'])->name('homeroom.save');
 });
@@ -76,12 +77,14 @@ Route::prefix('portal/docente')->name('portal.teacher.')->middleware(['auth', 'r
 Route::prefix('portal/acudiente')->name('portal.guardian.')->middleware(['auth', 'role:guardian,teacher', 'password.changed'])->group(function () {
     Route::get('/', [Portal\GuardianPortalController::class, 'home'])->name('home');
     Route::get('/estudiantes/{student}', [Portal\GuardianPortalController::class, 'student'])->name('student');
+    Route::get('/estudiantes/{student}/horario', [Portal\ScheduleController::class, 'guardian'])->name('student.schedule');
     Route::get('/mis-datos', [Portal\ContactController::class, 'show'])->name('contact');
     Route::post('/mis-datos', [Portal\ContactController::class, 'store'])->name('contact.store')->middleware('throttle:10,60');
 });
 
 Route::prefix('portal/estudiante')->name('portal.student.')->middleware(['auth', 'role:student', 'password.changed'])->group(function () {
     Route::get('/', [Portal\StudentPortalController::class, 'home'])->name('home');
+    Route::get('/horario', [Portal\ScheduleController::class, 'student'])->name('schedule');
 });
 
 // Boletines en PDF: la autorización está en StudentPolicy::downloadReportCard y en el controlador
@@ -133,6 +136,11 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin', 'passw
         Route::get('/anos/{year:year}/escala', [Admin\Academic\GradingScaleController::class, 'edit'])->name('scale.edit');
         Route::put('/anos/{year:year}/escala', [Admin\Academic\GradingScaleController::class, 'update'])->name('scale.update');
         Route::get('/alertas', [Admin\Academic\AlertController::class, 'index'])->name('alerts');
+
+        Route::get('/horarios', [Admin\Academic\ScheduleController::class, 'index'])->name('schedule.index');
+        Route::put('/anos/{year:year}/franjas/{level}', [Admin\Academic\ScheduleController::class, 'updateBlocks'])->name('schedule.blocks');
+        Route::get('/horarios/{section}', [Admin\Academic\ScheduleController::class, 'edit'])->name('schedule.edit');
+        Route::put('/horarios/{section}', [Admin\Academic\ScheduleController::class, 'update'])->name('schedule.update');
         Route::get('/periodos/{period}/avance', [Admin\Academic\GradingProgressController::class, 'show'])->name('periods.progress');
         Route::post('/periodos/{period}/cerrar', [Admin\Academic\PeriodController::class, 'close'])->name('periods.close');
         Route::post('/periodos/{period}/reabrir', [Admin\Academic\PeriodController::class, 'reopen'])->name('periods.reopen');

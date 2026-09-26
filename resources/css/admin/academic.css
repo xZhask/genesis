@@ -292,3 +292,60 @@
     background: var(--tint-verde);
     color: var(--verde-ink);
 }
+
+/* Horarios: franjas por nivel y cuadrícula de cada sección */
+.schedule-levels {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 440px), 1fr));
+    margin-bottom: 8px;
+}
+
+.schedule-levels .table-wrap { overflow-x: auto; }
+
+.blocks-table input[type="time"],
+.blocks-table input[type="text"],
+.tt-edit select {
+    width: 100%;
+    min-height: 40px;
+    padding: 6px 8px;
+    border: 1px solid var(--line);
+    border-radius: var(--r-sm);
+    background: var(--card);
+    color: var(--text);
+    font: inherit;
+    font-size: .9rem;
+}
+
+.blocks-table td { padding: 6px 4px; vertical-align: middle; }
+
+.block-break {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.block-break input[type="text"] { min-width: 90px; }
+
+.schedule-editor {
+    display: grid;
+    gap: 16px;
+}
+
+.schedule-side {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+    gap: 16px;
+    align-items: start;
+}
+
+.tt-edit td { min-width: 130px; padding: 6px 4px; }
+
+.tt-table.tt-edit thead th:first-child { width: 11em; }
+
+.hours-table td,
+.hours-table th { padding: 6px 4px; font-size: .9rem; }
+
+.hours-table .num { text-align: right; font-variant-numeric: tabular-nums; }
+
+.hours-table tr.is-off td { color: var(--error-ink); font-weight: 700; }
+.hours-table tr.is-off small { font-weight: 400; }
+

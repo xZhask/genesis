@@ -48,6 +48,6 @@ class DatabaseSeeder extends Seeder
         $this->call([NewsAndEventsSeeder::class, GallerySeeder::class, ResourcesSeeder::class, SupportSeeder::class]);
 
         // Portal (fase 2): catálogo provisional y un año de ejemplo
-        $this->call([AcademicCatalogSeeder::class, AcademicDemoSeeder::class, PeopleDemoSeeder::class, TeachingDemoSeeder::class]);
+        $this->call([AcademicCatalogSeeder::class, AcademicDemoSeeder::class, PeopleDemoSeeder::class, TeachingDemoSeeder::class, ScheduleDemoSeeder::class]);
     }
 }

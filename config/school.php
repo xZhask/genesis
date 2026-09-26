@@ -188,6 +188,12 @@ return [
         'birthday_days' => 7,
     ],
 
+    // Horario de clases, fijo para el año (provisional: lunes a viernes, una jornada)
+    'schedule' => [
+        // Días con clase (ISO: 1 = lunes … 6 = sábado)
+        'days' => [1, 2, 3, 4, 5],
+    ],
+
     // Versión de la política aceptada en los formularios (se guarda con cada solicitud).
     'privacy_policy_version' => '2026-09-borrador',
 

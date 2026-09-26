@@ -38,6 +38,12 @@ class SchoolYear extends Model
         return $this->hasMany(Section::class);
     }
 
+    /** Franjas del horario de clases (por nivel). */
+    public function scheduleBlocks(): HasMany
+    {
+        return $this->hasMany(ScheduleBlock::class)->orderBy('starts_at')->orderBy('ends_at');
+    }
+
     /** Solo un año es el actual: el que usan el portal y las listas por defecto. */
     public function makeCurrent(): void
     {

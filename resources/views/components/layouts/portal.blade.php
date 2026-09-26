@@ -8,17 +8,21 @@
             'portal.teacher.home' => ['Mis clases', 'portal.teacher.home'],
             'portal.teacher.attendance' => ['Asistencia', 'portal.teacher.attendance'],
             'portal.teacher.grades' => ['Notas', 'portal.teacher.grades'],
+            'portal.teacher.schedule' => ['Horario', 'portal.teacher.schedule'],
             'portal.teacher.homeroom' => $user->homeroomSections()->whereHas('schoolYear', fn ($q) => $q->where('is_current', true))->exists()
                 ? ['Mi grupo', 'portal.teacher.homeroom'] : null,
             // Un docente que también es acudiente ve a sus acudidos con la misma cuenta
-            'portal.guardian.home' => $user->guardian ? ['Mis acudidos', ['portal.guardian.home', 'portal.guardian.student']] : null,
+            'portal.guardian.home' => $user->guardian ? ['Mis acudidos', ['portal.guardian.home', 'portal.guardian.student', 'portal.guardian.student.*']] : null,
             'portal.guardian.contact' => $user->guardian ? ['Mis datos', 'portal.guardian.contact'] : null,
         ]),
         App\Enums\Role::Guardian => [
-            'portal.guardian.home' => ['Mis acudidos', ['portal.guardian.home', 'portal.guardian.student']],
+            'portal.guardian.home' => ['Mis acudidos', ['portal.guardian.home', 'portal.guardian.student', 'portal.guardian.student.*']],
             'portal.guardian.contact' => ['Mis datos', 'portal.guardian.contact'],
         ],
-        App\Enums\Role::Student => ['portal.student.home' => ['Mi información', 'portal.student.*']],
+        App\Enums\Role::Student => [
+            'portal.student.home' => ['Mi información', 'portal.student.home'],
+            'portal.student.schedule' => ['Horario', 'portal.student.schedule'],
+        ],
         default => [],
     };
 @endphp

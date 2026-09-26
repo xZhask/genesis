@@ -38,6 +38,12 @@ class Section extends Model
         return $this->hasMany(TeacherAssignment::class);
     }
 
+    /** Horario de clases de la sección (fijo para el año). */
+    public function scheduleSlots(): HasMany
+    {
+        return $this->hasMany(ScheduleSlot::class);
+    }
+
     /** "3.° 1", "Transición A". */
     public function label(): string
     {
