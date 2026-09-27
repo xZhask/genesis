@@ -55,6 +55,7 @@ Un acudiente puede tener varios estudiantes, y un estudiante puede tener varios 
 - Asistencia: historial visual y total de faltas.
 - Notas por periodo y asignatura, más la descarga del boletín cuando el periodo esté cerrado.
 - Solicitud de actualización de teléfono y correo del acudiente. Queda pendiente hasta que el admin la apruebe; no se sobrescribe directo.
+- **Buzón de sugerencias** (agregado el 27 de septiembre de 2026): sugerencias, quejas, observaciones o reconocimientos sobre una clase o sobre el colegio. Solo lo leen y responden los admins autorizados (`users.can_review_feedback`); el docente mencionado no lo ve.
 
 ### Evaluación (Colombia)
 - Básica primaria y secundaria: escala numérica **configurable** (mínimo, máximo, nota aprobatoria y decimales) y su equivalencia con la escala nacional del Decreto 1290 de 2009: **Superior, Alto, Básico y Bajo**. Los rangos se configuran según el SIEE del colegio; ver pendientes.
@@ -83,6 +84,7 @@ period_results      id, enrollment_id, subject_id, period_id, average, performan
 period_objectives   id, teacher_assignment_id, period_id, text
 grading_scale       id, school_year_id, min, max, passing, decimals + ranges per performance
 contact_update_requests id, guardian_id, field, old_value, new_value, status, reviewed_by
+feedback_messages   id, user_id, author_role, student_id, section_id, type, teacher_assignment_id, subject_id, teacher_id, body, status [received|in_review|answered], reply, replied_by, replied_at
 
 posts, events, gallery_albums, gallery_photos, resources, donors, volunteers_testimonials,
 admission_requests, settings (costos, datos bancarios, horarios, redes)

@@ -43,9 +43,10 @@ class StaffController extends Controller
     public function store(StaffRequest $request): RedirectResponse
     {
         $password = Accounts::temporaryPassword();
-        $user = new User([...$request->safe()->except('role'), 'password' => $password]);
+        $user = new User([...$request->safe()->except(['role', 'can_review_feedback']), 'password' => $password]);
         $user->role = Role::from($request->input('role'));
         $user->must_change_password = true;
+        $this->applyFeedbackAccess($request, $user);
         $user->save();
 
         return redirect()->route('admin.people.staff.edit', $user)
@@ -73,10 +74,29 @@ class StaffController extends Controller
             return back()->withErrors(['role' => 'No puedes quitarte el rol de administración a ti mismo.'])->withInput();
         }
 
-        $user->fill($request->safe()->except('role'));
+        $user->fill($request->safe()->except(['role', 'can_review_feedback']));
         $user->role = $role;
+        $this->applyFeedbackAccess($request, $user);
+        if ($user->isDirty('can_review_feedback') && ! $user->can_review_feedback && $user->is($request->user())
+            && User::feedbackReviewers()->whereKeyNot($user->id)->doesntExist()) {
+            return back()->withErrors(['can_review_feedback' => 'Eres la única cuenta que lee el buzón. Autoriza primero a otra persona.'])->withInput();
+        }
         $user->save();
 
         return back()->with('status_message', 'Se guardaron los datos de la cuenta.');
+    }
+
+    /**
+     * Quién lee el buzón de sugerencias: solo lo decide quien ya lo lee
+     * (así otro admin no puede darse el permiso a sí mismo). Un docente
+     * nunca lo tiene.
+     */
+    private function applyFeedbackAccess(StaffRequest $request, User $user): void
+    {
+        if ($user->role !== Role::Admin) {
+            $user->can_review_feedback = false;
+        } elseif ($request->user()->canReviewFeedback()) {
+            $user->can_review_feedback = $request->boolean('can_review_feedback');
+        }
     }
 }

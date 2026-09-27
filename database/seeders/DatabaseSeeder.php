@@ -19,7 +19,10 @@ class DatabaseSeeder extends Seeder
         $admin = User::factory()->admin()->create([
             'name' => 'Administración Génesis',
             'email' => 'admin@genesis.test',
+            'can_review_feedback' => true,
         ]);
+        // Otra cuenta de administración que no lee el buzón de sugerencias
+        User::factory()->admin()->create(['name' => 'Secretaría (ejemplo)', 'email' => 'secretaria@genesis.test']);
 
         // Un usuario por rol para probar permisos (contraseña: password)
         User::factory()->role(Role::Teacher)->create(['name' => 'Edgar Ojoalegre', 'email' => 'docente@genesis.test']);
@@ -48,6 +51,6 @@ class DatabaseSeeder extends Seeder
         $this->call([NewsAndEventsSeeder::class, GallerySeeder::class, ResourcesSeeder::class, SupportSeeder::class]);
 
         // Portal (fase 2): catálogo provisional y un año de ejemplo
-        $this->call([AcademicCatalogSeeder::class, AcademicDemoSeeder::class, PeopleDemoSeeder::class, TeachingDemoSeeder::class, ScheduleDemoSeeder::class]);
+        $this->call([AcademicCatalogSeeder::class, AcademicDemoSeeder::class, PeopleDemoSeeder::class, TeachingDemoSeeder::class, ScheduleDemoSeeder::class, FeedbackDemoSeeder::class]);
     }
 }

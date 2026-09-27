@@ -60,6 +60,8 @@ Artisan::command('app:create-admin {email} {name}', function (string $email, str
 
     $user = new User(['name' => $name, 'email' => strtolower($email), 'password' => $password]);
     $user->role = Role::Admin;
+    // La cuenta que se crea desde el servidor también lee el buzón de sugerencias
+    $user->can_review_feedback = true;
     $user->save();
 
     $this->info("Cuenta de administración creada para {$user->email}.");

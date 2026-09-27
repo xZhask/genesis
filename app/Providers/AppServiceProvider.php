@@ -35,6 +35,8 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('manage-academic', fn (User $user) => $user->isAdmin());
         // Personal, cuentas del portal e importación (estudiantes y acudientes usan sus Policies)
         Gate::define('manage-people', fn (User $user) => $user->isAdmin());
+        // Buzón de sugerencias: solo los admins autorizados (no todo el que entra al panel)
+        Gate::define('review-feedback', fn (User $user) => $user->canReviewFeedback());
 
         // Direcciones del admin en español: /admin/noticias/nueva, /admin/noticias/{post}/editar
         Route::resourceVerbs(['create' => 'nueva', 'edit' => 'editar']);

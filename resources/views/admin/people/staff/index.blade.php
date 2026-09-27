@@ -21,6 +21,7 @@
                         <small>
                             {{ $user->document_number ?? 'Sin documento' }}@if ($user->email) · {{ $user->email }}@endif
                             @if ($user->guardian) · También es acudiente @endif
+                            @if ($user->can_review_feedback) · Lee el buzón @endif
                         </small>
                     </span>
                     <span aria-hidden="true">→</span>

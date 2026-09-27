@@ -19,6 +19,7 @@
                     $pending ? [route('admin.admissions.index', ['estado' => AdmissionStatus::Received->value]), trans_choice(':count solicitud nueva|:count solicitudes nuevas', $pending)] : null,
                     $newVolunteers ? [route('admin.volunteers.index', ['estado' => 'new']), trans_choice(':count voluntario nuevo|:count voluntarios nuevos', $newVolunteers)] : null,
                     $contactChanges ? [route('admin.people.contact-requests.index'), trans_choice(':count cambio de contacto|:count cambios de contacto', $contactChanges)] : null,
+                    $openFeedback ? [route('admin.feedback.index'), trans_choice(':count mensaje del buzón|:count mensajes del buzón', $openFeedback)] : null,
                 ]);
             @endphp
             @if ($todoLinks)

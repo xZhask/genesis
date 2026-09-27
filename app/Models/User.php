@@ -8,6 +8,7 @@ use App\Notifications\ResetPasswordNotification;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -37,6 +38,7 @@ class User extends Authenticatable
             'role' => Role::class,
             'is_active' => 'boolean',
             'must_change_password' => 'boolean',
+            'can_review_feedback' => 'boolean',
             'last_login_at' => 'datetime',
         ];
     }
@@ -108,6 +110,18 @@ class User extends Authenticatable
     public function isAdmin(): bool
     {
         return $this->role === Role::Admin;
+    }
+
+    /** Lee y responde el buzón de sugerencias (solo los admins autorizados). */
+    public function canReviewFeedback(): bool
+    {
+        return $this->isAdmin() && $this->is_active && $this->can_review_feedback;
+    }
+
+    /** Admins activos que leen el buzón. */
+    public function scopeFeedbackReviewers(Builder $query): void
+    {
+        $query->where('role', Role::Admin)->where('is_active', true)->where('can_review_feedback', true);
     }
 
     /** Correo de recuperación de contraseña en español. */

@@ -96,6 +96,12 @@ Route::prefix('portal/estudiante')->name('portal.student.')->middleware(['auth',
     Route::get('/horario', [Portal\ScheduleController::class, 'student'])->name('schedule');
 });
 
+// Buzón de sugerencias: estudiantes y acudientes (el controlador exige el vínculo)
+Route::middleware(['auth', 'role:student,guardian,teacher', 'password.changed'])->group(function () {
+    Route::get('/portal/buzon', [Portal\FeedbackController::class, 'index'])->name('portal.feedback');
+    Route::post('/portal/buzon', [Portal\FeedbackController::class, 'store'])->name('portal.feedback.store');
+});
+
 // Boletines en PDF: la autorización está en StudentPolicy::downloadReportCard y en el controlador
 // Dejar de recibir los correos a las familias (enlace firmado, sin iniciar sesión)
 Route::get('/avisos/{guardian}/desactivar', [FamilyMailController::class, 'show'])->middleware('signed')->name('family-mail.unsubscribe');
@@ -223,6 +229,13 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin', 'passw
         Route::post('/importar/revision', [Admin\People\ImportController::class, 'preview'])->name('import.preview');
         Route::post('/importar', [Admin\People\ImportController::class, 'store'])->name('import.store');
         Route::delete('/importar', [Admin\People\ImportController::class, 'discard'])->name('import.discard');
+    });
+
+    // Buzón de sugerencias: solo los admins autorizados
+    Route::prefix('buzon')->name('feedback.')->middleware('can:review-feedback')->group(function () {
+        Route::get('/', [Admin\FeedbackController::class, 'index'])->name('index');
+        Route::post('/{feedback}/revision', [Admin\FeedbackController::class, 'review'])->name('review');
+        Route::post('/{feedback}/respuesta', [Admin\FeedbackController::class, 'answer'])->name('answer');
     });
 
     Route::get('/configuracion', [Admin\SettingsController::class, 'edit'])->name('settings.edit');

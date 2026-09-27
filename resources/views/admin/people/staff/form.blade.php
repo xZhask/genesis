@@ -41,6 +41,21 @@
                         <p class="error">{{ $message }}</p>
                     @enderror
                 </fieldset>
+                {{-- Solo quien ya lee el buzón decide quién más lo lee --}}
+                @if (auth()->user()->canReviewFeedback())
+                    <div @class(['field', 'has-error' => $errors->has('can_review_feedback')])>
+                        <input type="hidden" name="can_review_feedback" value="0">
+                        <label class="check">
+                            <input type="checkbox" name="can_review_feedback" value="1" @checked(old('can_review_feedback', $user->can_review_feedback))>
+                            <span><b>Puede leer el buzón de sugerencias</b> · mensajes de estudiantes y acudientes, con su nombre. Solo aplica a cuentas de administración.</span>
+                        </label>
+                        @error('can_review_feedback')
+                            <p class="error">{{ $message }}</p>
+                        @enderror
+                    </div>
+                @elseif ($user->exists && $user->isAdmin())
+                    <p class="hint">{{ $user->can_review_feedback ? 'Lee el buzón de sugerencias.' : 'No lee el buzón de sugerencias.' }} Solo lo cambia quien ya lo lee.</p>
+                @endif
                 @unless ($user->exists)
                     <p class="hint">Se genera una contraseña temporal para entregarle; al ingresar deberá crear la suya.</p>
                 @endunless

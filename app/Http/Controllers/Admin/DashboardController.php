@@ -10,6 +10,7 @@ use App\Models\AdmissionRequest;
 use App\Models\ContactUpdateRequest;
 use App\Models\DonationAccount;
 use App\Models\Event;
+use App\Models\FeedbackMessage;
 use App\Models\GalleryAlbum;
 use App\Models\GalleryPhoto;
 use App\Models\Post;
@@ -36,6 +37,8 @@ class DashboardController extends Controller
             'pending' => ($counts[AdmissionStatus::Received->value] ?? 0),
             'newVolunteers' => VolunteerApplication::where('status', VolunteerStatus::New)->count(),
             'contactChanges' => ContactUpdateRequest::pending()->count(),
+            // Solo quien lee el buzón ve cuántos mensajes esperan
+            'openFeedback' => auth()->user()->canReviewFeedback() ? FeedbackMessage::open()->count() : 0,
             'mailQueue' => SentNotification::whereNull('sent_at')->count(),
             'mailToday' => SentNotification::where('sent_at', '>=', today())->count(),
             'alertStudents' => ($year = SchoolYear::current()) ? AcademicAlerts::forSections($year, $year->sections()->with('grade')->get())->studentCount() : 0,

@@ -34,6 +34,7 @@ class StaffRequest extends FormRequest
             'document_number' => ['required', 'string', 'max:20', 'regex:/^[A-Z0-9]{3,20}$/', Rule::unique('users')->ignore($id)],
             'email' => ['nullable', 'email', 'max:255', Rule::unique('users')->ignore($id)],
             'role' => ['required', Rule::in([Role::Teacher->value, Role::Admin->value])],
+            'can_review_feedback' => ['nullable', 'boolean'],
         ];
     }
 

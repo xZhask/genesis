@@ -12,12 +12,13 @@ Guía corta para recorrer el sitio y el portal con los **datos de prueba**. Todo
 
 | Rol | Usuario | Quién es | Qué probar |
 |---|---|---|---|
-| **Administración** | `admin@genesis.test` | Administración Génesis | Todo el panel `/admin`: contenido de la web, pre-inscripciones, personas, estructura académica, cierre de periodos, horarios, alertas e indicadores |
+| **Administración** | `admin@genesis.test` | Administración Génesis | Todo el panel `/admin`: contenido de la web, pre-inscripciones, personas, estructura académica, cierre de periodos, horarios, alertas, indicadores y buzón de sugerencias |
+| **Administración sin buzón** | `secretaria@genesis.test` | Secretaría (ejemplo) | Lo mismo que Administración, pero **no** ve el buzón de sugerencias (responde 403) |
 | **Docente** | `22334455` | Edgar Ojoalegre: Matemáticas, Álgebra, Geometría y Estadística de 6.° a 9.°; director de grupo de 7.° 1 | Asistencia, notas y logros, «Mi grupo», horario, resumen con gráficos, alertas y calendario |
 | **Docente de primaria** | `32000108` | Hernán Cantillo Ortega, director de 3.° 1 | Una clase de primaria y su grupo |
 | **Docente de preescolar** | `32000105` | Rosa Herrera Julio, directora de Transición 1 | Evaluación descriptiva (sin notas) |
-| **Acudiente** | `45123456` | Marta Díaz, madre de Andrés (7.° 1) y Lucía (3.° 1) | Información de cada acudido, boletines, horario, circulares, calendario y «Mis datos» |
-| **Estudiante** | `1047999001` | Andrés Pérez, 7.° 1 | Su información, notas de periodos cerrados y horario |
+| **Acudiente** | `45123456` | Marta Díaz, madre de Andrés (7.° 1) y Lucía (3.° 1) | Información de cada acudido, boletines, horario, circulares, calendario, «Mis datos» y buzón |
+| **Estudiante** | `1047999001` | Andrés Pérez, 7.° 1 | Su información, notas de periodos cerrados, horario y buzón |
 
 > Los documentos de los docentes de primaria y preescolar salen de los datos de prueba: si estos cambian, búscalos en Admin → Personas → Docentes y administración.
 
@@ -31,6 +32,7 @@ Guía corta para recorrer el sitio y el portal con los **datos de prueba**. Todo
 3. **Académico → Horarios:** edita una sección y prueba a poner a un docente en dos clases a la misma hora; el sistema no lo deja guardar.
 4. **Personas → Cambios de contacto:** aprueba o rechaza la solicitud de teléfono de Marta.
 5. **Recursos y Eventos:** crea una circular o un evento «solo familias» para un grado.
+6. **Buzón:** responde un mensaje; luego entra como Andrés o Marta y mira la respuesta. Con `secretaria@genesis.test` el buzón no aparece.
 
 **Docente (Edgar).** Toma la asistencia de hoy. Registra notas en una clase del periodo abierto. En «Mi grupo», escribe el comportamiento y descarga en PDF los boletines del grupo de un periodo cerrado. Revisa «Horario» y «Resumen».
 

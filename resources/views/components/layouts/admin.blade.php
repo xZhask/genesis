@@ -16,6 +16,11 @@
     ];
     // Pendientes que esperan al admin (se ven junto al nombre de la sección)
     $pendingCounts = ['admin.people.students.index' => App\Models\ContactUpdateRequest::pending()->count()];
+    // El buzón solo aparece para las cuentas autorizadas
+    if (auth()->user()->canReviewFeedback()) {
+        $nav = array_slice($nav, 0, -1, true) + ['admin.feedback.index' => ['Buzón', 'admin.feedback.*']] + array_slice($nav, -1, 1, true);
+        $pendingCounts['admin.feedback.index'] = App\Models\FeedbackMessage::open()->count();
+    }
 @endphp
 
 <!DOCTYPE html>

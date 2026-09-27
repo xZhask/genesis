@@ -345,3 +345,75 @@ small.block {
     margin: 6px 0 0;
     font-size: .9rem;
 }
+
+/* Buzón de sugerencias (panel y portal) */
+.feedback-item { margin-bottom: 12px; }
+
+.feedback-title {
+    font-size: 1rem;
+    margin: 0 0 2px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 8px;
+}
+
+.badge-type {
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--text);
+}
+
+.feedback-meta { text-align: right; }
+
+.feedback-body {
+    margin: 12px 0;
+    white-space: pre-line;
+    overflow-wrap: anywhere;
+}
+
+.feedback-reply {
+    margin: 0 0 12px;
+    padding: 10px 14px;
+    border-left: 3px solid var(--azul-ink);
+    background: var(--bg-soft);
+    border-radius: 0 var(--r-sm) var(--r-sm) 0;
+}
+
+.feedback-reply p { margin: 0; white-space: pre-line; overflow-wrap: anywhere; }
+
+.feedback-reply .feedback-reply-head {
+    font-size: .85rem;
+    color: var(--muted);
+    margin-bottom: 4px;
+    white-space: normal;
+}
+
+.feedback-answer summary {
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--azul-ink);
+    min-height: 32px;
+}
+
+.feedback-answer[open] summary { margin-bottom: 8px; }
+
+.feedback-review {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 10px;
+    margin-top: 10px;
+}
+
+.feedback-urgent { margin-bottom: 16px; }
+
+@media (max-width: 520px) {
+    .feedback-meta { text-align: left; }
+}
+
+.feedback-sent { margin: 0; padding: 12px 0; }
+.feedback-sent + .feedback-sent { border-top: 1px solid var(--line); }
+.feedback-sent .contact-request-head { align-items: flex-start; }
+
+.feedback-form { margin-top: 14px; }

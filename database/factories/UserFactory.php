@@ -46,6 +46,12 @@ class UserFactory extends Factory
         return $this->role(Role::Admin);
     }
 
+    /** Admin que lee el buzón de sugerencias. */
+    public function feedbackReviewer(): static
+    {
+        return $this->admin()->state(fn () => ['can_review_feedback' => true]);
+    }
+
     public function inactive(): static
     {
         return $this->state(fn () => ['is_active' => false]);
