@@ -1,0 +1,5 @@
+# Bloquea el acceso web a todo el proyecto (código, .env, storage, vendor).
+# Solo public/ es visible: su .htaccess vuelve a permitir el acceso.
+# Protege el caso en que el proyecto queda dentro de la raíz de otro dominio
+# (por ejemplo, public_html/subdominio/ en un hosting con cPanel).
+Require all denied

@@ -1,3 +1,6 @@
+# Anula el bloqueo del .htaccess de la raíz del proyecto
+Require all granted
+
 <IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>
         Options -MultiViews -Indexes
