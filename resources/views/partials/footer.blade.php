@@ -8,7 +8,7 @@
         <div @class(['grid', 'with-hours' => $hours])>
             <div>
                 <div class="fbrand">
-                    <img src="{{ asset('images/logo.png') }}" alt="" width="56" height="57" loading="lazy">
+                    <img src="{{ asset('images/logo.svg') }}" alt="" width="56" height="62" loading="lazy">
                     <span><b>GENESIS</b><small>Centro Educativo Cristiano</small></span>
                 </div>
                 <p class="fdesc">{{ config('school.motto') }}. Preescolar, básica primaria y básica secundaria.</p>

@@ -17,7 +17,8 @@
     <meta name="description" content="{{ $description ?? config('school.description') }}">
 @endisset
 <meta name="theme-color" content="#104976">
-<link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
+<link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}" sizes="any">
+<link rel="icon" type="image/svg+xml" href="{{ asset('images/logo.svg') }}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">

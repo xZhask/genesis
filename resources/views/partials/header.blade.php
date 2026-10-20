@@ -21,7 +21,7 @@
 <header class="nav">
     <div class="wrap">
         <a class="brand" href="{{ route('home') }}">
-            <img src="{{ asset('images/logo.png') }}" alt="" width="50" height="51">
+            <img src="{{ asset('images/logo.svg') }}" alt="" width="45" height="51">
             <span><b>GENESIS</b><small>Centro Educativo Cristiano</small></span>
             <span class="sr-only">, ir al inicio</span>
         </a>

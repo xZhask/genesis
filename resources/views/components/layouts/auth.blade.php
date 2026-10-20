@@ -13,7 +13,7 @@
 <body class="auth-body">
     <main class="auth" id="contenido">
         <a class="auth-brand" href="{{ route('home') }}">
-            <img src="{{ asset('images/logo.png') }}" alt="" width="56" height="57">
+            <img src="{{ asset('images/logo.svg') }}" alt="" width="50" height="57">
             <span><b>GENESIS</b><small>Centro Educativo Cristiano</small></span>
         </a>
 

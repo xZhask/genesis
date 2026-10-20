@@ -38,7 +38,7 @@
     <header class="admin-bar">
         <div class="admin-wrap admin-bar-inner">
             <a class="admin-brand" href="{{ route('admin.dashboard') }}">
-                <img src="{{ asset('images/logo.png') }}" alt="" width="34" height="35">
+                <img src="{{ asset('images/logo.svg') }}" alt="" width="30" height="35">
                 <span>Génesis <small>Admin</small></span>
             </a>
 

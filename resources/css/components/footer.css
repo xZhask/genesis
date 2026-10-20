@@ -47,6 +47,7 @@ footer.site-footer {
 
 .site-footer .fbrand img {
     width: 56px;
+    height: auto;
     background: #fff;
     border-radius: 14px;
     padding: 6px;
