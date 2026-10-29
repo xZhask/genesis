@@ -4,6 +4,7 @@ import { initCopy } from './copy';
 import { initLightbox } from './lightbox';
 import { initForms } from './forms';
 import { initSupplies } from './supplies';
+import { initMotion } from './motion';
 
 initTheme();
 initMenu();
@@ -11,3 +12,4 @@ initCopy();
 initLightbox();
 initForms();
 initSupplies();
+initMotion();

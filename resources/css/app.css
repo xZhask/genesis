@@ -8,6 +8,7 @@
 @import './components/floating.css';
 @import './components/page-head.css';
 @import './components/forms.css';
+@import './components/motion.css';
 
 @import './pages/home.css';
 @import './pages/admissions.css';

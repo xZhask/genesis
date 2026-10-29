@@ -1,0 +1,86 @@
+/* Movimiento de la web pública (ver resources/js/motion.js).
+   Solo se animan transform y opacity, y nada se mueve con movimiento reducido. */
+
+/* Encabezado: al bajar toma sombra y el escudo se reduce un poco */
+header.nav {
+    transition: box-shadow .25s;
+}
+
+header.nav.is-scrolled {
+    box-shadow: 0 6px 18px -12px rgb(16 73 118 / .45);
+}
+
+.brand img {
+    transition: transform .25s;
+    transform-origin: left center;
+}
+
+header.nav.is-scrolled .brand img {
+    transform: scale(.88);
+}
+
+/* Respuesta al tocar: confirma el toque en el celular */
+.btn:not(.btn-sol):active,
+.icon-btn:active {
+    transform: scale(.96);
+}
+
+.quick a,
+.level,
+.post,
+.gallery button {
+    transition-property: transform, border-color, background, box-shadow;
+    transition-duration: .15s, .2s, .2s, .2s;
+}
+
+.quick a:active,
+.level:active,
+.post:active,
+.gallery button:active {
+    transform: scale(.985);
+}
+
+/* Aparición al hacer scroll: el atributo lo pone motion.js */
+@media (prefers-reduced-motion: no-preference) {
+    [data-reveal] {
+        opacity: 0;
+        transform: translateY(16px);
+        transition:
+            opacity .55s cubic-bezier(.2, .7, .2, 1) var(--reveal-delay, 0ms),
+            transform .55s cubic-bezier(.2, .7, .2, 1) var(--reveal-delay, 0ms);
+    }
+
+    [data-reveal].is-in {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    header.nav,
+    .brand img,
+    .btn,
+    .icon-btn,
+    .quick a,
+    .level,
+    .post,
+    .gallery button {
+        transition: none;
+    }
+
+    .btn:active,
+    .icon-btn:active,
+    .quick a:active,
+    .level:active,
+    .post:active,
+    .gallery button:active {
+        transform: none;
+    }
+}
+
+@media print {
+    [data-reveal] {
+        opacity: 1 !important;
+        transform: none !important;
+    }
+}
