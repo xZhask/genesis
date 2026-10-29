@@ -27,21 +27,28 @@
         </div>
 
         <div class="crest" aria-hidden="true">
-            <div class="shield">
-                <div class="quad">
-                    @if (count($heroPhotos) === 4)
-                        @foreach ($heroPhotos as $photo)
-                            <x-photo :src="$photo" />
-                        @endforeach
-                    @else
-                        @foreach ($symbols as [$icon, $tone])
-                            <x-photo :tone="$tone" :icon="$icon" />
-                        @endforeach
-                    @endif
+            @if ($heroImage)
+                <img class="crest-img" src="{{ asset($heroImage) }}" alt="" width="880" height="972" fetchpriority="high">
+            @else
+                <div class="shield">
+                    <div class="frame">
+                        <div class="quad">
+                            @if (count($heroPhotos) === 4)
+                                @foreach ($heroPhotos as $photo)
+                                    <x-photo :src="$photo" />
+                                @endforeach
+                            @else
+                                @foreach ($symbols as [$icon, $tone])
+                                    <x-photo :tone="$tone" :icon="$icon" />
+                                @endforeach
+                            @endif
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <svg class="book" viewBox="0 0 400 40" focusable="false">
-                <path d="M6 6 C90 34 170 34 200 22 C230 34 310 34 394 6 L394 16 C310 42 230 42 200 32 C170 42 90 42 6 16 Z" fill="#3FA64A" />
+            @endif
+            {{-- Libro abierto del logo: dos páginas arqueadas hacia arriba --}}
+            <svg class="book" viewBox="0 0 400 52" focusable="false">
+                <path d="M0 9 C60 0 140 -2 200 22 C260 -2 340 0 400 9 L393 37 C330 26 260 26 200 51 C140 26 70 26 7 37 Z" fill="#3FA64A" />
             </svg>
         </div>
     </div>

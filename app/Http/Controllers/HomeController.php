@@ -34,6 +34,7 @@ class HomeController extends Controller
         return view('home', [
             'demo' => $demo,
             'levels' => DemoContent::levels(),
+            'heroImage' => $demo ? DemoContent::heroImage() : config('school.hero_image'),
             'heroPhotos' => $demo ? DemoContent::heroPhotos() : config('school.hero_photos'),
             'posts' => Post::published()->latest('published_at')->limit(3)->get(),
             'events' => Event::publicWeb()->upcoming()->limit(3)->get(),

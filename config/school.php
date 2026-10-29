@@ -52,6 +52,11 @@ return [
     // de los acudientes. Vacío = el escudo muestra los símbolos del logo.
     'hero_photos' => [],
 
+    // Alternativa: el escudo ya compuesto como una sola imagen con fondo
+    // transparente (ruta dentro de public/, WebP o PNG de unos 900 px de ancho).
+    // Si está definida, reemplaza a las cuatro fotos.
+    'hero_image' => null,
+
     /*
     | Niveles. Los textos (tag, topics, summary) son borradores de UX
     | pendientes de revisión por el colegio.

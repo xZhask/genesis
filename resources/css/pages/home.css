@@ -144,10 +144,29 @@ img.media {
     width: min(440px, 100%);
 }
 
+/* Silueta del escudo del logo, con borde azul y marco blanco como en la
+   imagen compuesta de ejemplo: tres capas con la misma máscara */
+.crest {
+    --shield-mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 116"><path d="M50 0 C56 10 70 25 100 28 L97 61 C97 90 84 106 50 116 C16 106 3 90 3 61 L0 28 C30 25 44 10 50 0 Z"/></svg>') center / 100% 100% no-repeat;
+}
+
+.crest .shield,
+.crest .frame,
+.crest .quad {
+    -webkit-mask: var(--shield-mask);
+    mask: var(--shield-mask);
+}
+
 .crest .shield {
-    aspect-ratio: 1 / 1.1;
-    -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 110"><path d="M50 0 C62 8 80 12 100 12 L100 52 C100 82 78 100 50 110 C22 100 0 82 0 52 L0 12 C20 12 38 8 50 0 Z"/></svg>') center / 100% 100% no-repeat;
-    mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 110"><path d="M50 0 C62 8 80 12 100 12 L100 52 C100 82 78 100 50 110 C22 100 0 82 0 52 L0 12 C20 12 38 8 50 0 Z"/></svg>') center / 100% 100% no-repeat;
+    aspect-ratio: 1 / 1.16;
+    padding: 2.6%;
+    background: #1D5FA8;
+}
+
+.crest .frame {
+    height: 100%;
+    padding: 1.4%;
+    background: #fff;
 }
 
 .crest .quad {
@@ -171,12 +190,27 @@ img.media {
     stroke-width: 1.6;
 }
 
+/* Escudo ya compuesto en una sola imagen (config school.hero_image) */
+.crest-img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
 .crest .book {
-    width: 112%;
-    margin-left: -6%;
-    margin-top: -14px;
+    display: block;
+    width: 116%;
+    margin-left: -8%;
+    margin-top: 2.5%;
     position: relative;
     z-index: 2;
+}
+
+/* La imagen compuesta trae un margen transparente: el escudo ocupa ~95 % */
+.crest-img + .book {
+    width: 110%;
+    margin-left: -5%;
+    margin-top: 1%;
 }
 
 /* Accesos rápidos */
@@ -872,7 +906,7 @@ img.media {
     content: counter(s) ". ";
 }
 
-/* Entrada del hero (único momento animado) */
+/* Entrada del hero. El resto de la página entra al hacer scroll (motion.css) */
 @media (prefers-reduced-motion: no-preference) {
     .hero .txt > * {
         animation: up .6s both;
@@ -883,8 +917,23 @@ img.media {
     .hero .txt > :nth-child(4) { animation-delay: .24s; }
     .hero .txt > :nth-child(5) { animation-delay: .32s; }
 
+    /* El escudo se arma en el orden del logo: árbol, rompecabezas, mundo y
+       Biblia; al final el libro se abre desde el centro */
     .crest {
-        animation: pop .8s .15s both cubic-bezier(.2, .9, .3, 1.2);
+        animation: pop .7s .1s both cubic-bezier(.2, .9, .3, 1.2);
+    }
+
+    .crest .quad > * {
+        animation: quad .45s both cubic-bezier(.2, .8, .3, 1);
+    }
+
+    .crest .quad > :nth-child(1) { animation-delay: .15s; }
+    .crest .quad > :nth-child(2) { animation-delay: .27s; }
+    .crest .quad > :nth-child(3) { animation-delay: .39s; }
+    .crest .quad > :nth-child(4) { animation-delay: .51s; }
+
+    .crest .book {
+        animation: open .5s .62s both cubic-bezier(.3, .7, .2, 1);
     }
 
     @keyframes up {
@@ -892,7 +941,16 @@ img.media {
     }
 
     @keyframes pop {
-        from { opacity: 0; transform: scale(.92) rotate(-2deg); }
+        from { opacity: 0; transform: scale(.94); }
+    }
+
+    @keyframes quad {
+        from { opacity: 0; transform: scale(1.08); }
+    }
+
+    @keyframes open {
+        from { clip-path: inset(0 50% 0 50%); }
+        to { clip-path: inset(0 0 0 0); }
     }
 }
 

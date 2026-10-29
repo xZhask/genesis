@@ -38,6 +38,12 @@ class DemoContent
             ->all();
     }
 
+    /** Escudo con las cuatro fotos ya compuestas (imagen generada: solo de ejemplo). */
+    public static function heroImage(): string
+    {
+        return 'demo/escudo-hero.webp';
+    }
+
     public static function heroPhotos(): array
     {
         return ['demo/aula.jpg', 'demo/patio.jpg', 'demo/feria.jpg', 'demo/devocional.jpg'];
