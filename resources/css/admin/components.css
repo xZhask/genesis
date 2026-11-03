@@ -437,6 +437,14 @@
     border-radius: var(--r-sm);
 }
 
+.donor-photo-preview {
+    display: block;
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
 .md-help {
     font-size: .88rem;
     color: var(--muted);

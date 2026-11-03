@@ -208,14 +208,22 @@
                 <ul class="ally-list">
                     @foreach ($donors as $donor)
                         <li>
-                            @if ($donor->website)
-                                <a href="{{ $donor->website }}" target="_blank" rel="noopener nofollow"><strong>{{ $donor->name }}</strong></a>
+                            {{-- alt vacío: el nombre ya está al lado y se leería dos veces --}}
+                            @if ($donor->photo_path)
+                                <img class="ally-photo" src="{{ $donor->photoUrl() }}" alt="" width="56" height="56" loading="lazy">
                             @else
-                                <strong>{{ $donor->name }}</strong>
+                                <span class="ally-photo ally-initial" aria-hidden="true">{{ $donor->initial() }}</span>
                             @endif
-                            @if ($donor->description)
-                                <span>{{ $donor->description }}</span>
-                            @endif
+                            <div class="ally-text">
+                                @if ($donor->website)
+                                    <a href="{{ $donor->website }}" target="_blank" rel="noopener nofollow"><strong>{{ $donor->name }}</strong></a>
+                                @else
+                                    <strong>{{ $donor->name }}</strong>
+                                @endif
+                                @if ($donor->description)
+                                    <span>{{ $donor->description }}</span>
+                                @endif
+                            </div>
                         </li>
                     @endforeach
                 </ul>

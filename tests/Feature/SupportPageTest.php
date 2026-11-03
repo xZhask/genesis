@@ -52,6 +52,30 @@ class SupportPageTest extends TestCase
             ->assertSee('Quiero ser voluntario');
     }
 
+    public function test_footer_map_looks_for_the_school_by_name_and_address(): void
+    {
+        $query = urlencode('Centro Educativo Cristiano Génesis, Carrera 18 #16-22');
+
+        $this->get(route('support'))
+            ->assertSee('<iframe src="https://www.google.com/maps?output=embed', false)
+            ->assertSee($query, false);
+    }
+
+    public function test_donors_show_their_photo_or_their_initial(): void
+    {
+        $withPhoto = Donor::factory()->create(['name' => 'Con foto']);
+        $withPhoto->forceFill(['photo_path' => 'donors/foto.webp'])->save();
+        Donor::factory()->create(['name' => 'Ñapa de la tienda']);
+
+        $this->get(route('support'))
+            ->assertSee('donors/foto.webp', false)
+            ->assertSee('<span class="ally-photo ally-initial" aria-hidden="true">Ñ</span>', false);
+
+        $this->get(route('home'))
+            ->assertSee('Con foto')
+            ->assertSee('donors/foto.webp', false);
+    }
+
     public function test_shows_visible_accounts_donors_and_testimonials_in_order(): void
     {
         DonationAccount::factory()->create(['label' => 'Segunda cuenta', 'number' => '222', 'position' => 2]);

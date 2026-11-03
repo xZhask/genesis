@@ -61,7 +61,7 @@ Datos que ya se ven en la web y que el colegio debe confirmar antes de salir a p
 - [ ] **¿Se mantiene la sección de donaciones y voluntariado?** Estaba en la solicitud original, pero no aparece en el folleto. *Provisional: la página `/apoyanos` está construida; en local se ve con datos ficticios marcados "(ejemplo)" y en producción arranca vacía.*
 - [ ] **Apóyanos: datos que el colegio debe entregar** (se cargan en `/admin/apoyanos`; lo que falte no se muestra):
   - [ ] **Cuentas para donar:** banco, tipo y número de cuenta, titular, NIT; Nequi o Daviplata si aplica. Verificar el número con el banco antes de publicar.
-  - [ ] **Donantes y aliados** que autoricen aparecer con su nombre (y su página web, si quieren).
+  - [ ] **Donantes y aliados** que autoricen aparecer con su nombre (y su página web y una foto pequeña, si quieren; la foto necesita su propia autorización).
   - [ ] **Testimonios reales** de voluntarios o aliados, con autorización escrita para publicar su nombre y sus palabras.
   - [ ] **Fotos del voluntariado** (jornadas, arreglos), con autorización si aparecen menores. Se configuran en `config/school.php` → `support.volunteer_photos`.
   - [ ] **¿Se emite certificado de donación** (beneficio tributario)? La web no lo promete hasta confirmarlo.

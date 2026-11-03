@@ -85,7 +85,10 @@ class DemoContent
                 'author' => 'Acudiente y voluntaria (testimonio de ejemplo)',
             ],
             'volunteer_photos' => ['demo/patio.jpg', 'demo/feria.jpg', 'demo/aula.jpg'],
-            'donors' => ['Aliado de ejemplo', 'Iglesia aliada', 'Fundación amiga', 'Empresa local'],
+            'donors' => array_map(
+                fn (string $name) => ['name' => $name, 'photo' => null],
+                ['Aliado de ejemplo', 'Iglesia aliada', 'Fundación amiga', 'Empresa local'],
+            ),
         ];
     }
 }

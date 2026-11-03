@@ -54,7 +54,9 @@ class HomeController extends Controller
                 ->all(),
             'testimonial' => $testimonial ? ['quote' => $testimonial->quote, 'author' => $testimonial->signature()] : null,
             'volunteer_photos' => config('school.support.volunteer_photos'),
-            'donors' => Donor::visible()->limit(8)->pluck('name')->all(),
+            'donors' => Donor::visible()->limit(8)->get()
+                ->map(fn (Donor $d) => ['name' => $d->name, 'photo' => $d->photoUrl()])
+                ->all(),
         ];
 
         if ($demo) {

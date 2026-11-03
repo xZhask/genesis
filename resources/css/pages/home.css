@@ -839,6 +839,16 @@ img.media {
     font-weight: 700;
     color: var(--muted);
     font-size: .92rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.donors .row img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
 }
 
 /* Llamado a admisiones */

@@ -56,7 +56,12 @@
                 <p>Gracias a quienes creen en nuestra misión</p>
                 <ul class="row">
                     @foreach ($support['donors'] as $donor)
-                        <li>{{ $donor }}</li>
+                        <li>
+                            @if ($donor['photo'])
+                                <img src="{{ $donor['photo'] }}" alt="" width="32" height="32" loading="lazy">
+                            @endif
+                            {{ $donor['name'] }}
+                        </li>
                     @endforeach
                 </ul>
             </div>

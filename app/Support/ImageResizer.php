@@ -55,6 +55,37 @@ class ImageResizer
         return ['path' => $base, 'width' => $width, 'height' => $height];
     }
 
+    /**
+     * Guarda una sola versión cuadrada y liviana, recortada desde el centro,
+     * para fotos que siempre se ven pequeñas. Devuelve la ruta completa del archivo.
+     */
+    public static function storeSquare(UploadedFile $file, string $directory, int $size = 240): string
+    {
+        $source = self::load($file);
+        $side = min(imagesx($source), imagesy($source));
+        $target_size = min($side, $size);
+
+        $target = imagecreatetruecolor($target_size, $target_size);
+        imagealphablending($target, false);
+        imagesavealpha($target, true);
+        imagecopyresampled(
+            $target, $source, 0, 0,
+            (int) ((imagesx($source) - $side) / 2), (int) ((imagesy($source) - $side) / 2),
+            $target_size, $target_size, $side, $side,
+        );
+
+        $path = trim($directory, '/').'/'.Str::uuid().'.webp';
+
+        ob_start();
+        imagewebp($target, null, 80);
+        Storage::disk('public')->put($path, ob_get_clean());
+
+        imagedestroy($target);
+        imagedestroy($source);
+
+        return $path;
+    }
+
     public static function url(?string $base, string $size = 'lg'): ?string
     {
         return $base ? Storage::disk('public')->url("{$base}-".self::SIZES[$size].'.webp') : null;

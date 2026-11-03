@@ -9,6 +9,8 @@ use App\Models\Testimonial;
 use App\Models\User;
 use App\Models\VolunteerApplication;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class SupportManagementTest extends TestCase
@@ -73,6 +75,71 @@ class SupportManagementTest extends TestCase
             ->put(route('admin.donors.update', $donor), ['name' => 'Ferretería El Progreso S. A. S.', 'is_visible' => '1'])
             ->assertSessionHasNoErrors();
         $this->actingAs($this->admin)->get(route('admin.donors.edit', $donor))->assertSee('Autorización registrada el');
+    }
+
+    public function test_donor_photo_needs_its_own_consent_and_is_stored_small(): void
+    {
+        Storage::fake('public');
+        $base = ['name' => 'Familia Pérez', 'is_visible' => '1', 'consent' => '1'];
+
+        // La autorización del nombre no cubre la foto
+        $this->actingAs($this->admin)
+            ->post(route('admin.donors.store'), $base + ['photo' => UploadedFile::fake()->image('foto.jpg', 1600, 900)])
+            ->assertSessionHasErrors(['photo_consent' => 'Confirma que el donante autorizó publicar esta foto.']);
+        $this->assertSame(0, Donor::count());
+
+        $this->actingAs($this->admin)
+            ->post(route('admin.donors.store'), $base + ['photo' => UploadedFile::fake()->create('virus.pdf', 10, 'application/pdf'), 'photo_consent' => '1'])
+            ->assertSessionHasErrors(['photo']);
+
+        $this->actingAs($this->admin)
+            ->post(route('admin.donors.store'), $base + ['photo' => UploadedFile::fake()->image('foto.jpg', 1600, 900), 'photo_consent' => '1'])
+            ->assertSessionHasNoErrors();
+
+        $donor = Donor::sole();
+        $this->assertNotNull($donor->photo_consent_at);
+        Storage::disk('public')->assertExists($donor->photo_path);
+
+        // Cuadrada y pequeña, sin importar el tamaño original
+        $this->assertSame([240, 240], array_slice(getimagesize(Storage::disk('public')->path($donor->photo_path)), 0, 2));
+    }
+
+    public function test_donor_photo_can_be_replaced_removed_and_is_deleted_with_the_donor(): void
+    {
+        Storage::fake('public');
+        $donor = Donor::factory()->create();
+        $edit = ['name' => $donor->name, 'is_visible' => '1'];
+
+        // Editar sin subir foto no pide autorización
+        $this->actingAs($this->admin)->put(route('admin.donors.update', $donor), $edit)->assertSessionHasNoErrors();
+
+        $this->actingAs($this->admin)->put(route('admin.donors.update', $donor), $edit + [
+            'photo' => UploadedFile::fake()->image('uno.png', 300, 300), 'photo_consent' => '1',
+        ])->assertSessionHasNoErrors();
+        $first = $donor->refresh()->photo_path;
+
+        // Una foto más pequeña que el tope no se agranda
+        $this->actingAs($this->admin)->put(route('admin.donors.update', $donor), $edit + [
+            'photo' => UploadedFile::fake()->image('dos.jpg', 100, 80), 'photo_consent' => '1',
+        ])->assertSessionHasNoErrors();
+        $second = $donor->refresh()->photo_path;
+
+        Storage::disk('public')->assertMissing($first);
+        $this->assertSame([80, 80], array_slice(getimagesize(Storage::disk('public')->path($second)), 0, 2));
+
+        // Quitarla borra también la fecha de autorización
+        $this->actingAs($this->admin)->put(route('admin.donors.update', $donor), $edit + ['remove_photo' => '1'])->assertSessionHasNoErrors();
+        Storage::disk('public')->assertMissing($second);
+        $this->assertNull($donor->refresh()->photo_path);
+        $this->assertNull($donor->photo_consent_at);
+
+        $this->actingAs($this->admin)->put(route('admin.donors.update', $donor), $edit + [
+            'photo' => UploadedFile::fake()->image('tres.jpg', 300, 300), 'photo_consent' => '1',
+        ]);
+        $third = $donor->refresh()->photo_path;
+
+        $this->actingAs($this->admin)->delete(route('admin.donors.destroy', $donor));
+        Storage::disk('public')->assertMissing($third);
     }
 
     public function test_testimonial_strips_quotes_and_needs_consent(): void

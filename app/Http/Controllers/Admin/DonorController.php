@@ -5,11 +5,15 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\DonorRequest;
 use App\Models\Donor;
+use App\Support\ImageResizer;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class DonorController extends Controller
 {
+    private const NOT_FILLED = ['consent', 'photo', 'photo_consent', 'remove_photo'];
+
     public function index(): View
     {
         $this->authorize('viewAny', Donor::class);
@@ -26,8 +30,9 @@ class DonorController extends Controller
 
     public function store(DonorRequest $request): RedirectResponse
     {
-        $donor = new Donor($request->safe()->except('consent'));
+        $donor = new Donor($request->safe()->except(self::NOT_FILLED));
         $donor->consent_at = now();
+        $this->applyPhoto($request, $donor);
         $donor->save();
 
         return redirect()->route('admin.donors.index')->with('status_message', "Se agregó «{$donor->name}».");
@@ -42,8 +47,9 @@ class DonorController extends Controller
 
     public function update(DonorRequest $request, Donor $donor): RedirectResponse
     {
-        $donor->fill($request->safe()->except('consent'));
+        $donor->fill($request->safe()->except(self::NOT_FILLED));
         $donor->consent_at ??= now();
+        $this->applyPhoto($request, $donor);
         $donor->save();
 
         return redirect()->route('admin.donors.index')->with('status_message', "Se actualizó «{$donor->name}».");
@@ -53,8 +59,30 @@ class DonorController extends Controller
     {
         $this->authorize('delete', $donor);
 
+        if ($donor->photo_path) {
+            Storage::disk('public')->delete($donor->photo_path);
+        }
+
         $donor->delete();
 
         return redirect()->route('admin.donors.index')->with('status_message', "Se eliminó «{$donor->name}».");
+    }
+
+    /** Guarda, reemplaza o quita la foto; la fecha de autorización va con la foto vigente. */
+    private function applyPhoto(DonorRequest $request, Donor $donor): void
+    {
+        if (! $request->hasFile('photo') && ! $request->boolean('remove_photo')) {
+            return;
+        }
+
+        // Primero la nueva: si no se puede leer, la anterior sigue intacta
+        $new = $request->hasFile('photo') ? ImageResizer::storeSquare($request->file('photo'), 'donors') : null;
+
+        if ($donor->photo_path) {
+            Storage::disk('public')->delete($donor->photo_path);
+        }
+
+        $donor->photo_path = $new;
+        $donor->photo_consent_at = $new ? now() : null;
     }
 }

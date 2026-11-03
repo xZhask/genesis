@@ -9,7 +9,7 @@
         <h1>{{ $title }}</h1>
     </div>
 
-    <form class="form admin-form narrow-form" method="POST" novalidate data-form
+    <form class="form admin-form narrow-form" method="POST" enctype="multipart/form-data" novalidate data-form
         action="{{ $editing ? route('admin.donors.update', $donor) : route('admin.donors.store') }}">
         @csrf
         @if ($editing)
@@ -28,6 +28,31 @@
             <x-field name="website" label="Página web" optional>
                 <input id="website" name="website" type="url" inputmode="url" maxlength="255" placeholder="https://" value="{{ old('website', $donor->website) }}">
             </x-field>
+
+            @if ($donor->photo_path)
+                <img class="donor-photo-preview" src="{{ $donor->photoUrl() }}" alt="Foto actual de {{ $donor->name }}" width="96" height="96">
+                @if ($donor->photo_consent_at)
+                    <p class="muted">Autorización de la foto registrada el {{ $donor->photo_consent_at->longDate() }}.</p>
+                @endif
+                <label class="check">
+                    <input type="checkbox" name="remove_photo" value="1" @checked(old('remove_photo'))>
+                    <span>Quitar la foto actual</span>
+                </label>
+            @endif
+
+            <x-field name="photo" :label="$donor->photo_path ? 'Reemplazar foto' : 'Foto'" optional hint="Se muestra pequeña y cuadrada, recortada desde el centro. JPG, PNG o WebP, hasta 8 MB. Sin foto aparece la inicial del nombre.">
+                <input id="photo" name="photo" type="file" accept="image/jpeg,image/png,image/webp">
+            </x-field>
+
+            <div @class(['field', 'consent', 'has-error' => $errors->has('photo_consent')])>
+                <label class="check">
+                    <input id="photo_consent" type="checkbox" name="photo_consent" value="1" @checked(old('photo_consent'))>
+                    <span>Si subo una foto, el donante autorizó publicarla en la página web y, si aparecen menores, cuento con la autorización escrita de sus acudientes.</span>
+                </label>
+                @error('photo_consent')
+                    <p class="error" id="photo_consent-error">{{ $message }}</p>
+                @enderror
+            </div>
 
             @include('admin.support.partials.listing', ['model' => $donor])
 
