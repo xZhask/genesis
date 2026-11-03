@@ -17,7 +17,8 @@ class PostFactory extends Factory
             'excerpt' => fake()->sentence(16),
             'body' => implode("\n\n", fake()->paragraphs(3)),
             'status' => PostStatus::Published,
-            'published_at' => fake()->dateTimeBetween('-2 months', '-1 day'),
+            // Con now() y no '-2 months': Faker ignora el reloj congelado de los tests.
+            'published_at' => fake()->dateTimeBetween(now()->subMonths(2), now()->subDay()),
         ];
     }
 
