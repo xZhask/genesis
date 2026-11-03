@@ -41,7 +41,8 @@
                 <li><strong>Voluntariado:</strong> nombre, celular, correo, formas de ayuda y disponibilidad que indiques, y el mensaje que quieras compartir.</li>
                 <li><strong>Matrícula y vida escolar:</strong> datos de identificación, contacto y salud necesarios para la prestación del servicio educativo, que se entregan en el proceso de matrícula.</li>
                 <li><strong>Portal académico:</strong> notas, asistencia, observaciones y boletines del estudiante. Solo pueden verlos el propio estudiante, sus acudientes y el personal autorizado del colegio.</li>
-                <li><strong>Navegación:</strong> la página usa cookies técnicas indispensables para su funcionamiento (por ejemplo, para mantener la sesión en el portal). No usamos cookies de publicidad.</li>
+                <li><strong>Personal del colegio:</strong> nombre, documento, correo y fecha de nacimiento.</li>
+                <li><strong>Navegación:</strong> la página usa cookies técnicas indispensables para su funcionamiento (por ejemplo, para mantener la sesión en el portal). No usamos cookies de publicidad. El mapa del pie de página lo carga Google Maps, que puede usar sus propias cookies.</li>
             </ul>
 
             <h2 id="finalidades">3. Para qué usamos los datos</h2>
@@ -51,6 +52,7 @@
                 <li>Realizar la matrícula y prestar el servicio educativo.</li>
                 <li>Registrar y comunicar el desempeño académico, la asistencia y los boletines.</li>
                 <li>Enviar información institucional: circulares, calendario escolar, eventos y avisos importantes.</li>
+                <li>Felicitar por correo a estudiantes y personal el día de su cumpleaños: al correo propio o, si el estudiante no tiene, al de su acudiente. No se indica la edad, y se puede dejar de recibir con el enlace que trae cada correo.</li>
                 <li>Cumplir las obligaciones legales ante las autoridades educativas.</li>
             </ul>
             <p>No vendemos ni cedemos tus datos a terceros. Pueden tratarlos, por encargo del colegio y bajo acuerdos de confidencialidad, los proveedores tecnológicos que alojan la página y envían los correos.</p>

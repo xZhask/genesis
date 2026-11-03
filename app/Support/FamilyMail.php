@@ -9,6 +9,7 @@ use App\Mail\Family\EmailChangedNotice;
 use App\Mail\Family\EventReminder;
 use App\Mail\Family\NewCircular;
 use App\Mail\Family\ReportCardsAvailable;
+use App\Models\BirthdayGreeting;
 use App\Models\ContactUpdateRequest;
 use App\Models\Event;
 use App\Models\Guardian;
@@ -60,12 +61,26 @@ class FamilyMail
 
     public static function canReceive(Guardian $guardian, FamilyNotice $type): bool
     {
+        return self::canBeReached($guardian) && ($type->ignoresOptOut() || self::wantsNotices($guardian));
+    }
+
+    /** Puede recibir avisos opcionales, como la tarjeta de cumpleaños de su acudido. */
+    public static function acceptsNotices(Guardian $guardian): bool
+    {
+        return self::canBeReached($guardian) && self::wantsNotices($guardian);
+    }
+
+    private static function canBeReached(Guardian $guardian): bool
+    {
         $guardian->loadMissing('user');
 
-        return $guardian->user?->is_active
-            && self::address($guardian) !== null
-            // Sin valor (registro recién creado) vale lo de la base: sí recibe
-            && ($type->ignoresOptOut() || $guardian->email_notifications !== false);
+        return $guardian->user?->is_active && self::address($guardian) !== null;
+    }
+
+    /** Sin valor (registro recién creado) vale lo de la base: sí recibe. */
+    private static function wantsNotices(Guardian $guardian): bool
+    {
+        return $guardian->email_notifications !== false;
     }
 
     /** El correo de contacto del acudiente o, si no tiene, el de su cuenta. */
@@ -138,7 +153,8 @@ class FamilyMail
     /** Correos que aún caben hoy. */
     public static function remainingToday(): int
     {
-        $sent = SentNotification::where('sent_at', '>=', today())->count();
+        $sent = SentNotification::where('sent_at', '>=', today())->count()
+            + BirthdayGreeting::where('sent_at', '>=', today())->count();
 
         return max(0, (int) config('school.family_mail.daily_limit') - $sent);
     }

@@ -18,7 +18,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
 
 // El rol no es asignable en masa: solo el admin lo cambia de forma explícita.
-#[Fillable(['name', 'document_number', 'email', 'password'])]
+#[Fillable(['name', 'document_number', 'email', 'password', 'birth_date'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -40,6 +40,8 @@ class User extends Authenticatable
             'must_change_password' => 'boolean',
             'can_review_feedback' => 'boolean',
             'last_login_at' => 'datetime',
+            'birth_date' => 'date',
+            'birthday_emails' => 'boolean',
         ];
     }
 

@@ -119,6 +119,18 @@
                     </x-field>
                 </section>
 
+                <section class="panel" aria-labelledby="cumple-title">
+                    <h2 id="cumple-title">Tarjeta de cumpleaños</h2>
+                    <p class="hint">Sale sola a las 6:00 a. m. a estudiantes y personal con correo; a los estudiantes sin correo les llega a su acudiente. Nunca muestra la edad.</p>
+                    <label class="check">
+                        <input type="checkbox" name="birthday_enabled" value="1" @checked(old('birthday_enabled', $school['birthdays']['enabled']))>
+                        <span>Enviar la tarjeta automáticamente</span>
+                    </label>
+                    <x-field name="birthday_message" label="Mensaje de la tarjeta" hint="Le habla a quien cumple años. Hasta 300 caracteres.">
+                        <textarea id="birthday_message" name="birthday_message" rows="3" maxlength="300" aria-describedby="birthday_message-hint">{{ old('birthday_message', $school['birthdays']['message']) }}</textarea>
+                    </x-field>
+                </section>
+
                 <p class="muted-panel panel">
                     El nombre, la dirección, el teléfono y las declaraciones del colegio (misión, visión, valores) no se editan aquí:
                     son textos oficiales y se cambian con el equipo de desarrollo.

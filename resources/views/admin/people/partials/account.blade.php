@@ -43,6 +43,15 @@
                 </form>
             </div>
         @endunless
+
+        {{-- Los acudientes manejan sus avisos en «Mis datos» --}}
+        @unless ($user->role === App\Enums\Role::Guardian)
+            <form class="actions" method="POST" action="{{ route('admin.people.accounts.birthday-emails', $user) }}">
+                @csrf
+                <span class="hint">Tarjeta de cumpleaños por correo: {{ $user->birthday_emails ? 'activa' : 'desactivada' }}.</span>
+                <button type="submit" class="btn btn-line btn-sm">{{ $user->birthday_emails ? 'Desactivar tarjeta' : 'Activar tarjeta' }}</button>
+            </form>
+        @endunless
     @elseif ($createRoute)
         <p class="hint">Todavía no tiene cuenta. Se crea con su número de documento y una contraseña temporal para imprimir o dictar.</p>
         <form method="POST" action="{{ $createRoute }}">

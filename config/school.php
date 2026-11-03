@@ -205,6 +205,12 @@ return [
         'reminder_days' => 2,
     ],
 
+    // Tarjeta de cumpleaños por correo (editable en Admin → Configuración; ver docs/pendientes.md)
+    'birthdays' => [
+        'enabled' => true,
+        'message' => 'Hoy celebramos tu vida y damos gracias por tenerte en nuestra comunidad educativa. ¡Que tengas un día lleno de alegría!',
+    ],
+
     // Horario de clases, fijo para el año (provisional: lunes a viernes, una jornada)
     'schedule' => [
         // Días con clase (ISO: 1 = lunes … 6 = sábado)
@@ -212,7 +218,7 @@ return [
     ],
 
     // Versión de la política aceptada en los formularios (se guarda con cada solicitud).
-    'privacy_policy_version' => '2026-09-borrador',
+    'privacy_policy_version' => '2026-11-borrador',
 
     // Contenido de ejemplo para revisar el diseño en local. Nunca en producción.
     'demo_content' => env('DEMO_CONTENT', false),

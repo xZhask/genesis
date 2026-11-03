@@ -27,6 +27,9 @@
                 <x-field name="email" label="Correo" optional hint="Para recuperar la contraseña. También sirve para ingresar.">
                     <input id="email" name="email" type="email" inputmode="email" autocomplete="off" value="{{ old('email', $user->email) }}" aria-describedby="email-hint">
                 </x-field>
+                <x-field name="birth_date" label="Fecha de nacimiento" optional hint="Para felicitarle en su cumpleaños. No se publica.">
+                    <input id="birth_date" name="birth_date" type="date" value="{{ old('birth_date', $user->birth_date?->format('Y-m-d')) }}" aria-describedby="birth_date-hint">
+                </x-field>
                 <fieldset class="plain-fieldset @error('role') has-error @enderror">
                     <legend>Rol</legend>
                     <label class="check">

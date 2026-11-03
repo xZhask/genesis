@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin;
 use App\Http\Controllers\AdmissionController;
 use App\Http\Controllers\Auth\PasswordChangeController;
+use App\Http\Controllers\BirthdayMailController;
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\CircularFileController;
 use App\Http\Controllers\FamilyMailController;
@@ -106,6 +107,8 @@ Route::middleware(['auth', 'role:student,guardian,teacher', 'password.changed'])
 // Dejar de recibir los correos a las familias (enlace firmado, sin iniciar sesión)
 Route::get('/avisos/{guardian}/desactivar', [FamilyMailController::class, 'show'])->middleware('signed')->name('family-mail.unsubscribe');
 Route::post('/avisos/{guardian}/desactivar', [FamilyMailController::class, 'update'])->middleware(['signed', 'throttle:10,1']);
+Route::get('/felicitaciones/{user}/desactivar', [BirthdayMailController::class, 'show'])->middleware('signed')->name('birthday-mail.unsubscribe');
+Route::post('/felicitaciones/{user}/desactivar', [BirthdayMailController::class, 'update'])->middleware(['signed', 'throttle:10,1']);
 
 // PDF de las circulares «solo familias» (fuera del disco público; el controlador autoriza)
 Route::get('/circulares/{resource}/archivo', CircularFileController::class)
@@ -218,7 +221,11 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin', 'passw
         Route::post('/acudientes/{guardian}/cuenta', [Admin\People\AccountController::class, 'storeForGuardian'])->name('accounts.guardian');
         Route::post('/cuentas/{user}/contrasena', [Admin\People\AccountController::class, 'resetPassword'])->name('accounts.reset');
         Route::post('/cuentas/{user}/estado', [Admin\People\AccountController::class, 'toggle'])->name('accounts.toggle');
+        Route::post('/cuentas/{user}/tarjeta-de-cumpleanos', [Admin\People\AccountController::class, 'toggleBirthdayEmails'])->name('accounts.birthday-emails');
         Route::post('/cuentas/pendientes', [Admin\People\AccountController::class, 'bulk'])->name('accounts.bulk');
+
+        Route::get('/cumpleanos', Admin\People\BirthdayController::class)->name('birthdays');
+        Route::get('/exportar', Admin\People\ExportController::class)->name('export');
 
         Route::get('/solicitudes-de-contacto', [Admin\People\ContactRequestController::class, 'index'])->name('contact-requests.index');
         Route::post('/solicitudes-de-contacto/{contactRequest}/aprobar', [Admin\People\ContactRequestController::class, 'approve'])->name('contact-requests.approve');

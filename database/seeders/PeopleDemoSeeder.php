@@ -43,7 +43,7 @@ class PeopleDemoSeeder extends Seeder
         mt_srand(2026);
 
         // Cuentas de prueba del DatabaseSeeder: ahora ingresan con documento
-        User::where('email', 'docente@genesis.test')->update(['document_number' => '22334455']);
+        User::where('email', 'docente@genesis.test')->update(['document_number' => '22334455', 'birth_date' => now()->subYears(38)->addDays(3)->toDateString()]);
         $guardianUser = User::where('email', 'acudiente@genesis.test')->first();
         $studentUser = User::where('email', 'estudiante@genesis.test')->first();
 

@@ -33,6 +33,7 @@ class StaffRequest extends FormRequest
             'name' => ['required', 'string', 'max:120'],
             'document_number' => ['required', 'string', 'max:20', 'regex:/^[A-Z0-9]{3,20}$/', Rule::unique('users')->ignore($id)],
             'email' => ['nullable', 'email', 'max:255', Rule::unique('users')->ignore($id)],
+            'birth_date' => ['nullable', 'date', 'after:1930-01-01', 'before:today'],
             'role' => ['required', Rule::in([Role::Teacher->value, Role::Admin->value])],
             'can_review_feedback' => ['nullable', 'boolean'],
         ];
@@ -40,7 +41,7 @@ class StaffRequest extends FormRequest
 
     public function attributes(): array
     {
-        return ['name' => 'nombre completo', 'document_number' => 'número de documento', 'email' => 'correo', 'role' => 'rol'];
+        return ['name' => 'nombre completo', 'document_number' => 'número de documento', 'email' => 'correo', 'birth_date' => 'fecha de nacimiento', 'role' => 'rol'];
     }
 
     public function messages(): array

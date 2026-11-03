@@ -19,6 +19,7 @@ use App\Models\SchoolYear;
 use App\Models\SentNotification;
 use App\Models\VolunteerApplication;
 use App\Support\AcademicAlerts;
+use App\Support\Birthdays;
 use Illuminate\View\View;
 
 class DashboardController extends Controller
@@ -42,6 +43,7 @@ class DashboardController extends Controller
             'mailQueue' => SentNotification::whereNull('sent_at')->count(),
             'mailToday' => SentNotification::where('sent_at', '>=', today())->count(),
             'alertStudents' => ($year = SchoolYear::current()) ? AcademicAlerts::forSections($year, $year->sections()->with('grade')->get())->studentCount() : 0,
+            'birthdaysToday' => Birthdays::todayCount(),
             'upcomingInterviews' => AdmissionRequest::where('status', AdmissionStatus::InterviewScheduled)
                 ->where('interview_at', '>=', now()->startOfDay())
                 ->orderBy('interview_at')

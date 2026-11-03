@@ -536,3 +536,36 @@ form:has(> .notify-check) {
     font-size: .85rem;
     font-weight: 600;
 }
+
+/* Personas: filtros de cumpleaños y descarga del Excel */
+.birthday-filter {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.birthday-filter .field {
+    margin: 0;
+}
+
+.birthday-filter select {
+    min-height: 44px;
+}
+
+.birthday-filter .btn {
+    min-height: 44px;
+}
+
+.birthday-missing {
+    margin-bottom: 14px;
+}
+
+.people-export {
+    margin: 0 0 14px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 12px;
+}

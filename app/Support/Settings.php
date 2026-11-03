@@ -30,6 +30,8 @@ class Settings
         'report_card.campus',
         'report_card.rector',
         'alerts.absences',
+        'birthdays.enabled',
+        'birthdays.message',
     ];
 
     private const CACHE_KEY = 'school-settings';

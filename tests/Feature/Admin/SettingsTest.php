@@ -40,6 +40,8 @@ class SettingsTest extends TestCase
             'office_hours' => "Secretaría: lunes a viernes, 7:00 a. m. – 3:00 p. m.\n",
             'whatsapp_enabled' => '1',
             'alert_absences' => '4',
+            'birthday_enabled' => '1',
+            'birthday_message' => 'Mensaje de prueba',
             ...$overrides,
         ];
     }

@@ -50,6 +50,10 @@ Un acudiente puede tener varios estudiantes, y un estudiante puede tener varios 
 - Boletín en PDF por estudiante y por grupo: logo, datos del estudiante, notas, desempeños, objetivos, promedios, asistencia y observaciones.
 - **Fase 3:** alertas de cumpleaños, bajo rendimiento e inasistencias acumuladas; gráficos de asistencia del mes, aprobados/reprobados y bajo rendimiento.
 
+### Administración (agregado el 3 de noviembre de 2026, a pedido del colegio)
+- **Cumpleaños:** lista de estudiantes y personal, aviso en el panel y tarjeta automática por correo (`users.birth_date`, `users.birthday_emails`, `birthday_greetings`). Los estudiantes sin correo la reciben por su acudiente.
+- **Excel de personas:** descarga con estudiantes, acudientes y personal; solo admin, sin contraseñas.
+
 ### Estudiante / acudiente
 - Perfil: datos básicos, grado actual y asignaturas.
 - Asistencia: historial visual y total de faltas.

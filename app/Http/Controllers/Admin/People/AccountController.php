@@ -63,6 +63,18 @@ class AccountController extends Controller
             : "Se desactivó la cuenta de {$user->name}: ya no puede ingresar.");
     }
 
+    /** Si alguien se dio de baja de la tarjeta y cambia de opinión, se reactiva aquí. */
+    public function toggleBirthdayEmails(User $user): RedirectResponse
+    {
+        Gate::authorize('manage-people');
+
+        $user->forceFill(['birthday_emails' => ! $user->birthday_emails])->save();
+
+        return back()->with('status_message', $user->birthday_emails
+            ? "{$user->name} volverá a recibir la tarjeta de cumpleaños."
+            : "{$user->name} ya no recibirá la tarjeta de cumpleaños.");
+    }
+
     /**
      * Crea de una vez las cuentas que faltan (acudientes, o estudiantes desde
      * 6.°) y muestra la hoja para imprimir. Las contraseñas no se guardan en

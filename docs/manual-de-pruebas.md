@@ -30,9 +30,10 @@ Guía corta para recorrer el sitio y el portal con los **datos de prueba**. Todo
 1. **Panel:** pendientes del día y alertas.
 2. **Académico → Años y periodos:** cierra el periodo 4 con «Avisar a las familias por correo».
 3. **Académico → Horarios:** edita una sección y prueba a poner a un docente en dos clases a la misma hora; el sistema no lo deja guardar.
-4. **Personas → Cambios de contacto:** aprueba o rechaza la solicitud de teléfono de Marta.
-5. **Recursos y Eventos:** crea una circular o un evento «solo familias» para un grado.
-6. **Buzón:** responde un mensaje; luego entra como Andrés o Marta y mira la respuesta. Con `secretaria@genesis.test` el buzón no aparece.
+4. **Personas → Cumpleaños y «Descargar Excel»:** revisa la lista, abre el Excel y mira sus dos hojas. La fecha de nacimiento de un docente se edita en «Docentes y administración».
+5. **Personas → Cambios de contacto:** aprueba o rechaza la solicitud de teléfono de Marta.
+6. **Recursos y Eventos:** crea una circular o un evento «solo familias» para un grado.
+7. **Buzón:** responde un mensaje; luego entra como Andrés o Marta y mira la respuesta. Con `secretaria@genesis.test` el buzón no aparece.
 
 **Docente (Edgar).** Toma la asistencia de hoy. Registra notas en una clase del periodo abierto. En «Mi grupo», escribe el comportamiento y descarga en PDF los boletines del grupo de un periodo cerrado. Revisa «Horario» y «Resumen».
 
@@ -47,6 +48,8 @@ Los correos que envía el sistema (pre-inscripción, recuperación de contraseñ
 ```
 php artisan app:deliver-family-mail
 ```
+
+La tarjeta de cumpleaños se anota a las 6:00 a. m. Para probarla en local, pon la fecha de hoy (con otro año) a una persona con correo y ejecuta primero `php artisan app:queue-birthday-greetings`.
 
 ## Si algo no cuadra
 

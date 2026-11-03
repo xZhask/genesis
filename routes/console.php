@@ -3,6 +3,7 @@
 use App\Enums\Role;
 use App\Models\Event;
 use App\Models\User;
+use App\Support\Birthdays;
 use App\Support\FamilyMail;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Schedule;
@@ -20,6 +21,7 @@ Schedule::command('queue:work --stop-when-empty --tries=3 --max-time=50')
 // recordatorios de los eventos próximos y cada minuto se envía una tanda de
 // la bandeja de salida, sin pasar el tope diario.
 Schedule::command('app:queue-event-reminders')->dailyAt('06:00');
+Schedule::command('app:queue-birthday-greetings')->dailyAt('06:00');
 Schedule::command('app:deliver-family-mail')->everyMinute()->withoutOverlapping();
 
 Artisan::command('app:queue-event-reminders', function () {
@@ -34,8 +36,15 @@ Artisan::command('app:queue-event-reminders', function () {
     $this->info("Recordatorios anotados: {$queued} ({$events->count()} eventos).");
 })->purpose('Anotar los recordatorios de eventos para las familias');
 
+Artisan::command('app:queue-birthday-greetings', function () {
+    $this->info('Tarjetas de cumpleaños anotadas: '.Birthdays::queueToday().'.');
+})->purpose('Anotar las tarjetas de cumpleaños de hoy');
+
 Artisan::command('app:deliver-family-mail', function () {
-    $sent = FamilyMail::deliver();
+    // Primero las tarjetas: solo sirven el mismo día
+    $batch = (int) config('school.family_mail.per_minute');
+    $greetings = Birthdays::deliver($batch);
+    $sent = $greetings + FamilyMail::deliver($batch - $greetings);
     if ($sent) {
         $this->info("Correos enviados a familias: {$sent}.");
     }

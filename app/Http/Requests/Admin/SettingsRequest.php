@@ -25,6 +25,7 @@ class SettingsRequest extends FormRequest
             'requirements' => $this->lines('requirements'),
             'office_hours' => $this->lines('office_hours'),
             'whatsapp_enabled' => $this->boolean('whatsapp_enabled'),
+            'birthday_enabled' => $this->boolean('birthday_enabled'),
         ]);
     }
 
@@ -62,6 +63,8 @@ class SettingsRequest extends FormRequest
             'report_campus' => ['nullable', 'string', 'max:60'],
             'report_rector' => ['nullable', 'string', 'max:120'],
             'alert_absences' => ['required', 'integer', 'between:1,30'],
+            'birthday_enabled' => ['boolean'],
+            'birthday_message' => ['required', 'string', 'max:300'],
         ];
     }
 
@@ -91,6 +94,8 @@ class SettingsRequest extends FormRequest
             'report_card.campus' => trim((string) $this->validated('report_campus')),
             'report_card.rector' => trim((string) $this->validated('report_rector')),
             'alerts.absences' => (int) $this->validated('alert_absences'),
+            'birthdays.enabled' => $this->validated('birthday_enabled'),
+            'birthdays.message' => trim($this->validated('birthday_message')),
         ];
     }
 
@@ -114,6 +119,7 @@ class SettingsRequest extends FormRequest
             'report_campus' => 'sede',
             'report_rector' => 'nombre de rectoría',
             'alert_absences' => 'faltas para la alerta',
+            'birthday_message' => 'mensaje de la tarjeta',
         ];
     }
 
