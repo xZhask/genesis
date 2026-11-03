@@ -50,7 +50,7 @@
                     <li><a href="mailto:{{ $contact['email'] }}">{{ $contact['email'] }}</a></li>
                 </ul>
                 <div class="map">
-                    <span class="pin" aria-hidden="true"><x-icon name="pin" /></span>
+                    <iframe src="{{ $contact['maps_embed_url'] }}" title="Mapa con la ubicación del colegio en Zambrano, Bolívar" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                     <a href="{{ $contact['maps_url'] }}" target="_blank" rel="noopener">Cómo llegar</a>
                 </div>
             </div>

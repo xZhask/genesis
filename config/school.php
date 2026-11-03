@@ -28,7 +28,9 @@ return [
         'phone' => '+57 321 797 5579',
         'phone_link' => '+573217975579',
         'email' => 'cecgenesis16@gmail.com',
-        'maps_url' => 'https://www.google.com/maps/search/?api=1&query='.urlencode("{$address}, {$city}, Colombia"),
+        // Con el nombre del colegio, Google marca su ficha y no solo un punto de la calle
+        'maps_url' => 'https://www.google.com/maps/search/?api=1&query='.urlencode("Centro Educativo Cristiano Génesis, {$address}, {$city}, Colombia"),
+        'maps_embed_url' => 'https://www.google.com/maps?output=embed&z=17&q='.urlencode("Centro Educativo Cristiano Génesis, {$address}, {$city}, Colombia"),
     ],
 
     'social' => [

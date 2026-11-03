@@ -91,26 +91,16 @@ footer.site-footer {
 .map {
     border-radius: var(--r-md);
     overflow: hidden;
-    height: 170px;
+    height: 200px;
     position: relative;
-    background:
-        linear-gradient(0deg, transparent 48%, rgba(255, 255, 255, .55) 48% 52%, transparent 52%),
-        linear-gradient(90deg, transparent 30%, rgba(255, 255, 255, .55) 30% 33%, transparent 33%),
-        linear-gradient(35deg, transparent 60%, rgba(255, 255, 255, .4) 60% 62%, transparent 62%),
-        #CFE3D2;
+    background: #CFE3D2;
 }
 
-.map .pin {
-    position: absolute;
-    left: 31%;
-    top: 40%;
-    transform: translate(-50%, -100%);
-    color: #E0453A;
-}
-
-.map .pin svg {
-    width: 36px;
-    height: 36px;
+.map iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
 }
 
 .site-footer .map a {
