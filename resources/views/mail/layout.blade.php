@@ -10,10 +10,11 @@
         <tr>
             <td align="center">
                 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;background:#FFFFFF;border-radius:16px;overflow:hidden;">
+                    {{-- Fondo blanco: el escudo es azul oscuro y se perdería sobre el azul. Va incrustado para no depender del dominio. --}}
                     <tr>
-                        <td style="background:#104976;padding:20px 28px;color:#FFFFFF;">
-                            <strong style="font-size:20px;letter-spacing:.06em;">GENESIS</strong><br>
-                            <span style="font-size:13px;color:#9FD7A5;">Centro Educativo Cristiano</span>
+                        <td align="center" style="background:#FFFFFF;padding:22px 28px 0;">
+                            <img src="{{ $message->embed(resource_path('images/mail/logo.png')) }}" width="88" height="101" alt="Escudo del {{ config('school.name') }}" style="display:block;border:0;">
+                            <p style="margin:8px 0 0;font-size:14px;font-weight:700;color:#104976;">{{ config('school.name') }}</p>
                         </td>
                     </tr>
                     <tr>

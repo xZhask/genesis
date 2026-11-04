@@ -6,6 +6,7 @@ use App\Enums\Role;
 use App\Mail\BirthdayGreetingMail;
 use App\Models\BirthdayGreeting;
 use App\Models\SentNotification;
+use App\Models\Student;
 use App\Models\User;
 use App\Support\Birthdays;
 use App\Support\FamilyMail;
@@ -27,6 +28,9 @@ class BirthdayGreetingsTest extends PortalTestCase
 
         Mail::fake();
         $this->admin = User::factory()->admin()->create();
+
+        // La fábrica da fechas al azar: cada prueba pone solo los cumpleaños que necesita
+        Student::query()->update(['birth_date' => null]);
     }
 
     private function bornToday(int $yearsAgo = 13): string
@@ -94,13 +98,31 @@ class BirthdayGreetingsTest extends PortalTestCase
         $this->sendAll();
 
         Mail::assertSent(BirthdayGreetingMail::class, function ($mail) {
-            // Sin los enlaces: la firma podría traer esos dígitos por azar
-            $html = preg_replace('/href="[^"]*"/', '', $mail->render());
+            // Sin enlaces ni imágenes: la firma o la imagen podrían traer esos dígitos por azar
+            $html = preg_replace('/(href|src)="[^"]*"/', '', $mail->render());
 
             return str_contains($html, '¡Feliz cumpleaños!')
                 && str_contains($html, 'Edgar Ojoalegre')
                 && ! str_contains($html, '47')
                 && ! str_contains($html, (string) today()->subYears(47)->year);
+        });
+    }
+
+    public function test_the_card_embeds_the_logo_and_the_illustration(): void
+    {
+        $this->teacher->update(['birth_date' => $this->bornToday(40), 'email' => 'edgar@example.com']);
+
+        $this->sendAll();
+
+        Mail::assertSent(BirthdayGreetingMail::class, function ($mail) {
+            $html = $mail->render();
+
+            // Incrustadas, para que no dependan del dominio; el texto sigue siendo texto
+            return substr_count($html, 'src="data:image/png') === 2
+                && str_contains($html, 'alt="Escudo del')
+                && str_contains($html, 'alt="Pastel de cumpleaños')
+                && str_contains($html, 'Edgar Ojoalegre')
+                && str_contains($html, config('school.birthdays.message'));
         });
     }
 
